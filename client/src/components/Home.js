@@ -1,15 +1,14 @@
 import Login from './auth/Login';
-import { useState } from 'react';
+import { useContext } from 'react';
 import { Container, Row, Col } from 'react-bootstrap'
+import { AuthContext } from '../contexts/AuthContext';
 
 const Home = () => {
-  const [user, setUser] = useState({})
+  const { state: authState } = useContext(AuthContext)
 
-  console.log(user)
-
-  if (Object.keys(user).length === 0) {
+  if (!authState.isAuthenticated) {
     return (
-      <Login setUser={setUser} />
+      <Login/>
     )
   }
 

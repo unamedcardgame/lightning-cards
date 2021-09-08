@@ -1,10 +1,24 @@
+import { useContext } from 'react';
 import { GoogleLogin } from 'react-google-login';
+import { AuthContext } from '../../contexts/AuthContext';
+import axios from 'axios'
 
-
-const Login = ({ setUser }) => {
+const Login = () => {
+  const { dispatch } = useContext(AuthContext)
 
   const responseGoogle = (response) => {
-    setUser(response)
+    console.log(response)
+    dispatch({
+      type: 'LOGIN', payload: {
+        user: { name: response.profileObj.name, email: response.profileObj.email },
+        token: response.tokenId
+      }
+    })
+    axios.get('/api', {
+      headers: { Authorization: `bearer ${response.tokenId}` }
+    })
+    // TODO(Eric): make an axios abstraction
+
   }
 
   return (
