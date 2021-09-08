@@ -1,15 +1,7 @@
-.App {
-  text-align: center;
-}
-
 .main {
-  display: flex;
-  flex-direction: column;
-  background-color: #282c34;
-  min-height: 100vh;
   color: white;
-  justify-content: center;
-  align-items: center;
+  background-color: #282c34;
+  height: 100vh;
 }
 
 .App-link {

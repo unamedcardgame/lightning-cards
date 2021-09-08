@@ -1,5 +1,6 @@
-import Login from './Login';
+import Login from './auth/Login';
 import { useState } from 'react';
+import { Container, Row, Col } from 'react-bootstrap'
 
 const Home = () => {
   const [user, setUser] = useState({})
@@ -8,15 +9,18 @@ const Home = () => {
 
   if (Object.keys(user).length === 0) {
     return (
-      <div className="row">
-        <span>welcome to lightning cards !</span>
-        <Login setUser={setUser} />
-      </div>
+      <Login setUser={setUser} />
     )
   }
 
   return (
-    <div>Create or join game here</div>
+    <Container fluid className="h-100">
+      <Row className="justify-content-center align-items-center h-100">
+        <Col className="col-auto">
+          <p>create or join game</p>
+        </Col>
+      </Row>
+    </Container>
   )
 }
 
