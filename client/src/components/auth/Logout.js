@@ -13,7 +13,11 @@ const Logout = () => {
     <span>
       <GoogleLogout
       clientId='1009598541430-qqds8odu93uk62hngvvg5qim1hfscq0v.apps.googleusercontent.com'
-      buttonText="Logout"
+      render={renderProps => (
+        <button className="a-link" onClick={renderProps.onClick} disabled={renderProps.disabled}>
+          Logout
+        </button>
+      )}
       onLogoutSuccess={onLogout}
       ></GoogleLogout>
     </span>

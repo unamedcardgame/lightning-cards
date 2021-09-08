@@ -4,6 +4,8 @@
   height: 100vh;
 }
 
-.App-link {
+.a-link {
+  border: none;
+  background: none;
   color: #61dafb;
 }
