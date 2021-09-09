@@ -1,28 +1,26 @@
 import { useContext } from 'react';
 import { GoogleLogin } from 'react-google-login';
 import { AuthContext } from '../../contexts/AuthContext';
-import axios from 'axios'
+import userService from '../../services/userService'
 
 const Login = () => {
   const { dispatch } = useContext(AuthContext)
 
   const responseGoogle = async (response) => {
-    console.log(response)
-    const resp = (await axios.get('/login', {
-      headers: { Authorization: `bearer ${response.tokenId}` }
-    })).status
-    if (resp === 200) {
+    const status = await userService.login(response.tokenId)
+    if (status === 200) {
       dispatch({
         type: 'LOGIN', payload: {
-          user: { name: response.profileObj.name, email: response.profileObj.email,
-            id: response.googleId },
+          user: {
+            name: response.profileObj.name, email: response.profileObj.email,
+            id: response.googleId
+          },
           token: response.tokenId
         }
       })
     } else {
       // error logging in
     }
-    // TODO(Eric): make an axios abstraction
 
   }
 
