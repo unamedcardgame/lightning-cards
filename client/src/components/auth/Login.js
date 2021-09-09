@@ -6,17 +6,20 @@ import axios from 'axios'
 const Login = () => {
   const { dispatch } = useContext(AuthContext)
 
-  const responseGoogle = (response) => {
-    console.log(response)
-    dispatch({
-      type: 'LOGIN', payload: {
-        user: { name: response.profileObj.name, email: response.profileObj.email },
-        token: response.tokenId
-      }
-    })
-    axios.get('/api', {
+  const responseGoogle = async (response) => {
+    const resp = (await axios.get('/login', {
       headers: { Authorization: `bearer ${response.tokenId}` }
-    })
+    })).status
+    if (resp === 200) {
+      dispatch({
+        type: 'LOGIN', payload: {
+          user: { name: response.profileObj.name, email: response.profileObj.email },
+          token: response.tokenId
+        }
+      })
+    } else {
+      // error logging in
+    }
     // TODO(Eric): make an axios abstraction
 
   }

@@ -16,11 +16,12 @@ const getTokenFromRequest = request => {
   return null
 }
 
-app.get("/api", async (req, res) => {
+app.get("/login", async (req, res) => {
   const token = getTokenFromRequest(req)
   if (!token) res.send('fail')
   const decodedToken = (await axios.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${token}`)).data
-  res.send(decodedToken); // TODO(Eric): send 200 if fine, else whatever
+  console.log(decodedToken)
+  res.status(200).end(); // TODO(Eric): send 200 if fine, else whatever
 });
 
 app.use(express.static(path.join(__dirname, '..', 'client', 'build')))
