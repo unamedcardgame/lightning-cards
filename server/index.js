@@ -1,11 +1,13 @@
 require("dotenv").config();
-const express = require("express");
+const express = require("express")
+const cors = require('cors')
 const axios = require('axios')
 const http = require("http");
 const { Server } = require("socket.io");
 const path = require('path')
 
 const app = express();
+app.use(cors())
 const server = http.createServer(app);
 const io = new Server(server);
 
@@ -27,6 +29,13 @@ app.get("/login", async (req, res) => {
 app.use(express.static(path.join(__dirname, '..', 'client', 'build')))
 app.use('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'))
+})
+
+// SOCKETS
+io.on('connection', socket => {
+  socket.on('create game', user => {
+    console.log(user.id)
+  })
 })
 
 server.listen(process.env.PORT, () => {
