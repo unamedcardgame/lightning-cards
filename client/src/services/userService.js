@@ -4,7 +4,6 @@ const login = async (tokenId) => {
   const response = await axios.get('/login', {
     headers: { Authorization: `bearer ${tokenId}` }
   })
-  console.log(response.status)
   return response.status
 }
 
