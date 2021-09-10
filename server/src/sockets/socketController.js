@@ -1,5 +1,4 @@
-
-// SOCKETS
+// JUNK FILE FOR REFACTORING PURPOSES, NOT USED ANYWHERE
 io.on('connection', socket => {
   socket.on('create game', user => {
     games.push(new Game(gameIdGen, new Player(user.id)))
@@ -8,8 +7,6 @@ io.on('connection', socket => {
   })
 })
 const Player = require('./src/models/Player')
-const Game = require('./src/models/Game')
-const { Server } = require("socket.io");
 let gameIdGen = 0
 const idToGame = {}
 const games = []
@@ -19,4 +16,3 @@ function uuidv4() {
     (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
   );
 }
-const io = new Server(server);

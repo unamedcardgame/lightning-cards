@@ -1,5 +1,5 @@
 import Login from './auth/Login';
-import { createRef, useContext, useEffect, useState } from 'react';
+import { createRef, useContext, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap'
 import { AuthContext } from '../contexts/AuthContext';
 import { Button } from 'react-bootstrap'
@@ -23,10 +23,11 @@ const Home = () => {
       tempSocket.emit('join', { gameId, isHost: true })
 
       tempSocket.on('joined', () => {
-        // TODO(): transition to waitlist here
+        // TODO(Disha): transition to lobby page from here
+        // use reactrouter's history.push('/lobby') or whatever
         console.log('joined successfully')
       })
-      setSocket(tempSocket)
+      setSocket(tempSocket) // set socket state
     } // TODO(): handle unsuccessful game creation
   }
 
@@ -36,8 +37,15 @@ const Home = () => {
 
     // get code from input element
     const joinCode = joinCodeInputRef.current.value
+
+    // TODO(Disha): DON'T join the room automatically.
+    // instead, make a request to /joinRoom at backend
+    // and verify that the gameId exists by returning
+    // a status code (200)
+    // something like axios.get('/joinRoom', {gameId: joinCode})
+    // if (resp == 200): socket.emit('join') ...
     tempSocket.emit('join', { gameId: joinCode })
-    setSocket(tempSocket)
+    setSocket(tempSocket) // set socket state
   }
 
   if (!authState.isAuthenticated) {
@@ -54,6 +62,10 @@ const Home = () => {
           <Button onClick={handleCreate} className="d-inline">create game</Button>
           <Button onClick={() => setisJoinVisible(true)} className="d-inline" style={{ marginLeft: '1em' }}>join game</Button>
           <form>
+            {
+              // TODO(Disha): Ew, make these inputs pretty and aligned (we're
+              // using react-bootstrap)
+            }
             <input ref={joinCodeInputRef} style={{ display: isJoinVisible ? null : 'none' }} />
             <input type="submit" onClick={handleJoin} style={{ display: isJoinVisible ? null : 'none' }} />
           </form>

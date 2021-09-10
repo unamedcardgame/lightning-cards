@@ -12,13 +12,17 @@
 class Game {
   id
   players = []
-  constructor(id, host) {
+  host
+  constructor(id) {
     this.id = id
-    this.players.push(host)
   }
 
   addPlayer(player) {
     this.players.push(player)
+  }
+
+  setHost(player) {
+    this.players.host = player
   }
 }
 
