@@ -33,18 +33,20 @@ app.get("/login", async (req, res) => {
   res.status(200).end();
 });
 
-app.post('/createGame', (req, res) => {
+app.post('/games', (req, res) => {
   games[gameCounter] = (new Game(gameCounter))
   res.status(201).json({ gameId: gameCounter++ })
 })
 
 // TODO(Disha): return 201 like above after verifying
 // whether gameId exists in games dictionary
-app.get('/joinGame', (req, res) => {
-  const gameId = req.get('gameId')
+app.get('/games/:gameId', (req, res) => {
+  const gameId = req.params.gameId
+  console.log(games, gameId)
 
   // verify existence
-  if (games.get(gameId)) null
+  if (games[gameId]) res.status(200).end()
+  else res.status(400).json({ error: `Game code ${gameId} invalid` })
 })
 
 // serve the website (FOR PRODUCTION)

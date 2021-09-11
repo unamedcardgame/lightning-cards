@@ -38,14 +38,22 @@ const Home = () => {
     // get code from input element
     const joinCode = joinCodeInputRef.current.value
 
-    // TODO(Disha): DON'T join the room automatically.
+    // TODO(Eric): DON'T join the room automatically.
     // instead, make a request to /joinRoom at backend
     // and verify that the gameId exists by returning
     // a status code (200)
     // something like axios.get('/joinRoom', {gameId: joinCode})
     // if (resp == 200): socket.emit('join') ...
-    tempSocket.emit('join', { gameId: joinCode })
-    setSocket(tempSocket) // set socket state
+    try {
+      const status = await gameService.joinGame(joinCode)
+      if (status === 200) {
+        console.log('joined')
+        tempSocket.emit('join', { gameId: joinCode })
+        setSocket(tempSocket) // set socket state
+      }
+    } catch (e) {
+      console.log(e.message)
+    }
   }
 
   if (!authState.isAuthenticated) {
