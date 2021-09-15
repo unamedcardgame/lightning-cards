@@ -5,12 +5,15 @@ import { AuthContext } from '../contexts/AuthContext';
 import { Button } from 'react-bootstrap'
 import { io } from 'socket.io-client'
 import gameService from '../services/gameService';
+import { useHistory } from 'react-router';
+
 
 const Home = () => {
   const { state: authState } = useContext(AuthContext)
   const [isJoinVisible, setisJoinVisible] = useState(false)
   const joinCodeInputRef = createRef()
   const [socket, setSocket] = useState()
+  const history = useHistory()
 
   const handleCreate = async () => {
     // get game id from backend api
@@ -23,12 +26,16 @@ const Home = () => {
       tempSocket.emit('join', { gameId, isHost: true })
 
       tempSocket.on('joined', () => {
+        history.push('/Lobby')
         // TODO(Disha): transition to lobby page from here
         // use reactrouter's history.push('/lobby') or whatever
         console.log('joined successfully')
       })
       setSocket(tempSocket) // set socket state
     } // TODO(): handle unsuccessful game creation
+    else{
+      
+    }
   }
 
   const handleJoin = async (e) => {

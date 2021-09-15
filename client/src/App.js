@@ -1,8 +1,8 @@
 import './App.css';
 import { Switch, Route } from 'react-router-dom'
-import Home from './components/Home'
-import Login from './components/auth/Login'
-import Logout from './components/auth/Logout';
+import Home from './Components/Home'
+import Login from './Components/auth/Login'
+import Logout from './Components/auth/Logout';
 import { useReducer } from 'react';
 import userReducer from './reducers/UserReducer';
 import { AuthContext } from './contexts/AuthContext';
