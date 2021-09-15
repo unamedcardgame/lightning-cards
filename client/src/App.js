@@ -3,9 +3,10 @@ import { Switch, Route } from 'react-router-dom'
 import Home from './components/Home'
 import Login from './components/auth/Login'
 import Logout from './components/auth/Logout';
-import { useReducer } from 'react';
+import { useReducer, useState } from 'react';
 import userReducer from './reducers/UserReducer';
 import { AuthContext } from './contexts/AuthContext';
+import Floor from './components/Floor';
 
 const initialState = {
   isAuthenticated: false,
@@ -15,6 +16,7 @@ const initialState = {
 
 function App() {
   const [state, dispatch] = useReducer(userReducer, initialState)
+  const [socket, setSocket] = useState(null)
 
   return (
     <AuthContext.Provider value={{ state, dispatch }}>
@@ -23,10 +25,13 @@ function App() {
           <Logout />
         </div>
         <Switch>
+          <Route path="/floor">
+            <Floor />
+          </Route>
           <Route path="/">
             {
               state.isAuthenticated
-                ? <Home />
+                ? <Home socket={socket} setSocket={setSocket} />
                 : <Login />
             }
           </Route>

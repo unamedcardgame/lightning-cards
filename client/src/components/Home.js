@@ -6,11 +6,10 @@ import { Button } from 'react-bootstrap'
 import { io } from 'socket.io-client'
 import gameService from '../services/gameService';
 
-const Home = () => {
+const Home = ({ socket, setSocket }) => {
   const { state: authState } = useContext(AuthContext)
   const [isJoinVisible, setisJoinVisible] = useState(false)
   const joinCodeInputRef = createRef()
-  const [socket, setSocket] = useState()
 
   const handleCreate = async () => {
     // get game id from backend api
