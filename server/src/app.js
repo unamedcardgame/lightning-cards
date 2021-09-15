@@ -4,6 +4,7 @@ const axios = require('axios')
 const path = require('path');
 const middleware = require('./middleware')
 const Game = require('./models/Game')
+const { v4: uuidv4 } = require('uuid')
 
 /*
   Games structure
@@ -16,7 +17,6 @@ const Game = require('./models/Game')
   refer Game.js for class
 */
 global.games = {}
-let gameCounter = 0 // for temporary gameId implementation
 
 // pay no attention
 const app = express();
@@ -34,17 +34,17 @@ app.get("/login", async (req, res) => {
 });
 
 app.post('/games', (req, res) => {
-  games[gameCounter] = (new Game(gameCounter))
-  res.status(201).json({ gameId: gameCounter++ })
+  const gameUuid = uuidv4()
+  console.log(gameUuid)
+  games[gameUuid] = (new Game(gameUuid))
+  res.status(201).json({ gameId: gameUuid })
 })
 
-// TODO(Disha): return 201 like above after verifying
-// whether gameId exists in games dictionary
 app.get('/games/:gameId', (req, res) => {
   const gameId = req.params.gameId
   console.log(games, gameId)
 
-  // verify existence
+  // game exists ?
   if (games[gameId]) res.status(200).end()
   else res.status(400).json({ error: `Game code ${gameId} invalid` })
 })

@@ -18,17 +18,22 @@ const Home = () => {
     const gameId = response.data.gameId
 
     // if game is created at backend successfully
-    if (response.status === 201) {
-      const tempSocket = io('/games')
-      tempSocket.emit('join', { gameId, isHost: true })
+    try {
+      if (response.status === 201) {
+        const tempSocket = io('/games')
+        console.log(gameId)
+        tempSocket.emit('join', { gameId, isHost: true })
 
-      tempSocket.on('joined', () => {
-        // TODO(Disha): transition to lobby page from here
-        // use reactrouter's history.push('/lobby') or whatever
-        console.log('joined successfully')
-      })
-      setSocket(tempSocket) // set socket state
-    } // TODO(): handle unsuccessful game creation
+        tempSocket.on('joined', () => {
+          // TODO(Disha): transition to lobby page from here
+          // use reactrouter's history.push('/lobby') or whatever
+          console.log('joined successfully')
+        })
+        setSocket(tempSocket) // set socket state
+      } // TODO(): handle unsuccessful game creation
+    } catch (e) {
+      console.log(e.message)
+    }
   }
 
   const handleJoin = async (e) => {
@@ -38,12 +43,7 @@ const Home = () => {
     // get code from input element
     const joinCode = joinCodeInputRef.current.value
 
-    // TODO(Eric): DON'T join the room automatically.
-    // instead, make a request to /joinRoom at backend
-    // and verify that the gameId exists by returning
-    // a status code (200)
-    // something like axios.get('/joinRoom', {gameId: joinCode})
-    // if (resp == 200): socket.emit('join') ...
+    // join game if game id is valid
     try {
       const status = await gameService.joinGame(joinCode)
       if (status === 200) {
