@@ -12,3 +12,8 @@ export const setCallbacks = (socket) => {
     console.log('drew card')
   })
 }
+
+/*
+
+
+*/

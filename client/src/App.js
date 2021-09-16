@@ -34,7 +34,7 @@ function App() {
           <Route path="/floor">
             <Floor socket={socket} />
           </Route>
-          <Route path="/">
+          <Route exact path="/">
             {
               userState.isAuthenticated
                 ? <Home socket={socket} setSocket={setSocket} />

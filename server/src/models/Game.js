@@ -25,14 +25,6 @@ class Game {
   setHost(player) {
     this.players.host = player
   }
-
-  get isRunning() {
-    return this.running
-  }
-
-  startGame() {
-    this.running = true
-  }
 }
 
 module.exports = Game

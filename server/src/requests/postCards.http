@@ -2,5 +2,5 @@ POST http://localhost:4000/api/cards
 Content-Type: application/json
 
 {
-  "gameId": "fe162166-230f-4cd8-b1ed-10d2795260e6"
+  "gameId": "47b28320-6688-4a52-87ac-2cf895fe1666"
 }
