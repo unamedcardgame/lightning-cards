@@ -16,9 +16,7 @@ import * as tf from "@tensorflow/tfjs";
 const Floor = ({ socket }) => {
 
   useEffect(() => {
-    console.log('effecting socket', socket)
     socket.on('cards ready', () => {
-      console.log('yummy cards prepared')
     })
   }, [socket])
 

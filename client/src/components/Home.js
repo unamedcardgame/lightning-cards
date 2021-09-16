@@ -22,7 +22,6 @@ const Home = ({ socket, setSocket }) => {
     try {
       if (response.status === 201) {
         const tempSocket = io('/games')
-        console.log(gameId)
         tempSocket.emit('join', { gameId, isHost: true, userId: authState.user.id })
 
         tempSocket.on('joined', () => {
@@ -30,7 +29,6 @@ const Home = ({ socket, setSocket }) => {
           // use reactrouter's history.push('/lobby') or whatever
           console.log('joined successfully')
         })
-        console.log(tempSocket)
         setSocket(tempSocket) // set socket state
       } // TODO(): fail gracefully on error
     } catch (e) {

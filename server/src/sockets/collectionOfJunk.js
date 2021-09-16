@@ -3,7 +3,6 @@ io.on('connection', socket => {
   socket.on('create game', user => {
     games.push(new Game(gameIdGen, new Player(user.id)))
     idToGame[user.id] = gameIdGen++
-    console.log(games)
   })
 })
 const Player = require('./src/models/Player')

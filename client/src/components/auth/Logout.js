@@ -5,7 +5,6 @@ const Logout = () => {
   const history = useHistory()
 
   const onLogout = () => {
-    console.log('logged out successfully')
     history.go(0)
   }
 

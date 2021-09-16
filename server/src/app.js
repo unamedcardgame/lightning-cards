@@ -47,7 +47,6 @@ app.post('/api/games', (req, res) => {
 // join game
 app.get('/api/games/:gameId', (req, res) => {
   const gameId = req.params.gameId
-  console.log(games, gameId)
 
   // game exists ?
   if (games[gameId]) res.status(200).end()
@@ -59,14 +58,12 @@ app.post('/api/cards', (req, res) => {
   const gameId = req.body.gameId
   const game = games[gameId]
   const numOfPlayers = game.players.length
-  console.log('PLAYERS NUM: ', game.players.length)
   const playersCards = generateCards(numOfPlayers)
 
   game.players.forEach((player, i) => {
     player.cards = playersCards[i]
   })
 
-  console.log(game.players[0].cards)
   app.get('socket').emiter('cards ready', { boo: 'hoo' }, gameId)
   res.status(201).end()
 })
