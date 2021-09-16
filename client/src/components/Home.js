@@ -5,11 +5,13 @@ import { AuthContext } from '../contexts/AuthContext';
 import { Button } from 'react-bootstrap'
 import { io } from 'socket.io-client'
 import gameService from '../services/gameService';
+import { useHistory } from 'react-router';
 
 const Home = ({ socket, setSocket }) => {
   const { state: authState } = useContext(AuthContext)
   const [isJoinVisible, setisJoinVisible] = useState(false)
   const joinCodeInputRef = createRef()
+  const history = useHistory()
 
   const handleCreate = async () => {
     // get game id from backend api
@@ -28,11 +30,14 @@ const Home = ({ socket, setSocket }) => {
           // use reactrouter's history.push('/lobby') or whatever
           console.log('joined successfully')
         })
+        console.log(tempSocket)
         setSocket(tempSocket) // set socket state
       } // TODO(): fail gracefully on error
     } catch (e) {
       console.log(e.message)
     }
+
+    history.push('/floor')
   }
 
   const handleJoin = async (e) => {

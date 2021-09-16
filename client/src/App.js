@@ -26,6 +26,7 @@ function App() {
         </div>
         <Switch>
           <Route path="/floor">
+            {console.log('i lau socket', socket)}
             <Floor socket={socket} />
           </Route>
           <Route path="/">

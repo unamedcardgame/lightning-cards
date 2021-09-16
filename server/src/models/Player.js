@@ -11,6 +11,10 @@ class Player {
   isTurn() {
     return this.turn
   }
+
+  set cards(deck) {
+    this.cards.push(...deck)
+  }
 }
 
 module.exports = Player

@@ -3,7 +3,7 @@ import axios from 'axios'
 const createGame = async (uid) => {
   let data, status
   try {
-    ({ data, status } = await axios.post('/games', { uid }))
+    ({ data, status } = await axios.post('/api/games', { uid }))
   } catch (e) {
     throw new Error(e.response.data.error)
   }
@@ -13,7 +13,7 @@ const createGame = async (uid) => {
 const joinGame = async (gameId) => {
   let status
   try {
-    ({ status } = await axios.get(`/games/${gameId}`))
+    ({ status } = await axios.get(`/api/games/${gameId}`))
   } catch (e) {
     throw new Error(e.response.data.error)
   }
