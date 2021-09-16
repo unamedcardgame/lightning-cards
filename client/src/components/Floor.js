@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import Card from '@heruka_urgyen/react-playing-cards/lib/TcN'
 import { useState, useEffect, useRef } from 'react'
 import { Container } from 'react-bootstrap'

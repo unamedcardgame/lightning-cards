@@ -8,7 +8,7 @@ import gameService from '../services/gameService';
 import { useHistory } from 'react-router';
 
 const Home = ({ socket, setSocket }) => {
-  const { state: authState } = useContext(AuthContext)
+  const { userState: authState } = useContext(AuthContext)
   const [isJoinVisible, setisJoinVisible] = useState(false)
   const joinCodeInputRef = createRef()
   const history = useHistory()

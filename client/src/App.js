@@ -15,11 +15,11 @@ const initialState = {
 }
 
 function App() {
-  const [state, dispatch] = useReducer(userReducer, initialState)
+  const [userState, dispatch] = useReducer(userReducer, initialState)
   const [socket, setSocket] = useState(null)
 
   return (
-    <AuthContext.Provider value={{ state, dispatch }}>
+    <AuthContext.Provider value={{ userState, dispatch }}>
       <div className="main d-flex flex-column">
         <div className="d-flex justify-content-end">
           <Logout />
@@ -31,7 +31,7 @@ function App() {
           </Route>
           <Route path="/">
             {
-              state.isAuthenticated
+              userState.isAuthenticated
                 ? <Home socket={socket} setSocket={setSocket} />
                 : <Login />
             }
