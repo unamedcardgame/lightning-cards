@@ -16,7 +16,11 @@
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
     "socket.io-client": "^4.2.0",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^1.1.2",
+    "@tensorflow-models/handpose": "0.0.6",
+    "@tensorflow/tfjs": "^2.4.0",
+    "fingerpose": "0.0.2",
+    "react-webcam": "^5.2.0"
   },
   "scripts": {
     "start": "react-scripts start",

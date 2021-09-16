@@ -18,6 +18,9 @@ const { v4: uuidv4 } = require('uuid')
 */
 global.games = {}
 
+// {socketId: googleUserId}
+global.users = {}
+
 // pay no attention
 const app = express();
 app.use(cors())
@@ -33,13 +36,14 @@ app.get("/login", async (req, res) => {
   res.status(200).end();
 });
 
+// create game
 app.post('/games', (req, res) => {
   const gameUuid = uuidv4()
-  console.log(gameUuid)
   games[gameUuid] = (new Game(gameUuid))
   res.status(201).json({ gameId: gameUuid })
 })
 
+// join game
 app.get('/games/:gameId', (req, res) => {
   const gameId = req.params.gameId
   console.log(games, gameId)

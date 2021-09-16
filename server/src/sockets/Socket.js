@@ -28,7 +28,10 @@ class Socket {
         socket.join(game.gameId)
 
         // 'games' is a global variable declared in app.js
-        if (game.isHost) games[game.gameId].setHost(socket.id)
+        if (game.isHost) games[game.gameId].setHost(game.userId)
+        games[game.gameId].addPlayer(game.userId)
+        // map google's userId to socket's internal id
+        users[socket.id] = game.userId
 
         // tell the player he joined the game
         socket.emit('joined')
@@ -37,6 +40,15 @@ class Socket {
         // this player with this id has joined. For now do only id,
         // for sending the name we'll do later.
         // this.io.of('/games').emit or something like that
+      })
+
+      // game actions handler
+      socket.on('start game', (game) => {
+        games[game.gameId].startGame()
+      })
+      
+      socket.on('draw card', game => {
+        
       })
 
       // Debug handler

@@ -26,7 +26,7 @@ function App() {
         </div>
         <Switch>
           <Route path="/floor">
-            <Floor />
+            <Floor socket={socket} />
           </Route>
           <Route path="/">
             {
