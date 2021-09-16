@@ -7,6 +7,7 @@ import { useReducer, useState } from 'react';
 import userReducer from './reducers/UserReducer';
 import { AuthContext } from './contexts/AuthContext';
 import Floor from './components/game/Floor';
+import Lobby from './components/Lobby'
 
 const initialState = {
   isAuthenticated: false,
@@ -23,6 +24,10 @@ const initialState = {
 function App() {
   const [userState, dispatch] = useReducer(userReducer, initialState)
   const [socket, setSocket] = useState(null)
+  const [game, setGame] = useState({
+    id: null,
+    players: [],
+  })
 
   return (
     <AuthContext.Provider value={{ userState, dispatch }}>
@@ -34,10 +39,13 @@ function App() {
           <Route path="/floor">
             <Floor socket={socket} />
           </Route>
+          <Route path="/lobby">
+            <Lobby socket={socket} />
+          </Route>
           <Route exact path="/">
             {
               userState.isAuthenticated
-                ? <Home socket={socket} setSocket={setSocket} />
+                ? <Home game={game} setGame={setGame} socket={socket} setSocket={setSocket} />
                 : <Login />
             }
           </Route>

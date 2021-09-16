@@ -7,7 +7,7 @@ import { io } from 'socket.io-client'
 import gameService from '../services/gameService';
 import { useHistory } from 'react-router';
 
-const Home = ({ socket, setSocket }) => {
+const Home = ({ socket, setSocket, game, setGame }) => {
   const { userState: authState } = useContext(AuthContext)
   const [isJoinVisible, setisJoinVisible] = useState(false)
   const joinCodeInputRef = createRef()
@@ -17,6 +17,13 @@ const Home = ({ socket, setSocket }) => {
     // get game id from backend api
     const response = await gameService.createGame()
     const gameId = response.data.gameId
+
+    // set game data in FRONTEND state
+    setGame({
+      ...game,
+      id: gameId,
+      players: [...game.players, authState.user.name]
+    })
 
     // if game is created at backend successfully
     try {
@@ -31,11 +38,9 @@ const Home = ({ socket, setSocket }) => {
           // TODO(Disha): transition to lobby page from here
           // use reactrouter's history.push('/lobby') or whatever
           console.log('joined successfully')
+          history.push('/lobby')
         })
 
-        tempSocket.on('new player', (user) => {
-          console.log(user.name, 'joined !')
-        })
         setSocket(tempSocket) // set socket state
       } // TODO(): fail gracefully on error
     } catch (e) {
@@ -89,7 +94,10 @@ const Home = ({ socket, setSocket }) => {
             <input ref={joinCodeInputRef} style={{ display: isJoinVisible ? null : 'none' }} />
             <input type="submit" onClick={handleJoin} style={{ display: isJoinVisible ? null : 'none' }} />
           </form>
-          <Button onClick={() => socket.emit('get details')}>Deets</Button>
+          <Button onClick={() => {
+            console.log(socket)
+            socket.emit('get details')
+          }}>Deets</Button>
         </Col>
       </Row>
     </Container>
