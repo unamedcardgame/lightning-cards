@@ -13,7 +13,7 @@ const Home = ({ socket, setSocket }) => {
 
   const handleCreate = async () => {
     // get game id from backend api
-    const response = await gameService.createGame(authState.user.id)
+    const response = await gameService.createGame()
     const gameId = response.data.gameId
 
     // if game is created at backend successfully
@@ -21,7 +21,7 @@ const Home = ({ socket, setSocket }) => {
       if (response.status === 201) {
         const tempSocket = io('/games')
         console.log(gameId)
-        tempSocket.emit('join', { gameId, isHost: true })
+        tempSocket.emit('join', { gameId, isHost: true, userId: authState.user.id })
 
         tempSocket.on('joined', () => {
           // TODO(Disha): transition to lobby page from here
@@ -29,7 +29,7 @@ const Home = ({ socket, setSocket }) => {
           console.log('joined successfully')
         })
         setSocket(tempSocket) // set socket state
-      } // TODO(): handle unsuccessful game creation
+      } // TODO(): fail gracefully on error
     } catch (e) {
       console.log(e.message)
     }
