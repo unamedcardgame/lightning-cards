@@ -22,12 +22,19 @@ const Home = ({ socket, setSocket }) => {
     try {
       if (response.status === 201) {
         const tempSocket = io('/games')
-        tempSocket.emit('join', { gameId, isHost: true, userId: authState.user.id })
+        tempSocket.emit('join', {
+          game: { gameId, isHost: true },
+          user: { userId: authState.user.id, name: authState.user.name },
+        })
 
         tempSocket.on('joined', () => {
           // TODO(Disha): transition to lobby page from here
           // use reactrouter's history.push('/lobby') or whatever
           console.log('joined successfully')
+        })
+
+        tempSocket.on('new player', (user) => {
+          console.log(user.name, 'joined !')
         })
         setSocket(tempSocket) // set socket state
       } // TODO(): fail gracefully on error
@@ -50,7 +57,10 @@ const Home = ({ socket, setSocket }) => {
       const status = await gameService.joinGame(joinCode)
       if (status === 200) {
         console.log('joined')
-        tempSocket.emit('join', { gameId: joinCode })
+        tempSocket.emit('join', {
+          game: { gameId: joinCode },
+          user: { name: authState.user.name }
+        })
         setSocket(tempSocket) // set socket state
       }
     } catch (e) {

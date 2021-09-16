@@ -13,7 +13,6 @@ const setHandlers = require('../sockets/socketController')
 
 class Socket {
   io
-
   constructor(server) {
     // create an io instance
     this.io = socketIo(server);

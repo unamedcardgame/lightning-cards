@@ -4,17 +4,15 @@ function setHandlers(io) {
   // main handler
   io.of('/games').on('connection', socket => {
 
-    socket.leave(socket.id) // leave the default room
-
     // Lobby handlers
-    socket.on('join', game => {
-      socket.join(game.gameId)
+    socket.on('join', data => {
+      socket.join(data.game.gameId)
 
       // 'games' is a global variable declared in app.js
-      if (game.isHost) games[game.gameId].setHost(game.userId)
-      games[game.gameId].addPlayer(new Player(game.userId))
+      if (data.game.isHost) games[data.game.gameId].setHost(data.user.userId)
+      games[data.game.gameId].addPlayer(new Player(data.user.userId))
       // map google's userId to socket's internal id
-      users[socket.id] = game.userId
+      users[socket.id] = data.user.userId
 
       // tell the player he joined the game
       socket.emit('joined')
@@ -23,9 +21,10 @@ function setHandlers(io) {
       // this player with this id has joined. For now do only id,
       // for sending the name we'll do later.
       // io.of('/games').emit or something like that
+      socket.to(data.game.gameId).emit('new player', { name: data.user.name })
     })
 
-    // game actions handler
+    // game action handlers
     socket.on('start game', (game) => {
       games[game.gameId].startGame()
     })

@@ -10,6 +10,12 @@ import Floor from './components/game/Floor';
 
 const initialState = {
   isAuthenticated: false,
+  /*
+    Structure of user
+    email
+    id
+    name
+  */
   user: null,
   token: null,
 }
