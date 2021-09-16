@@ -6,7 +6,7 @@ import Logout from './components/auth/Logout';
 import { useReducer, useState } from 'react';
 import userReducer from './reducers/UserReducer';
 import { AuthContext } from './contexts/AuthContext';
-import Floor from './components/Floor';
+import Floor from './components/game/Floor';
 
 const initialState = {
   isAuthenticated: false,
