@@ -1,6 +1,5 @@
 import { Container, Row, Col } from 'react-bootstrap'
-import { Button } from 'react-bootstrap'
-import Login from './auth/Login';
+import { useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 
 const Lobby = () => {

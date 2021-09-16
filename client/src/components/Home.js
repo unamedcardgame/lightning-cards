@@ -6,6 +6,11 @@ import { Button } from 'react-bootstrap'
 import { io } from 'socket.io-client'
 import gameService from '../services/gameService';
 import { useHistory } from 'react-router';
+// import {Image, Nav } from 'react-bootstrap';
+// import Navbar from 'react-bootstrap/Navbar'
+import gameBG from "../Images/purpleBG1.jpg";
+
+
 
 
 const Home = () => {
@@ -21,20 +26,20 @@ const Home = () => {
     const gameId = response.data.gameId
 
     // if game is created at backend successfully
-    if (response.status === 201) {
-      const tempSocket = io('/games')
-      tempSocket.emit('join', { gameId, isHost: true })
+    try {
+      if (response.status === 201) {
+        const tempSocket = io('/games')
+        console.log(gameId)
+        tempSocket.emit('join', { gameId, isHost: true })
 
-      tempSocket.on('joined', () => {
-        history.push('/Lobby')
-        // TODO(Disha): transition to lobby page from here
-        // use reactrouter's history.push('/lobby') or whatever
-        console.log('joined successfully')
-      })
-      setSocket(tempSocket) // set socket state
-    } // TODO(): handle unsuccessful game creation
-    else{
-      
+        tempSocket.on('joined', () => {
+          history.push('/Lobby')
+          console.log('joined successfully')
+        })
+        setSocket(tempSocket) // set socket state
+      } 
+    } catch (e) {
+      console.log(e.message)
     }
   }
 
@@ -45,14 +50,17 @@ const Home = () => {
     // get code from input element
     const joinCode = joinCodeInputRef.current.value
 
-    // TODO(Disha): DON'T join the room automatically.
-    // instead, make a request to /joinRoom at backend
-    // and verify that the gameId exists by returning
-    // a status code (200)
-    // something like axios.get('/joinRoom', {gameId: joinCode})
-    // if (resp == 200): socket.emit('join') ...
-    tempSocket.emit('join', { gameId: joinCode })
-    setSocket(tempSocket) // set socket state
+    // join game if game id is valid
+    try {
+      const status = await gameService.joinGame(joinCode)
+      if (status === 200) {
+        console.log('joined')
+        tempSocket.emit('join', { gameId: joinCode })
+        setSocket(tempSocket) // set socket state
+      }
+    } catch (e) {
+      console.log(e.message)
+    }
   }
 
   if (!authState.isAuthenticated) {
@@ -62,6 +70,14 @@ const Home = () => {
   }
 
   return (
+    <div
+        class="bg_image"
+        style={{
+          backgroundImage: 'url('+gameBG+')',
+          backgroundSize: "cover",
+          height: "100vh",
+          color: "#f5f5f5"
+        }} >
     <Container fluid className="h-100">
       <Row className="justify-content-center align-items-center h-100">
         <Col className="col-auto text-center">
@@ -80,6 +96,7 @@ const Home = () => {
         </Col>
       </Row>
     </Container>
+    </div>
   )
 }
 

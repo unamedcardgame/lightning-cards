@@ -25,10 +25,10 @@ class Socket {
       // Lobby handlers
       socket.on('join', game => {
         // TODO(Disha): when gameId is randomly generated don't use parseInt
-        socket.join(parseInt(game.gameId))
+        socket.join(game.gameId)
 
         // 'games' is a global variable declared in app.js
-        if (game.isHost) games[game.gameId].setHost(socket.id) 
+        if (game.isHost) games[game.gameId].setHost(socket.id)
 
         // tell the player he joined the game
         socket.emit('joined')
@@ -39,7 +39,7 @@ class Socket {
         // this.io.of('/games').emit or something like that
       })
 
-      // Debug handlers
+      // Debug handler
       socket.on('get details', () => {
         console.log(this.io.of('/games').sockets.get(socket.id).adapter.rooms)
       })
