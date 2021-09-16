@@ -41,6 +41,7 @@ app.get("/api/login", async (req, res) => {
 app.post('/api/games', (req, res) => {
   const gameUuid = uuidv4()
   games[gameUuid] = (new Game(gameUuid))
+  console.log('game id:', gameUuid)
   res.status(201).json({ gameId: gameUuid })
 })
 
