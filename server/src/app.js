@@ -60,12 +60,15 @@ app.post('/api/cards', (req, res) => {
   const game = games[gameId]
   const numOfPlayers = game.players.length
   const playersCards = generateCards(numOfPlayers)
+  const socket = app.get('socket')
 
   game.players.forEach((player, i) => {
     player.cards = playersCards[i]
+    socket.io.of('/games').to(player.sid).emit('cards', { cards: player.cards })
   })
 
-  app.get('socket').emiter('cards ready', { boo: 'hoo' }, gameId)
+  socket.io.of('/games').to(gameId).emit('cards ready')
+
   res.status(201).end()
 })
 

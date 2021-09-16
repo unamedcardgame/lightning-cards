@@ -10,7 +10,7 @@ function setHandlers(io) {
 
       // 'games' is a global variable declared in app.js
       if (data.game.isHost) games[data.game.gameId].setHost(data.user.userId)
-      games[data.game.gameId].addPlayer(new Player(data.user.userId))
+      games[data.game.gameId].addPlayer(new Player(data.user.userId, socket.id))
       // map google's userId to socket's internal id
       users[socket.id] = data.user.userId
 
