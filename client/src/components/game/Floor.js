@@ -12,19 +12,15 @@ import * as fp from "fingerpose";
 import victory from "./victory.png";
 import thumbs_up from "./thumbs_up.png";
 import * as tf from "@tensorflow/tfjs";
+import { setCallbacks } from '../../services/socketService';
 
 const Floor = ({ socket }) => {
 
   useEffect(() => {
-    socket.on('cards ready', () => {
-    })
+    setCallbacks(socket)
   }, [socket])
 
   const drawCard = () => {
-    socket.emit('draw card',)
-    socket.on('card drawn', () => {
-      console.log('drew card')
-    })
   }
 
   const webcamRef = useRef(null);
