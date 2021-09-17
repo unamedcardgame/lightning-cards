@@ -1,7 +1,9 @@
 import { GoogleLogout } from 'react-google-login';
 import { useHistory } from 'react-router';
-import {Container, Nav } from 'react-bootstrap';
 import Navbar from 'react-bootstrap/Navbar'
+import { Row, Col, Container, Image, Nav } from 'react-bootstrap';
+import logo from '../../Images/Logo1.png';
+
 
 const Logout = () => {
   const history = useHistory()
@@ -15,7 +17,14 @@ const Logout = () => {
     <span>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="/">Lightning Cards</Navbar.Brand>
+        <Container>
+            <Row>
+              <Col xs={6} md={4}>
+              <Image src={logo} roundedCircle width="30" height="30" />
+              </Col>
+            </Row>
+          </Container>
+          <Navbar.Brand href="/" className="textLeft">Lightning Cards</Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">

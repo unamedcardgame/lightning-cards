@@ -19,3 +19,9 @@
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
+.textLeft {
+  text-align: left;
+  margin-right: 670px;
+  margin-left: 0px;
+}
