@@ -34,15 +34,15 @@ function App() {
     <AuthContext.Provider value={{ userState, dispatch }}>
       <div className="main d-flex flex-column">
         <div className="d-flex justify-content-end">
-            {
-              userState.isAuthenticated
-                ? <Logout />
-                : ""
-            }
+          {
+            userState.isAuthenticated
+              ? <Logout />
+              : ""
+          }
         </div>
         <Switch>
           <Route path="/floor">
-            <Floor socket={socket} />
+            <Floor game={game} setGame={setGame} socket={socket} />
           </Route>
           <Route path="/lobby">
             <Lobby game={game} setGame={setGame} socket={socket} />
