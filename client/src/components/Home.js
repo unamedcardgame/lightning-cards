@@ -6,11 +6,13 @@ import { Button } from 'react-bootstrap'
 import { io } from 'socket.io-client'
 import gameService from '../services/gameService';
 import { useHistory } from 'react-router';
+import gameBG from "../Images/purpleBG1.jpg";
 
 const Home = ({ socket, setSocket, game, setGame }) => {
   const { userState: authState } = useContext(AuthContext)
   const [isJoinVisible, setisJoinVisible] = useState(false)
   const joinCodeInputRef = createRef()
+  // const [socket, setSocket] = useState()
   const history = useHistory()
 
   const handleCreate = async () => {
@@ -36,8 +38,7 @@ const Home = ({ socket, setSocket, game, setGame }) => {
         })
 
         tempSocket.on('joined', () => {
-          // TODO(Disha): transition to lobby page from here
-          // use reactrouter's history.push('/lobby') or whatever
+          history.push('/Lobby')
           console.log('joined successfully')
           history.push('/lobby')
         })
@@ -90,6 +91,14 @@ const Home = ({ socket, setSocket, game, setGame }) => {
   }
 
   return (
+    <div
+        class="bg_image"
+        style={{
+          backgroundImage: 'url('+gameBG+')',
+          backgroundSize: "cover",
+          height: "100vh",
+          color: "#f5f5f5"
+        }} >
     <Container fluid className="h-100">
       <Row className="justify-content-center align-items-center h-100">
         <Col className="col-auto text-center">
@@ -111,6 +120,7 @@ const Home = ({ socket, setSocket, game, setGame }) => {
         </Col>
       </Row>
     </Container>
+    </div>
   )
 }
 

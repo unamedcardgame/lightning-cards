@@ -1,13 +1,14 @@
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Switch, Route } from 'react-router-dom'
-import Home from './components/Home'
-import Login from './components/auth/Login'
-import Logout from './components/auth/Logout';
+import Home from './Components/Home'
+import Login from './Components/auth/Login'
+import Logout from './Components/auth/Logout';
 import { useReducer, useState } from 'react';
 import userReducer from './reducers/UserReducer';
 import { AuthContext } from './contexts/AuthContext';
-import Floor from './components/game/Floor';
-import Lobby from './components/Lobby'
+import Floor from './Components/game/Floor';
+import Lobby from './Components/Lobby'
 
 const initialState = {
   isAuthenticated: false,
@@ -20,7 +21,6 @@ const initialState = {
   user: null,
   token: null,
 }
-
 function App() {
   const [userState, dispatch] = useReducer(userReducer, initialState)
   const [socket, setSocket] = useState(null)
@@ -34,7 +34,11 @@ function App() {
     <AuthContext.Provider value={{ userState, dispatch }}>
       <div className="main d-flex flex-column">
         <div className="d-flex justify-content-end">
-          <Logout />
+            {
+              userState.isAuthenticated
+                ? <Logout />
+                : ""
+            }
         </div>
         <Switch>
           <Route path="/floor">
