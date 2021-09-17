@@ -1,4 +1,4 @@
-export const setCallbacks = (socket) => {
+export const setCallbacks = (socket, setDrawPile) => {
   socket.on('cards ready', () => {
     console.log('yummy cards')
   })
@@ -8,8 +8,9 @@ export const setCallbacks = (socket) => {
   })
 
 
-  socket.on('card drawn', () => {
+  socket.on('draw pile', ({card}) => {
     console.log('drew card')
+    setDrawPile(card)
   })
 }
 

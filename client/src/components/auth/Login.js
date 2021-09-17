@@ -34,7 +34,7 @@ const Login = () => {
 
   return (
     <div
-        class="bg_image"
+        className="bg_image"
         style={{
           backgroundImage: 'url('+gameBG+')',
           backgroundSize: "cover",

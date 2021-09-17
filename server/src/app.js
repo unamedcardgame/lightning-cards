@@ -64,10 +64,8 @@ app.post('/api/cards', (req, res) => {
 
   game.players.forEach((player, i) => {
     player.cards = playersCards[i]
-    socket.io.of('/games').to(player.sid).emit('cards', { cards: player.cards })
+    socket.io.of('/games').to(player.sid).emit('cards', { length: player.cards.length })
   })
-
-  socket.io.of('/games').to(gameId).emit('cards ready')
 
   res.status(201).end()
 })

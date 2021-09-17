@@ -92,7 +92,7 @@ const Home = ({ socket, setSocket, game, setGame }) => {
 
   return (
     <div
-        class="bg_image"
+        className="bg_image"
         style={{
           backgroundImage: 'url('+gameBG+')',
           backgroundSize: "cover",
