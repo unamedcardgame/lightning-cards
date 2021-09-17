@@ -1,21 +1,36 @@
-import { Container, Row, Col } from 'react-bootstrap'
-import { useContext } from 'react';
-import { AuthContext } from '../contexts/AuthContext';
+import { useEffect } from "react"
+import { Button } from 'react-bootstrap'
+import { useHistory } from "react-router"
 
-const Lobby = () => {
-    const { state: authState } = useContext(AuthContext)
+const Lobby = ({ socket, game, setGame }) => {
+  const history = useHistory()
 
-    
-return (
-    <Container fluid className="h-100">
-      <Row className="justify-content-center align-items-center h-100">
-        <Col className="col-auto text-center">
-          <p>welcome {authState?.user.name} !</p>
-         <p>Waiting lobby</p>
-         
-        </Col>
-      </Row>
-    </Container>
+  useEffect(() => {
+    socket.on('new player', (user) => {
+      console.log(user.name, 'joined !')
+      setGame({ ...game, players: [...game.players, user.name] })
+    })
+
+    socket.on('begin', () => {
+      history.push('/floor')
+    })
+  }, [game, history, setGame, socket])
+
+  const startGame = () => {
+    socket.emit('start game', { gameId: game.id })
+  }
+
+  return (
+    <div>
+      <ol>
+        {game.players.map((p, i) => <li key={i}>{p}</li>)}
+      </ol>
+      {
+        game.host
+          ? <Button onClick={startGame}>Begin</Button>
+          : null
+      }
+    </div>
   )
 }
 

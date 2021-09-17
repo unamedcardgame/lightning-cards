@@ -13,8 +13,10 @@ class Game {
   id
   players = []
   host
+  running
   constructor(id) {
     this.id = id
+    this.running = false
   }
 
   addPlayer(player) {
@@ -23,6 +25,10 @@ class Game {
 
   setHost(player) {
     this.players.host = player
+  }
+
+  startGame() {
+    this.running = true
   }
 }
 

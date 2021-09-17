@@ -4,6 +4,7 @@ const axios = require('axios')
 const path = require('path');
 const middleware = require('./middleware')
 const Game = require('./models/Game')
+const { generateCards } = require('./utils/cards')
 const { v4: uuidv4 } = require('uuid')
 
 /*
@@ -18,6 +19,9 @@ const { v4: uuidv4 } = require('uuid')
 */
 global.games = {}
 
+// {socketId: googleUserId}
+global.users = {}
+
 // pay no attention
 const app = express();
 app.use(cors())
@@ -25,7 +29,7 @@ app.use(express.json())
 app.use(middleware.getToken)
 
 
-app.get("/login", async (req, res) => {
+app.get("/api/login", async (req, res) => {
   const token = req.token
   if (!token) res.status(403).send('fail')
   const decodedToken = (await axios
@@ -33,20 +37,39 @@ app.get("/login", async (req, res) => {
   res.status(200).end();
 });
 
-app.post('/games', (req, res) => {
+// create game
+app.post('/api/games', (req, res) => {
   const gameUuid = uuidv4()
-  console.log(gameUuid)
   games[gameUuid] = (new Game(gameUuid))
+  console.log('game id:', gameUuid)
   res.status(201).json({ gameId: gameUuid })
 })
 
-app.get('/games/:gameId', (req, res) => {
+// join game
+app.get('/api/games/:gameId', (req, res) => {
   const gameId = req.params.gameId
-  console.log(games, gameId)
 
   // game exists ?
   if (games[gameId]) res.status(200).end()
   else res.status(400).json({ error: `Game code ${gameId} invalid` })
+})
+
+// create cards
+app.post('/api/cards', (req, res) => {
+  const gameId = req.body.gameId
+  const game = games[gameId]
+  const numOfPlayers = game.players.length
+  const playersCards = generateCards(numOfPlayers)
+  const socket = app.get('socket')
+
+  game.players.forEach((player, i) => {
+    player.cards = playersCards[i]
+    socket.io.of('/games').to(player.sid).emit('cards', { cards: player.cards })
+  })
+
+  socket.io.of('/games').to(gameId).emit('cards ready')
+
+  res.status(201).end()
 })
 
 // serve the website (FOR PRODUCTION)

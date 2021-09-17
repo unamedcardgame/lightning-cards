@@ -4,36 +4,53 @@ import { Switch, Route } from 'react-router-dom'
 import Home from './Components/Home'
 import Login from './Components/auth/Login'
 import Logout from './Components/auth/Logout';
-import { useReducer } from 'react';
+import { useReducer, useState } from 'react';
 import userReducer from './reducers/UserReducer';
 import { AuthContext } from './contexts/AuthContext';
-import Lobby from './Components/Lobby';
+import Floor from './Components/game/Floor';
+import Lobby from './Components/Lobby'
 
 const initialState = {
   isAuthenticated: false,
+  /*
+    Structure of user
+    email
+    id
+    name
+  */
   user: null,
   token: null,
 }
 function App() {
-  const [state, dispatch] = useReducer(userReducer, initialState)
+  const [userState, dispatch] = useReducer(userReducer, initialState)
+  const [socket, setSocket] = useState(null)
+  const [game, setGame] = useState({
+    id: null,
+    players: [],
+    host: false,
+  })
+
   return (
-    <AuthContext.Provider value={{ state, dispatch }}>
+    <AuthContext.Provider value={{ userState, dispatch }}>
       <div className="main d-flex flex-column">
         <div className="d-flex justify-content-end">
             {
-              state.isAuthenticated
+              userState.isAuthenticated
                 ? <Logout />
                 : ""
             }
         </div>
         <Switch>
-          <Route path="/Lobby">
-            <Lobby/>
+          <Route path="/floor">
+            <Floor socket={socket} />
           </Route>
-          <Route path="/">
+          <Route path="/lobby">
+            <Lobby game={game} setGame={setGame} socket={socket} />
+          </Route>
+          <Route exact path="/">
             {
-              state.isAuthenticated
-                ? <Home />
+              userState.isAuthenticated
+                ? <Home game={game} setGame={setGame} socket={socket} setSocket={setSocket} />
                 : <Login />
             }
           </Route>

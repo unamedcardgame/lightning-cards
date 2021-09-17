@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const login = async (tokenId) => {
-  const response = await axios.get('/login', {
+  const response = await axios.get('/api/login', {
     headers: { Authorization: `bearer ${tokenId}` }
   })
   return response.status
