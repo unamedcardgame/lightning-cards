@@ -6,27 +6,36 @@ function setHandlers(io) {
 
     // Lobby handlers
     socket.on('join', data => {
-      socket.join(data.game.gameId)
+      const gameId = data.game.gameId
+      socket.join(gameId)
 
       // 'games' is a global variable declared in app.js
-      if (data.game.isHost) games[data.game.gameId].setHost(data.user.userId)
-      games[data.game.gameId].addPlayer(new Player(data.user.userId, socket.id))
+      if (data.game.isHost) games[gameId].setHost(data.user.userId)
+      // add player to game
+      games[gameId].addPlayer(new Player(data.user.userId, socket.id, data.user.name))
+
+      // send back a list of players in lobby to the new player
+      const playerNames = games[gameId]
+        .players
+        .map(p => p.name);
+      io.of('/games').to(socket.id).emit('player list', playerNames)
+
+
       // map google's userId to socket's internal id
       users[socket.id] = data.user.userId
 
       // tell the player he joined the game
       socket.emit('joined')
 
-      // TODO(Disha): emit a message to ALL players in the room that
-      // this player with this id has joined. For now do only id,
-      // for sending the name we'll do later.
-      // io.of('/games').emit or something like that
-      socket.to(data.game.gameId).emit('new player', { name: data.user.name })
+      // tell all the other players a new player has arrived
+      socket.to(gameId).emit('new player', { name: data.user.name })
     })
 
     // game action handlers
     socket.on('start game', (game) => {
       games[game.gameId].startGame()
+
+      io.of('/games').in(game.gameId).emit('begin')
     })
 
     socket.on('draw card', game => {

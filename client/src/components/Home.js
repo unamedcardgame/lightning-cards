@@ -22,7 +22,8 @@ const Home = ({ socket, setSocket, game, setGame }) => {
     setGame({
       ...game,
       id: gameId,
-      players: [...game.players, authState.user.name]
+      players: [...game.players, authState.user.name],
+      host: true,
     })
 
     // if game is created at backend successfully
@@ -46,8 +47,6 @@ const Home = ({ socket, setSocket, game, setGame }) => {
     } catch (e) {
       console.log(e.message)
     }
-
-    history.push('/floor')
   }
 
   const handleJoin = async (e) => {
@@ -65,6 +64,17 @@ const Home = ({ socket, setSocket, game, setGame }) => {
         tempSocket.emit('join', {
           game: { gameId: joinCode },
           user: { name: authState.user.name }
+        })
+
+        tempSocket.on('player list', (playerNames) => {
+          // set game data in FRONTEND state
+          setGame({
+            ...game,
+            id: joinCode,
+            players: [...playerNames],
+          })
+          console.log(playerNames)
+          history.push('/lobby')
         })
         setSocket(tempSocket) // set socket state
       }

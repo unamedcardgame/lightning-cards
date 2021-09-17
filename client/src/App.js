@@ -27,6 +27,7 @@ function App() {
   const [game, setGame] = useState({
     id: null,
     players: [],
+    host: false,
   })
 
   return (
@@ -40,7 +41,7 @@ function App() {
             <Floor socket={socket} />
           </Route>
           <Route path="/lobby">
-            <Lobby socket={socket} />
+            <Lobby game={game} setGame={setGame} socket={socket} />
           </Route>
           <Route exact path="/">
             {

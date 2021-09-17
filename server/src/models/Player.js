@@ -3,9 +3,11 @@ class Player {
   sid
   turn
   cards
-  constructor(gid, sid) {
+  name
+  constructor(gid, sid, name) {
     this.gid = gid
     this.sid = sid
+    this.name = name
     this.turn = false
     this.cards = []
   }
