@@ -1,15 +1,23 @@
 class Player {
-  id
+  gid
+  sid
   turn
   cards
-  constructor(id) {
-    this.id = id
+  name
+  constructor(gid, sid, name) {
+    this.gid = gid
+    this.sid = sid
+    this.name = name
     this.turn = false
     this.cards = []
   }
 
   isTurn() {
     return this.turn
+  }
+
+  set cards(deck) {
+    this.cards.push(...deck)
   }
 }
 

@@ -5,32 +5,45 @@ import { AuthContext } from '../contexts/AuthContext';
 import { Button } from 'react-bootstrap'
 import { io } from 'socket.io-client'
 import gameService from '../services/gameService';
+import { useHistory } from 'react-router';
 
-const Home = () => {
-  const { state: authState } = useContext(AuthContext)
+const Home = ({ socket, setSocket, game, setGame }) => {
+  const { userState: authState } = useContext(AuthContext)
   const [isJoinVisible, setisJoinVisible] = useState(false)
   const joinCodeInputRef = createRef()
-  const [socket, setSocket] = useState()
+  const history = useHistory()
 
   const handleCreate = async () => {
     // get game id from backend api
-    const response = await gameService.createGame(authState.user.id)
+    const response = await gameService.createGame()
     const gameId = response.data.gameId
+
+    // set game data in FRONTEND state
+    setGame({
+      ...game,
+      id: gameId,
+      players: [...game.players, authState.user.name],
+      host: true,
+    })
 
     // if game is created at backend successfully
     try {
       if (response.status === 201) {
         const tempSocket = io('/games')
-        console.log(gameId)
-        tempSocket.emit('join', { gameId, isHost: true })
+        tempSocket.emit('join', {
+          game: { gameId, isHost: true },
+          user: { userId: authState.user.id, name: authState.user.name },
+        })
 
         tempSocket.on('joined', () => {
           // TODO(Disha): transition to lobby page from here
           // use reactrouter's history.push('/lobby') or whatever
           console.log('joined successfully')
+          history.push('/lobby')
         })
+
         setSocket(tempSocket) // set socket state
-      } // TODO(): handle unsuccessful game creation
+      } // TODO(): fail gracefully on error
     } catch (e) {
       console.log(e.message)
     }
@@ -48,7 +61,21 @@ const Home = () => {
       const status = await gameService.joinGame(joinCode)
       if (status === 200) {
         console.log('joined')
-        tempSocket.emit('join', { gameId: joinCode })
+        tempSocket.emit('join', {
+          game: { gameId: joinCode },
+          user: { name: authState.user.name }
+        })
+
+        tempSocket.on('player list', (playerNames) => {
+          // set game data in FRONTEND state
+          setGame({
+            ...game,
+            id: joinCode,
+            players: [...playerNames],
+          })
+          console.log(playerNames)
+          history.push('/lobby')
+        })
         setSocket(tempSocket) // set socket state
       }
     } catch (e) {
@@ -77,7 +104,10 @@ const Home = () => {
             <input ref={joinCodeInputRef} style={{ display: isJoinVisible ? null : 'none' }} />
             <input type="submit" onClick={handleJoin} style={{ display: isJoinVisible ? null : 'none' }} />
           </form>
-          <Button onClick={() => socket.emit('get details')}>Deets</Button>
+          <Button onClick={() => {
+            console.log(socket)
+            socket.emit('get details')
+          }}>Deets</Button>
         </Col>
       </Row>
     </Container>
