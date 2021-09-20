@@ -3,15 +3,9 @@
 import Card from '@heruka_urgyen/react-playing-cards/lib/TcN'
 import { useState, useEffect, useRef, useContext } from 'react'
 import { Container } from 'react-bootstrap'
-import * as handpose from "@tensorflow-models/handpose";
 import Webcam from "react-webcam";
-import { drawHand } from "./utilities";
-import { loveYouGesture } from "./LoveYou";
-import { thumbsDownGesture } from "./thumbsdown";
 import * as fp from "fingerpose";
-import victory from "./victory.png";
-import thumbs_up from "./thumbs_up.png";
-import * as tf from "@tensorflow/tfjs";
+import Handsfree from 'handsfree'
 import { setCallbacks } from '../../services/socketService';
 import { AuthContext } from '../../contexts/AuthContext';
 
@@ -32,18 +26,23 @@ const Floor = ({ game, setGame, socket }) => {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
 
-  ///////// NEW STUFF ADDED STATE HOOK
-  const [emoji, setEmoji] = useState(null);
-  const images = { thumbs_up: thumbs_up, victory: victory };
-  ///////// NEW STUFF ADDED STATE HOOK
+  const runHandsfree = async () => {
+    const handsfree = new Handsfree({
+      hands: {
+        enabled: true,
+        // The maximum number of hands to detect [0 - 4]
+        maxNumHands: 1,
 
-  const runHandpose = async () => {
-    const net = await handpose.load();
-    console.log("Handpose model loaded.");
-    //  Loop and detect hands
-    setInterval(() => {
-      detect(net);
-    }, 10);
+        // Minimum confidence [0 - 1] for a hand to be considered detected
+        minDetectionConfidence: 0.7,
+
+        // Minimum confidence [0 - 1] for the landmark tracker to be considered detected
+        // Higher values are more robust at the expense of higher latency
+        minTrackingConfidence: 0.5
+      }
+    })
+
+    handsfree.start()
   };
 
   const detect = async (net) => {
@@ -79,9 +78,9 @@ const Floor = ({ game, setGame, socket }) => {
           loveYouGesture,
           thumbsDownGesture
         ]);
+        console.log(hand[0].landmarks)
         const gesture = await GE.estimate(hand[0].landmarks, 4);
         if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
-          console.log(gesture.gestures);
 
           const confidence = gesture.gestures.map(
             (prediction) => prediction.confidence
@@ -91,7 +90,6 @@ const Floor = ({ game, setGame, socket }) => {
           );
           // console.log(gesture.gestures[maxConfidence].name);
           setEmoji(gesture.gestures[maxConfidence].name);
-          console.log(emoji);
         }
       }
 
@@ -103,7 +101,7 @@ const Floor = ({ game, setGame, socket }) => {
     }
   };
 
-  useEffect(() => { runHandpose() }, []);
+  useEffect(() => { runHandsfree() }, []);
 
   return (
     <Container fluid className="h-100">
