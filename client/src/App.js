@@ -9,6 +9,7 @@ import userReducer from './reducers/UserReducer';
 import { AuthContext } from './contexts/AuthContext';
 import Floor from './components/game/Floor';
 import Lobby from './components/Lobby'
+import { Navbar, Nav, Container } from 'react-bootstrap'
 
 const initialState = {
   isAuthenticated: false,
@@ -33,13 +34,26 @@ function App() {
   return (
     <AuthContext.Provider value={{ userState, dispatch }}>
       <div className="main d-flex flex-column">
-        <div className="d-flex justify-content-end">
-          {
-            userState.isAuthenticated
-              ? <Logout />
-              : ""
-          }
-        </div>
+        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+          <Container>
+            <Navbar.Brand href="/">Welcome To Lightning Cards</Navbar.Brand>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="ms-auto">
+                <Nav.Link href="/">
+                  How To Play ?
+                </Nav.Link>
+                <div className="d-flex">
+                  {
+                    userState.isAuthenticated
+                      ? <Logout />
+                      : ""
+                  }
+                </div>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
         <Switch>
           <Route path="/floor">
             <Floor game={game} setGame={setGame} socket={socket} />
