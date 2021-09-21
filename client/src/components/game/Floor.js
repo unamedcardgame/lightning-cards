@@ -5,10 +5,11 @@ import { useState, useEffect, useRef, useContext } from 'react'
 import { Container } from 'react-bootstrap'
 import { setCallbacks } from '../../services/socketService';
 import { AuthContext } from '../../contexts/AuthContext';
-import * as mp from '@mediapipe/hands'
-import * as mpCameraUtils from '@mediapipe/camera_utils'
-import * as mpDrawingUtils from '@mediapipe/drawing_utils'
-import * as fp from 'fingerpose'
+import { Hands } from '@mediapipe/hands'
+import { Camera } from '@mediapipe/camera_utils'
+import { drawLandmarks } from '@mediapipe/drawing_utils'
+import { GestureEstimator } from 'fingerpose'
+import { gestures } from '../../services/fingerpose/fingerposeService'
 
 const Floor = ({ game, setGame, socket }) => {
   const { userState: authState } = useContext(AuthContext)
@@ -36,28 +37,33 @@ const Floor = ({ game, setGame, socket }) => {
       results.image, 0, 0, canvasRef.current.width, canvasRef.current.height);
     if (results.multiHandLandmarks) {
       for (const landmarks of results.multiHandLandmarks) {
-        /*         mpDrawingUtils.drawConnectors(ctx, landmarks, mp.HAND_CONNECTIONS,
-                  { color: '#00FF00', lineWidth: 5 }); */
-        mpDrawingUtils.drawLandmarks(ctx, landmarks, { color: '#FF0000', lineWidth: 2 });
+        drawLandmarks(ctx, landmarks, { color: '#FF0000', lineWidth: 2 });
+
+        // conv landmarks for fp
+        for (let f in landmarks) {
+          landmarks[f] = Object.values(landmarks[f]).map((e, i) => i < 3 ? e * 1000 : null)
+        }
+
         const estimatedGestures = GE.estimate(landmarks, 7.5);
-        console.log(estimatedGestures)
+        console.log(estimatedGestures.gestures[0])
       }
     }
     ctx.restore();
   }
 
+  // create a canvas and initialise gesture estimators
   useEffect(() => {
     setCtx(canvasRef.current.getContext('2d'))
-    setGE(new fp.GestureEstimator([
-      fp.Gestures.VictoryGesture,
-      fp.Gestures.ThumbsUpGesture
-    ]))
+    setGE(new GestureEstimator(
+      gestures
+    ))
   }, [])
 
 
+  // initialise mediapipe
   useEffect(() => {
     if (ctx) {
-      const hands = new mp.Hands({
+      const hands = new Hands({
         locateFile: (file) => {
           return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
         }
@@ -69,7 +75,7 @@ const Floor = ({ game, setGame, socket }) => {
       });
       hands.onResults(onResults);
 
-      const camera = new mpCameraUtils.Camera(videoRef.current, {
+      const camera = new Camera(videoRef.current, {
         onFrame: async () => {
           await hands.send({ image: videoRef.current });
         },

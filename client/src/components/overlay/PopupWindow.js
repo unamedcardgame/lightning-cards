@@ -21,7 +21,7 @@ function Popup(props) {
       <Modal.Body>
         
         <p>
-          {props.Text}
+          {props.text}
         </p>
       </Modal.Body>
       <Modal.Footer>
