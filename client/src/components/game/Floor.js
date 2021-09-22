@@ -1,158 +1,113 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import Card from '@heruka_urgyen/react-playing-cards/lib/TcN'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useContext } from 'react'
 import { Container } from 'react-bootstrap'
-import * as handpose from "@tensorflow-models/handpose";
-import Webcam from "react-webcam";
-import { drawHand } from "./utilities";
-import { loveYouGesture } from "./LoveYou";
-import { thumbsDownGesture } from "./thumbsdown";
-import * as fp from "fingerpose";
-import victory from "./victory.png";
-import thumbs_up from "./thumbs_up.png";
-import * as tf from "@tensorflow/tfjs";
 import { setCallbacks } from '../../services/socketService';
+import { AuthContext } from '../../contexts/AuthContext';
+import { Hands } from '@mediapipe/hands'
+import { Camera } from '@mediapipe/camera_utils'
+import { drawLandmarks } from '@mediapipe/drawing_utils'
+import { GestureEstimator } from 'fingerpose'
+import { gestures } from '../../services/fingerpose/fingerposeService'
 
-const Floor = ({ socket }) => {
+const Floor = ({ game, setGame, socket }) => {
+  const { userState: authState } = useContext(AuthContext)
+  const [drawPile, setDrawPile] = useState([])
+  const [ctx, setCtx] = useState(null)
+  const [GE, setGE] = useState(null)
+
+  const videoRef = useRef()
+  const canvasRef = useRef()
 
   useEffect(() => {
-    setCallbacks(socket)
+    setCallbacks(socket, setDrawPile)
+    console.log(game.cards)
   }, [socket])
 
   const drawCard = () => {
+    console.log(socket.id)
+    socket.emit('draw card', { sid: socket.id, gameId: game.id })
   }
 
-  const webcamRef = useRef(null);
-  const canvasRef = useRef(null);
+  const onResults = (results) => {
+    ctx.save();
+    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+    ctx.drawImage(
+      results.image, 0, 0, canvasRef.current.width, canvasRef.current.height);
+    if (results.multiHandLandmarks) {
+      for (const landmarks of results.multiHandLandmarks) {
+        drawLandmarks(ctx, landmarks, { color: '#FF0000', lineWidth: 2 });
 
-  ///////// NEW STUFF ADDED STATE HOOK
-  const [emoji, setEmoji] = useState(null);
-  const images = { thumbs_up: thumbs_up, victory: victory };
-  ///////// NEW STUFF ADDED STATE HOOK
-
-  const runHandpose = async () => {
-    const net = await handpose.load();
-    console.log("Handpose model loaded.");
-    //  Loop and detect hands
-    setInterval(() => {
-      detect(net);
-    }, 10);
-  };
-
-  const detect = async (net) => {
-    // Check data is available
-    if (
-      typeof webcamRef.current !== "undefined" &&
-      webcamRef.current !== null &&
-      webcamRef.current.video.readyState === 4
-    ) {
-      // Get Video Properties
-      const video = webcamRef.current.video;
-      const videoWidth = webcamRef.current.video.videoWidth;
-      const videoHeight = webcamRef.current.video.videoHeight;
-
-      // Set video width
-      webcamRef.current.video.width = videoWidth;
-      webcamRef.current.video.height = videoHeight;
-
-      // Set canvas height and width
-      canvasRef.current.width = videoWidth;
-      canvasRef.current.height = videoHeight;
-
-      // Make Detections
-      const hand = await net.estimateHands(video);
-      // console.log(hand);
-
-      ///////// NEW STUFF ADDED GESTURE HANDLING
-
-      if (hand.length > 0) {
-        const GE = new fp.GestureEstimator([
-          fp.Gestures.VictoryGesture,
-          fp.Gestures.ThumbsUpGesture,
-          loveYouGesture,
-          thumbsDownGesture
-        ]);
-        const gesture = await GE.estimate(hand[0].landmarks, 4);
-        if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
-          console.log(gesture.gestures);
-
-          const confidence = gesture.gestures.map(
-            (prediction) => prediction.confidence
-          );
-          const maxConfidence = confidence.indexOf(
-            Math.max.apply(null, confidence)
-          );
-          // console.log(gesture.gestures[maxConfidence].name);
-          setEmoji(gesture.gestures[maxConfidence].name);
-          console.log(emoji);
+        // conv landmarks for fp
+        for (let f in landmarks) {
+          landmarks[f] = Object.values(landmarks[f]).map((e, i) => i < 3 ? e * 1000 : null)
         }
+
+        const estimatedGestures = GE.estimate(landmarks, 7.5);
+        console.log(estimatedGestures.gestures[0])
       }
-
-      ///////// NEW STUFF ADDED GESTURE HANDLING
-
-      // Draw mesh
-      const ctx = canvasRef.current.getContext("2d");
-      drawHand(hand, ctx);
     }
-  };
+    ctx.restore();
+  }
 
-  useEffect(() => { runHandpose() }, []);
+  // create a canvas and initialise gesture estimators
+  useEffect(() => {
+    setCtx(canvasRef.current.getContext('2d'))
+    setGE(new GestureEstimator(
+      gestures
+    ))
+  }, [])
+
+
+  // initialise mediapipe
+  useEffect(() => {
+    if (ctx) {
+      const hands = new Hands({
+        locateFile: (file) => {
+          return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+        }
+      });
+      hands.setOptions({
+        maxNumHands: 1,
+        minDetectionConfidence: 0.8,
+        minTrackingConfidence: 0.5
+      });
+      hands.onResults(onResults);
+
+      const camera = new Camera(videoRef.current, {
+        onFrame: async () => {
+          await hands.send({ image: videoRef.current });
+        },
+        width: 1280,
+        height: 720
+      });
+      camera.start();
+    }
+  }, [ctx])
+
 
   return (
     <Container fluid className="h-100">
-      <div className="" onClick={drawCard}>
-        <Card card={'2c'} height={'6em'} />
+      <div className="table">
+        {
+          game.players
+            .map((p, i) => {
+              return (
+                <div key={i} onClick={drawCard}>
+                  <Card back card={'2c'} height={'6em'} />
+                  <p style={{ color: 'white' }}>{p}</p>
+                </div>
+              )
+            })
+        }
       </div>
-      <div className="header">
-        <Webcam
-          ref={webcamRef}
-          style={{
-            position: "absolute",
-            marginLeft: "auto",
-            marginRight: "auto",
-            left: 0,
-            right: 0,
-            textAlign: "center",
-            zindex: 9,
-            width: 640,
-            height: 480,
-          }}
-        />
-
-        <canvas
-          ref={canvasRef}
-          style={{
-            position: "absolute",
-            marginLeft: "auto",
-            marginRight: "auto",
-            left: 0,
-            right: 0,
-            textAlign: "center",
-            zindex: 9,
-            width: 640,
-            height: 480,
-          }}
-        />
-        {/* NEW STUFF */}
-        {emoji !== null ? (
-          <img
-            alt="gesture"
-            src={images[emoji]}
-            style={{
-              position: "absolute",
-              marginLeft: "auto",
-              marginRight: "auto",
-              left: 400,
-              bottom: 500,
-              right: 0,
-              textAlign: "center",
-              height: 100,
-            }}
-          />
-        ) : (
-          ""
-        )}
+      <div className="drawpile">
+        <Card card={drawPile} height={'6em'} />
+      </div>
+      <div className="container">
+        <video style={{ display: 'none' }} ref={videoRef} className="input_video"></video>
+        <canvas ref={canvasRef} className="output_canvas" width="1280px" height="720px"></canvas>
       </div>
     </Container>
   )

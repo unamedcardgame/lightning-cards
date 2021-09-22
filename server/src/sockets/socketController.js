@@ -38,8 +38,17 @@ function setHandlers(io) {
       io.of('/games').in(game.gameId).emit('begin')
     })
 
-    socket.on('draw card', game => {
+    socket.on('draw card', user => {
+      const { sid, gameId } = user
 
+      // validate whether sid === current player's turn ka sid
+
+      // get sid's top card
+      const card = games[gameId].players
+        .find(p => p.sid === sid)
+        .cards
+        .splice(0, 1)[0]
+      io.of('/games').in(gameId).emit('draw pile', { card })
     })
 
     // Debug handler

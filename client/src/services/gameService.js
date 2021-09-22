@@ -20,9 +20,21 @@ const joinGame = async (gameId) => {
   return status
 }
 
+const getCards = async (gameId) => {
+  let status
+  try {
+    ({ status } = await axios.post('/api/cards', { gameId }))
+  } catch (e) {
+    throw new Error(e.response.data.error)
+  }
+
+  return status
+}
+
 const gameService = {
   createGame,
   joinGame,
+  getCards,
 }
 
 export default gameService

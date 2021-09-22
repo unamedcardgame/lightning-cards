@@ -1,12 +1,11 @@
 import Login from './auth/Login';
 import { createRef, useContext, useState } from 'react';
-import { Container, Row, Col } from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 import { AuthContext } from '../contexts/AuthContext';
 import { Button } from 'react-bootstrap'
 import { io } from 'socket.io-client'
 import gameService from '../services/gameService';
 import { useHistory } from 'react-router';
-import gameBG from "../Images/purpleBG1.jpg";
 
 const Home = ({ socket, setSocket, game, setGame }) => {
   const { userState: authState } = useContext(AuthContext)
@@ -91,16 +90,8 @@ const Home = ({ socket, setSocket, game, setGame }) => {
   }
 
   return (
-    <div
-        class="bg_image"
-        style={{
-          backgroundImage: 'url('+gameBG+')',
-          backgroundSize: "cover",
-          height: "100vh",
-          color: "#f5f5f5"
-        }} >
-    <Container fluid className="h-100">
-      <Row className="justify-content-center align-items-center h-100">
+    <div className="h-100">
+      <Row className="m-auto justify-content-center align-items-center h-100">
         <Col className="col-auto text-center">
           <p>welcome {authState?.user.name} !</p>
           <Button onClick={handleCreate} className="d-inline">create game</Button>
@@ -119,7 +110,6 @@ const Home = ({ socket, setSocket, game, setGame }) => {
           }}>Deets</Button>
         </Col>
       </Row>
-    </Container>
     </div>
   )
 }

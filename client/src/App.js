@@ -1,14 +1,15 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Switch, Route } from 'react-router-dom'
-import Home from './Components/Home'
-import Login from './Components/auth/Login'
-import Logout from './Components/auth/Logout';
+import Home from './components/Home'
+import Login from './components/auth/Login'
+import Logout from './components/auth/Logout';
 import { useReducer, useState } from 'react';
 import userReducer from './reducers/UserReducer';
 import { AuthContext } from './contexts/AuthContext';
-import Floor from './Components/game/Floor';
-import Lobby from './Components/Lobby'
+import Floor from './components/game/Floor';
+import Lobby from './components/Lobby'
+import { Navbar, Nav, Container } from 'react-bootstrap'
 
 const initialState = {
   isAuthenticated: false,
@@ -33,16 +34,29 @@ function App() {
   return (
     <AuthContext.Provider value={{ userState, dispatch }}>
       <div className="main d-flex flex-column">
-        <div className="d-flex justify-content-end">
-            {
-              userState.isAuthenticated
-                ? <Logout />
-                : ""
-            }
-        </div>
+        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+          <Container>
+            <Navbar.Brand href="/">Welcome To Lightning Cards</Navbar.Brand>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="ms-auto">
+                <Nav.Link href="/">
+                  How To Play ?
+                </Nav.Link>
+                <div className="d-flex">
+                  {
+                    userState.isAuthenticated
+                      ? <Logout />
+                      : ""
+                  }
+                </div>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
         <Switch>
           <Route path="/floor">
-            <Floor socket={socket} />
+            <Floor game={game} setGame={setGame} socket={socket} />
           </Route>
           <Route path="/lobby">
             <Lobby game={game} setGame={setGame} socket={socket} />
