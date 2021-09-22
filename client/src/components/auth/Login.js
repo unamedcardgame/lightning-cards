@@ -42,7 +42,7 @@ const Login = () => {
           cookiePolicy={'single_host_origin'}
           isSignedIn={true}
           render={renderProps => (
-            <button type="button" style={{
+            <button onClick={renderProps.onClick} disabled={renderProps.disabled} type="button" style={{
               backgroundColor: 'rgb(152, 139, 213)', display: 'inline-flex', alignItems: 'center', color: 'rgba(0, 0, 0, 0.54)', boxShadow: 'rgba(0, 0, 0, 0.24) 0px 2px 2px 0px, rgba(0, 0, 0, 0.24) 0px 0px 1px 0px', padding: '0px', borderRadius: '2px', border: '1px solid transparent', fontSize: '14px', fontWeight: '500', fontFamily: 'Roboto, sans-serif'
             }}>
               <div style={{ marginRight: '10px', background: 'rgb(215,215,230)', padding: '10px', borderRadius: '2px' }}>
