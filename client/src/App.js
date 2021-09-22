@@ -16,7 +16,7 @@ const initialState = {
   /*
     Structure of user
     email
-    id
+    userId
     name
   */
   user: null,
@@ -27,7 +27,7 @@ function App() {
   const [socket, setSocket] = useState(null)
   const [game, setGame] = useState({
     id: null,
-    players: [],
+    players: [], // TODO(): currently contains ONLY user.name. also add user.i
     host: false,
   })
 

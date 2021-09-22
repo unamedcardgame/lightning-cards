@@ -19,7 +19,7 @@ const Lobby = ({ socket, game, setGame }) => {
 
       setModalShow(true)
 
-      setGame({ ...game, players: [...game.players, user.name] })
+      setGame({ ...game, players: [...game.players, user.name] }) // TODO(): get authstate context and put userId
     })
 
     // on cards ready handler

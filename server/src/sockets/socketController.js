@@ -42,6 +42,7 @@ function setHandlers(io) {
       const { sid, gameId } = user
 
       // validate whether sid === current player's turn ka sid
+      // games[gameId].currentTurn === sid
 
       // get sid's top card
       const card = games[gameId].players

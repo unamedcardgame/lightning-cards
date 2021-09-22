@@ -26,7 +26,9 @@ const Floor = ({ game, setGame, socket }) => {
   }, [socket])
 
   const drawCard = () => {
+    //p.userId === authState.userId
     console.log(socket.id)
+    // action draw card
     socket.emit('draw card', { sid: socket.id, gameId: game.id })
   }
 
@@ -95,7 +97,7 @@ const Floor = ({ game, setGame, socket }) => {
             .map((p, i) => {
               return (
                 <div key={i} onClick={drawCard}>
-                  <Card back card={'2c'} height={'6em'} />
+                  <Card back height={'6em'} />
                   <p style={{ color: 'white' }}>{p}</p>
                 </div>
               )
