@@ -1,5 +1,10 @@
 const Player = require("../models/Player")
 
+/*
+  Namespace - /games, /comms
+  Rooms - /[some_game_id]
+*/
+
 function setHandlers(io) {
   // main handler
   io.of('/games').on('connection', socket => {
