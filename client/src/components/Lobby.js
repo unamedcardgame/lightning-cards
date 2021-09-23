@@ -1,10 +1,8 @@
+import { Row, Col, Button } from 'react-bootstrap'
 import { useEffect } from "react"
-import { Button } from 'react-bootstrap'
 import { useHistory } from "react-router"
-
 import Popup from "./overlay/PopupWindow";
 import React, { useState } from 'react';
-
 import gameService from "../services/gameService"
 
 
@@ -38,35 +36,34 @@ const Lobby = ({ socket, game, setGame }) => {
     gameService.getCards(game.id)
     // tell backend to start game via sockets
     socket.emit('start game', { gameId: game.id })
-
   }
 
   return (
-    <div>
-      <ol>
-        Players List
-        {game.players.map((p, i) => <li key={i}>{p}</li>)}
+    <Row className="m-auto justify-content-center align-items-center h-100">
+      <Col className="col-auto text-center">
+        <ol>
+          <strong><p>Players</p></strong>
+          {game.players.map((p, i) => <li key={i}>{p}</li>)}
 
-      </ol>
-      {
-        game.host
-          ? <div>
-            <ol>
-              <Button className="d-block mb-2" onClick={startGame}>Begin</Button>
-              <Button variant="primary" onClick={() => setModalShow(true)}>
-                Game Id
-              </Button>
-              <Popup text={game.id}
-                show={modalShow}
-                onHide={() => setModalShow(false)}
-              />
-            </ol>
-          </div>
-
-          : null
-      }
-
-    </div>
+        </ol>
+        <Row className="justify-content-center">
+          {
+            game.host
+              ? <Button className="" onClick={startGame}>Begin</Button>
+              : null
+          }
+        </Row>
+        <Row className="justify-content-center">
+          <Button className="mt-2" variant="primary" onClick={() => setModalShow(true)}>
+            Game Id
+          </Button>
+          <Popup text={game.id}
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+          />
+        </Row>
+      </Col>
+    </Row>
   )
 }
 

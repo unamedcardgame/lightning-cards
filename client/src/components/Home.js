@@ -16,7 +16,6 @@ const Home = ({ setSocket, game, setGame }) => {
   const history = useHistory()
 
   const handleCreate = async () => {
-
     // if game is created at backend successfully
     try {
       // get game id from backend api
@@ -94,23 +93,21 @@ const Home = ({ setSocket, game, setGame }) => {
   }
 
   return (
-    <div className="h-100">
-      <Row className="m-auto justify-content-center align-items-center h-100">
-        <Col className="col-auto text-center">
-          <Popup text={popupConfig.msg}
-            show={popupConfig.show}
-            onHide={() => setPopupConfig({ ...popupConfig, show: false })}
-          />
-          <p>welcome {authState?.user.name} !</p>
-          <Button onClick={handleCreate} className="d-inline">create game</Button>
-          <Button onClick={() => setisJoinVisible(true)} className="d-inline" style={{ marginLeft: '1em' }}>join game</Button>
-          <form>
-            <input ref={joinCodeInputRef} style={{ display: isJoinVisible ? null : 'none' }} />
-            <input type="submit" onClick={handleJoin} style={{ display: isJoinVisible ? null : 'none' }} />
-          </form>
-        </Col>
-      </Row>
-    </div>
+    <Row className="m-auto justify-content-center align-items-center h-100">
+      <Col className="col-auto text-center">
+        <Popup text={popupConfig.msg}
+          show={popupConfig.show}
+          onHide={() => setPopupConfig({ ...popupConfig, show: false })}
+        />
+        <p>welcome {authState?.user.name} !</p>
+        <Button onClick={handleCreate} className="d-inline">create game</Button>
+        <Button onClick={() => setisJoinVisible(true)} className="d-inline" style={{ marginLeft: '1em' }}>join game</Button>
+        <form>
+          <input ref={joinCodeInputRef} style={{ display: isJoinVisible ? null : 'none' }} />
+          <input type="submit" onClick={handleJoin} style={{ display: isJoinVisible ? null : 'none' }} />
+        </form>
+      </Col>
+    </Row>
   )
 }
 
