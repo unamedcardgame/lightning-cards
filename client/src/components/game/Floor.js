@@ -18,6 +18,10 @@ const Floor = ({ game, setGame, socket }) => {
     console.log(game.cards)
   }, [socket])
 
+  useEffect(() => {
+    hands.initialiseCanvasAndGE()
+  }, [])
+
   const drawCard = () => {
     //p.userId === authState.userId
     console.log(socket.id)

@@ -10,31 +10,41 @@ export const useHands = () => {
     const [GE, setGE] = useState(null)
     const canvasRef = useRef()
     const videoRef = useRef()
+    const [loaded, setLoaded] = useState(false)
+    const handsRef = useRef(
+        new Hands({
+            locateFile: (file) => {
+                console.log('FILE: ', file)
+                return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+            }
+        })
+    )
+
+    useEffect(() => {
+        handsRef.current.setOptions({
+            maxNumHands: 1,
+            minDetectionConfidence: 0.8,
+            minTrackingConfidence: 0.5
+        });
+        handsRef.current.initialize().then(success => setLoaded(true))
+    }, [])
+
 
     // create a canvas and initialise fingerpose gesture estimators
-    useEffect(() => {
+    const initialiseCanvasAndGE = () => {
         setCtx(canvasRef.current.getContext('2d'))
         setGE(new GestureEstimator(
             gestures
         ))
-    }, [])
+    }
 
+    const closeHands = () => {
+        handsRef.current.close()
+    }
 
     // initialise mediapipe
     useEffect(() => {
         if (GE && ctx) {
-            const hands = new Hands({
-                locateFile: (file) => {
-                    console.log('FILE: ', file)
-                    return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
-                }
-            });
-            hands.setOptions({
-                maxNumHands: 1,
-                minDetectionConfidence: 0.8,
-                minTrackingConfidence: 0.5
-            });
-            console.log(hands)
             const onResults = (results) => {
                 ctx.save();
                 ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
@@ -55,11 +65,11 @@ export const useHands = () => {
                 }
                 ctx.restore();
             }
-            hands.onResults(onResults)
+            handsRef.current.onResults(onResults)
 
             const camera = new Camera(videoRef.current, {
                 onFrame: async () => {
-                    await hands.send({ image: videoRef.current });
+                    await handsRef.current.send({ image: videoRef.current });
                 },
                 width: 1280,
                 height: 720
@@ -69,9 +79,12 @@ export const useHands = () => {
     }, [ctx, GE])
 
     return {
+        initialiseCanvasAndGE,
         ctx, setCtx,
         GE, setGE,
         canvasRef,
         videoRef,
+        closeHands,
+        loaded,
     }
 }

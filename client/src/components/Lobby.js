@@ -4,11 +4,13 @@ import { useHistory } from "react-router"
 import Popup from "./overlay/PopupWindow";
 import React, { useState } from 'react';
 import gameService from "../services/gameService"
+import { useHands } from '../hooks/useHands';
 
 
 const Lobby = ({ socket, game, setGame }) => {
   const [modalShow, setModalShow] = useState(false);
   const history = useHistory()
+  const hands = useHands()
 
   // socket listeners
   useEffect(() => {
@@ -30,12 +32,9 @@ const Lobby = ({ socket, game, setGame }) => {
     })
   })
 
-  // load hands scripts
-  useEffect(() => {
-    
-  }, [])
-
   const startGame = () => {
+    // close hands (not sure if necessary, but safety and whatnot)
+    hands.closeHands()
     // create cards at the backend
     gameService.getCards(game.id)
     // tell backend to start game via sockets
@@ -53,7 +52,7 @@ const Lobby = ({ socket, game, setGame }) => {
         <Row className="justify-content-center">
           {
             game.host
-              ? <Button className="" onClick={startGame}>Begin</Button>
+              ? <Button disabled={!hands.loaded} className="" onClick={startGame}>{hands.loaded ? 'Begin' : 'Loading assets, please wait'}</Button>
               : null
           }
         </Row>
