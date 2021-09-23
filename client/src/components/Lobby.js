@@ -31,7 +31,7 @@ const Lobby = ({ socket, game, setGame }) => {
     socket.on('begin', () => {
       history.push('/floor')
     })
-  }, [game, history, setGame, socket])
+  })
 
   const startGame = () => {
     // create cards at the backend

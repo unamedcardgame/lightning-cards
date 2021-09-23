@@ -31,6 +31,8 @@ function App() {
     host: false,
   })
 
+  console.log('us', userState)
+
   return (
     <AuthContext.Provider value={{ userState, dispatch }}>
       <div className="main d-flex flex-column">
@@ -61,7 +63,7 @@ function App() {
           <Route path="/lobby">
             <Lobby game={game} setGame={setGame} socket={socket} />
           </Route>
-          <Route exact path="/">
+          <Route path="/">
             {
               userState.isAuthenticated
                 ? <Home game={game} setGame={setGame} socket={socket} setSocket={setSocket} />

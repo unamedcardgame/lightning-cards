@@ -8,7 +8,7 @@ import gameService from '../services/gameService';
 import { useHistory } from 'react-router';
 import Popup from './overlay/PopupWindow'
 
-const Home = ({ socket, setSocket, game, setGame }) => {
+const Home = ({ setSocket, game, setGame }) => {
   const { userState: authState } = useContext(AuthContext)
   const [isJoinVisible, setisJoinVisible] = useState(false)
   const [popupConfig, setPopupConfig] = useState({ show: false })
