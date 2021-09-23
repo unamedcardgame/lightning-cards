@@ -6,29 +6,30 @@ import { Button } from 'react-bootstrap'
 import { io } from 'socket.io-client'
 import gameService from '../services/gameService';
 import { useHistory } from 'react-router';
+import Popup from './overlay/PopupWindow'
 
 const Home = ({ socket, setSocket, game, setGame }) => {
   const { userState: authState } = useContext(AuthContext)
   const [isJoinVisible, setisJoinVisible] = useState(false)
+  const [popupConfig, setPopupConfig] = useState({ show: false })
   const joinCodeInputRef = createRef()
-  // const [socket, setSocket] = useState()
   const history = useHistory()
 
   const handleCreate = async () => {
-    // get game id from backend api
-    const response = await gameService.createGame()
-    const gameId = response.data.gameId
-
-    // set game data in FRONTEND state
-    setGame({
-      ...game,
-      id: gameId,
-      players: [...game.players, authState.user.name],
-      host: true,
-    })
 
     // if game is created at backend successfully
     try {
+      // get game id from backend api
+      const response = await gameService.createGame()
+      const gameId = response.data.gameId
+
+      // set game data in FRONTEND state
+      setGame({
+        ...game,
+        id: gameId,
+        players: [...game.players, authState.user.name],
+        host: true,
+      })
       if (response.status === 201) {
         const tempSocket = io('/games')
         tempSocket.emit('join', {
@@ -45,7 +46,10 @@ const Home = ({ socket, setSocket, game, setGame }) => {
         setSocket(tempSocket) // set socket state
       } // TODO(): fail gracefully on error
     } catch (e) {
-      console.log(e.message)
+      setPopupConfig({
+        msg: 'Error creating game at backend, please try again later',
+        show: true
+      })
     }
   }
 
@@ -93,14 +97,14 @@ const Home = ({ socket, setSocket, game, setGame }) => {
     <div className="h-100">
       <Row className="m-auto justify-content-center align-items-center h-100">
         <Col className="col-auto text-center">
+          <Popup text={popupConfig.msg}
+            show={popupConfig.show}
+            onHide={() => setPopupConfig({ ...popupConfig, show: false })}
+          />
           <p>welcome {authState?.user.name} !</p>
           <Button onClick={handleCreate} className="d-inline">create game</Button>
           <Button onClick={() => setisJoinVisible(true)} className="d-inline" style={{ marginLeft: '1em' }}>join game</Button>
           <form>
-            {
-              // TODO(Disha): Ew, make these inputs pretty and aligned (we're
-              // using react-bootstrap)
-            }
             <input ref={joinCodeInputRef} style={{ display: isJoinVisible ? null : 'none' }} />
             <input type="submit" onClick={handleJoin} style={{ display: isJoinVisible ? null : 'none' }} />
           </form>

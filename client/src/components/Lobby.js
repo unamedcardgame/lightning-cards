@@ -50,14 +50,17 @@ const Lobby = ({ socket, game, setGame }) => {
       </ol>
       {
         game.host
-          ? <div><ol><Button onClick={startGame}>Begin</Button></ol>
-            <ol><Button variant="primary" onClick={() => setModalShow(true)}>
-              Game Id
-            </Button>
+          ? <div>
+            <ol>
+              <Button className="d-block mb-2" onClick={startGame}>Begin</Button>
+              <Button variant="primary" onClick={() => setModalShow(true)}>
+                Game Id
+              </Button>
               <Popup text={game.id}
                 show={modalShow}
                 onHide={() => setModalShow(false)}
-              /></ol>
+              />
+            </ol>
           </div>
 
           : null
