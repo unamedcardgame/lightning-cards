@@ -34,8 +34,8 @@ function App() {
 
   return (
     <AuthContext.Provider value={{ userState, dispatch }}>
-      <NavigationBar userState={userState} />
       <div className="main d-flex flex-column">
+        <NavigationBar userState={userState} />
         <Switch>
           <Route path="/floor">
             <Floor game={game} setGame={setGame} socket={socket} />
