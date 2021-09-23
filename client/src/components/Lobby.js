@@ -1,23 +1,22 @@
+import { Row, Col, Button } from 'react-bootstrap'
 import { useEffect } from "react"
-import { Button } from 'react-bootstrap'
 import { useHistory } from "react-router"
-
 import Popup from "./overlay/PopupWindow";
 import React, { useState } from 'react';
-
 import gameService from "../services/gameService"
+import { useHands } from '../hooks/useHands';
 
 
 const Lobby = ({ socket, game, setGame }) => {
   const [modalShow, setModalShow] = useState(false);
   const history = useHistory()
+  const hands = useHands()
 
+  // socket listeners
   useEffect(() => {
     // new player socket handler
     socket.on('new player', (user) => {
       console.log(user.name, 'joined !')
-
-      setModalShow(true)
 
       setGame({ ...game, players: [...game.players, user.name] }) // TODO(): get authstate context and put userId
     })
@@ -31,39 +30,43 @@ const Lobby = ({ socket, game, setGame }) => {
     socket.on('begin', () => {
       history.push('/floor')
     })
-  }, [game, history, setGame, socket])
+  })
 
   const startGame = () => {
+    // close hands (not sure if necessary, but safety and whatnot)
+    hands.closeHands()
     // create cards at the backend
     gameService.getCards(game.id)
     // tell backend to start game via sockets
     socket.emit('start game', { gameId: game.id })
-
   }
 
   return (
-    <div>
-      <ol>
-        Players List
-        {game.players.map((p, i) => <li key={i}>{p}</li>)}
+    <Row className="m-auto justify-content-center align-items-center h-100">
+      <Col className="col-auto text-center">
+        <ol>
+          <strong><p>Players</p></strong>
+          {game.players.map((p, i) => <li key={i}>{p}</li>)}
 
-      </ol>
-      {
-        game.host
-          ? <div><ol><Button onClick={startGame}>Begin</Button></ol>
-            <ol><Button variant="primary" onClick={() => setModalShow(true)}>
-              Game Id
-            </Button>
-              <Popup text={game.id}
-                show={modalShow}
-                onHide={() => setModalShow(false)}
-              /></ol>
-          </div>
-
-          : null
-      }
-
-    </div>
+        </ol>
+        <Row className="justify-content-center">
+          {
+            game.host
+              ? <Button disabled={!hands.loaded} className="" onClick={startGame}>{hands.loaded ? 'Begin' : 'Loading assets, please wait'}</Button>
+              : null
+          }
+        </Row>
+        <Row className="justify-content-center">
+          <Button className="mt-2" variant="primary" onClick={() => setModalShow(true)}>
+            Game Id
+          </Button>
+          <Popup text={game.id}
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+          />
+        </Row>
+      </Col>
+    </Row>
   )
 }
 
