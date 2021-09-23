@@ -3,13 +3,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Switch, Route } from 'react-router-dom'
 import Home from './components/Home'
 import Login from './components/auth/Login'
-import Logout from './components/auth/Logout';
 import { useReducer, useState } from 'react';
 import userReducer from './reducers/UserReducer';
 import { AuthContext } from './contexts/AuthContext';
 import Floor from './components/game/Floor';
 import Lobby from './components/Lobby'
-import { Navbar, Nav, Container } from 'react-bootstrap'
+import NavigationBar from './components/Navbar';
 
 const initialState = {
   isAuthenticated: false,
@@ -35,27 +34,8 @@ function App() {
 
   return (
     <AuthContext.Provider value={{ userState, dispatch }}>
+      <NavigationBar userState={userState} />
       <div className="main d-flex flex-column">
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-          <Container>
-            <Navbar.Brand href="/">Welcome To Lightning Cards</Navbar.Brand>
-            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-            <Navbar.Collapse id="responsive-navbar-nav">
-              <Nav className="ms-auto">
-                <Nav.Link href="/">
-                  How To Play ?
-                </Nav.Link>
-                <div className="d-flex">
-                  {
-                    userState.isAuthenticated
-                      ? <Logout />
-                      : ""
-                  }
-                </div>
-              </Nav>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
         <Switch>
           <Route path="/floor">
             <Floor game={game} setGame={setGame} socket={socket} />

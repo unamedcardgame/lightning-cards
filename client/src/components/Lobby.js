@@ -15,8 +15,6 @@ const Lobby = ({ socket, game, setGame }) => {
     socket.on('new player', (user) => {
       console.log(user.name, 'joined !')
 
-      setModalShow(true)
-
       setGame({ ...game, players: [...game.players, user.name] }) // TODO(): get authstate context and put userId
     })
 
