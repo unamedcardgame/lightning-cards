@@ -104,10 +104,6 @@ const Home = ({ socket, setSocket, game, setGame }) => {
             <input ref={joinCodeInputRef} style={{ display: isJoinVisible ? null : 'none' }} />
             <input type="submit" onClick={handleJoin} style={{ display: isJoinVisible ? null : 'none' }} />
           </form>
-          <Button onClick={() => {
-            console.log(socket)
-            socket.emit('get details')
-          }}>Deets</Button>
         </Col>
       </Row>
     </div>
