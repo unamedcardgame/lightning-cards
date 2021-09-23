@@ -10,6 +10,7 @@ const Lobby = ({ socket, game, setGame }) => {
   const [modalShow, setModalShow] = useState(false);
   const history = useHistory()
 
+  // socket listeners
   useEffect(() => {
     // new player socket handler
     socket.on('new player', (user) => {
@@ -28,6 +29,11 @@ const Lobby = ({ socket, game, setGame }) => {
       history.push('/floor')
     })
   })
+
+  // load hands scripts
+  useEffect(() => {
+    
+  }, [])
 
   const startGame = () => {
     // create cards at the backend
