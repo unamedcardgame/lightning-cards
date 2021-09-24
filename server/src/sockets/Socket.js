@@ -15,7 +15,11 @@ class Socket {
   io
   constructor(server) {
     // create an io instance
-    this.io = socketIo(server);
+    this.io = socketIo(server, {
+      cors: {
+        origin: '*',
+      }
+    });
     setHandlers(this.io)
   }
 
