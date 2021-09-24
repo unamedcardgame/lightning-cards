@@ -15,7 +15,7 @@ export const useHands = () => {
         new Hands({
             locateFile: (file) => {
                 console.log('FILE: ', file)
-                return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+                return `@mediapipe/hands/${file}`;
             }
         })
     )
