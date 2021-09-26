@@ -44,7 +44,7 @@ const Lobby = ({ socket, game, setGame }) => {
   return (
     <Row className="m-auto justify-content-center align-items-center h-100">
       <Col className="col-auto text-center">
-        <ol>
+        <ol style={{paddingLeft: '0px'}}>
           <strong><p>Players</p></strong>
           {game.players.map((p, i) => <li key={i}>{p}</li>)}
 
