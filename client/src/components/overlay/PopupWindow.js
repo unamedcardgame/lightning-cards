@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import Modal from 'react-bootstrap/Modal'
-import { Button} from 'react-bootstrap';
-import "bootstrap/dist/css/bootstrap.min.css";
+import { Button } from 'react-bootstrap';
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 
-require("react-bootstrap/ModalHeader")
-function Popup(props) {
-    return (
-      <Modal
-      {...props}
+const Popup = (props) => {
+  const [copied, setCopied] = useState(false)
+
+  const onHide = () => {
+    setCopied(false)
+    props.onHide()
+  }
+
+  return (
+    <Modal
+      text={props.text}
+      show={props.show}
+      onHide={onHide}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -19,16 +27,19 @@ function Popup(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        
+
         <p>
           {props.text}
         </p>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
+        <CopyToClipboard text={props.text} >
+          <Button onClick={() => setCopied(true)} variant={copied ? 'success' : 'primary'}>{copied ? 'Copied' : 'Copy'}</Button>
+        </CopyToClipboard>
+        <Button onClick={onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
-    );
-  }
+  );
+}
 
-  export default Popup
+export default Popup

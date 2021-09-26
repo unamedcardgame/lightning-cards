@@ -94,14 +94,20 @@ const Home = ({ setSocket, game, setGame }) => {
 
   return (
     <Row className="m-auto justify-content-center align-items-center h-100">
-      <Col className="col-auto text-center">
+      <Col className="text-center">
         <Popup text={popupConfig.msg}
           show={popupConfig.show}
           onHide={() => setPopupConfig({ ...popupConfig, show: false })}
         />
-        <p>welcome {authState?.user.name} !</p>
-        <Button onClick={handleCreate} className="d-inline">create game</Button>
-        <Button onClick={() => setisJoinVisible(true)} className="d-inline" style={{ marginLeft: '1em' }}>join game</Button>
+        <Row>
+          <p>welcome {authState?.user.name} !</p>
+        </Row>
+        <Row>
+          <Button onClick={handleCreate}>create game</Button>
+        </Row>
+        <Row>
+          <Button onClick={() => setisJoinVisible(true)} className="mt-2">join game</Button>
+        </Row>
         <form>
           <input ref={joinCodeInputRef} style={{ display: isJoinVisible ? null : 'none' }} />
           <input type="submit" onClick={handleJoin} style={{ display: isJoinVisible ? null : 'none' }} />
