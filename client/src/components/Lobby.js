@@ -5,7 +5,7 @@ import Popup from "./overlay/PopupWindow";
 import React, { useState } from 'react';
 import gameService from "../services/gameService"
 import { useHands } from '../hooks/useHands';
-import { addPlayer } from '../reducers/gameReducer';
+import { addPlayer, setCardLengths } from '../reducers/gameReducer';
 
 
 const Lobby = ({ socket, game, gameDispatch }) => {
@@ -21,8 +21,10 @@ const Lobby = ({ socket, game, gameDispatch }) => {
     })
 
     // on cards ready handler
-    socket.on('cards', (cards) => {
+    socket.on('cards info', (cardsList) => {
       // set no. of cards
+      console.log('cl', cardsList)
+      gameDispatch(setCardLengths(cardsList))
     })
 
     // on game start socket handler

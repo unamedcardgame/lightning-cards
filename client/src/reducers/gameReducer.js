@@ -1,3 +1,5 @@
+import { cloneDeep } from 'lodash'
+
 const initialState = {
   id: null,
   players: {},
@@ -17,6 +19,15 @@ const gameReducer = (state = initialState, action) => {
     case 'SET_ID':
       const id = action.payload
       return { ...state, id }
+    case 'SET_CARDS':
+      const newPlayers = cloneDeep(state.players)
+      console.log(action.payload)
+      action.payload.forEach(p => newPlayers[p.sid].cards = p.cards)
+      return { ...state, players: newPlayers }
+    case 'DRAW_CARD':
+      return {
+        ...state, players: { ...state.players, [action.payload.playerSid]: { ...state.players[action.payload.playerSid], cards: state.players[action.payload.playerSid].cards - 1 } }
+      }
     default:
       return state
   }
@@ -33,6 +44,14 @@ export const setGameId = (id) => {
 
 export const addPlayer = player => {
   return { type: 'ADD_PLAYER', payload: player }
+}
+
+export const setCardLengths = cardsList => {
+  return { type: 'SET_CARDS', payload: cardsList }
+}
+
+export const updatePlayerCards = player => {
+  return { type: 'DRAW_CARD', payload: { playerSid: player } }
 }
 
 export default gameReducer

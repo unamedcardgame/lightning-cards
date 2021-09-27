@@ -55,6 +55,9 @@ function setHandlers(io) {
         .cards
         .splice(0, 1)[0]
       io.of('/games').in(gameId).emit('draw pile', { card })
+
+      // notify room that player drew card
+      io.of('/games').in(gameId).emit('player drew', sid)
     })
 
     // Debug handlers

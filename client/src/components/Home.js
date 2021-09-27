@@ -68,6 +68,7 @@ const Home = ({ setSocket, game, gameDispatch }) => {
 
         tempSocket.on('player list', (playerList) => {
           console.log('pl', playerList)
+          gameDispatch(setGameId(joinCode))
           playerList.forEach(p => gameDispatch(addPlayer({ name: p.name, sid: p.sid })))
           gameDispatch(addPlayer({ name: authState.user.name, sid: tempSocket.id }))
           history.push('/lobby')
@@ -102,7 +103,7 @@ const Home = ({ setSocket, game, gameDispatch }) => {
           <Button onClick={() => setisJoinVisible(!isJoinVisible)} className="mt-2">Join</Button>
         </Row>
         <Row className="justify-content-center" style={{ display: isJoinVisible ? null : 'none' }}>
-          <input ref={joinCodeInputRef} className="form-control mt-2 w-75" style={{ marginRight: '1px' }} placeholder="Enter Game ID here..."/>
+          <input ref={joinCodeInputRef} className="form-control mt-2 w-75" style={{ marginRight: '1px' }} placeholder="Enter Game ID here..." />
           <Button onClick={handleJoin} className="w-25 mt-1">Go</Button>
         </Row>
       </Col>

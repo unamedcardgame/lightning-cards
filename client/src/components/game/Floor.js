@@ -7,16 +7,16 @@ import { setCallbacks } from '../../services/socketService';
 import { AuthContext } from '../../contexts/AuthContext';
 import { useHands } from '../../hooks/useHands';
 
-const Floor = ({ game, setGame, socket }) => {
+const Floor = ({ game, gameDispatch, socket }) => {
   const { userState: authState } = useContext(AuthContext)
   const [drawPile, setDrawPile] = useState([])
   const hands = useHands()
 
 
   useEffect(() => {
-    setCallbacks(socket, setDrawPile)
+    setCallbacks(socket, setDrawPile, gameDispatch)
     console.log(game.cards)
-  }, [socket])
+  }, [])
 
   useEffect(() => {
     hands.initialiseCanvasAndGE()
@@ -39,7 +39,7 @@ const Floor = ({ game, setGame, socket }) => {
               return (
                 <div key={i} onClick={drawCard}>
                   <Card back height={'6em'} />
-                  <p style={{ color: 'white' }}>{p.name}</p>
+                  <p style={{ color: 'white' }}>{p.name} ({p.cards})</p>
                 </div>
               )
             })
