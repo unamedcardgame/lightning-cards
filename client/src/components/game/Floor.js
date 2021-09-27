@@ -50,7 +50,7 @@ const Floor = ({ game, setGame, socket }) => {
       </div>
       <div className="container">
         <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video"></video>
-        <canvas ref={hands.canvasRef} className="output_canvas" width="1280px" height="720px"></canvas>
+        <canvas ref={hands.canvasRef} className="output_canvas" width="250px" height="250px"></canvas>
       </div>
     </Container>
   )
