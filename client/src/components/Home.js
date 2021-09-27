@@ -96,15 +96,15 @@ const Home = ({ setSocket, game, gameDispatch }) => {
           <p>welcome {authState?.user.name} !</p>
         </Row>
         <Row>
-          <Button onClick={handleCreate}>create game</Button>
+          <Button onClick={handleCreate}>Create</Button>
         </Row>
         <Row>
-          <Button onClick={() => setisJoinVisible(true)} className="mt-2">join game</Button>
+          <Button onClick={() => setisJoinVisible(!isJoinVisible)} className="mt-2">Join</Button>
         </Row>
-        <form>
-          <input ref={joinCodeInputRef} style={{ display: isJoinVisible ? null : 'none' }} />
-          <input type="submit" onClick={handleJoin} style={{ display: isJoinVisible ? null : 'none' }} />
-        </form>
+        <Row className="justify-content-center" style={{ display: isJoinVisible ? null : 'none' }}>
+          <input ref={joinCodeInputRef} className="form-control mt-2 w-75" style={{ marginRight: '1px' }} placeholder="Enter Game ID here..."/>
+          <Button onClick={handleJoin} className="w-25 mt-1">Go</Button>
+        </Row>
       </Col>
     </Row>
   )
