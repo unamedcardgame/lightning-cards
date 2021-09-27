@@ -36,7 +36,7 @@ function setHandlers(io) {
       socket.to(gameId).emit('new player', { name: data.user.name, sid: socket.id })
     })
 
-    // game action handlers
+    // Game handlers
     socket.on('start game', (game) => {
       games[game.gameId].startGame()
 
@@ -57,7 +57,7 @@ function setHandlers(io) {
       io.of('/games').in(gameId).emit('draw pile', { card })
     })
 
-    // Debug handler
+    // Debug handlers
     socket.on('get details', () => {
       console.log(io.of('/games').sockets.get(socket.id).adapter.rooms)
     })
