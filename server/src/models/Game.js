@@ -11,7 +11,7 @@
 
 class Game {
   id
-  players = []
+  players = [] // look at Player.js for player details structure
   host
   running
   currentTurn // TODO(): add current turn

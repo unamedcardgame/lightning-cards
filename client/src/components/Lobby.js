@@ -5,9 +5,10 @@ import Popup from "./overlay/PopupWindow";
 import React, { useState } from 'react';
 import gameService from "../services/gameService"
 import { useHands } from '../hooks/useHands';
+import { addPlayer } from '../reducers/gameReducer';
 
 
-const Lobby = ({ socket, game, setGame }) => {
+const Lobby = ({ socket, game, gameDispatch }) => {
   const [modalShow, setModalShow] = useState(false);
   const history = useHistory()
   const hands = useHands()
@@ -16,14 +17,12 @@ const Lobby = ({ socket, game, setGame }) => {
   useEffect(() => {
     // new player socket handler
     socket.on('new player', (user) => {
-      console.log(user.name, 'joined !')
-
-      setGame({ ...game, players: [...game.players, user.name] }) // TODO(): get authstate context and put userId
+      gameDispatch(addPlayer({ name: user.name, sid: user.sid })) // TODO(): get authstate context and put userId
     })
 
     // on cards ready handler
     socket.on('cards', (cards) => {
-      setGame({ ...game, cards: cards.length })
+      // set no. of cards
     })
 
     // on game start socket handler
@@ -46,7 +45,10 @@ const Lobby = ({ socket, game, setGame }) => {
       <Col className="col-auto text-center">
         <ol style={{ paddingLeft: '0px' }}>
           <strong><p>Players</p></strong>
-          {game.players.map((p, i) => <li key={i}>{p}</li>)}
+          {
+            Object.keys(game.players).map(key => game.players[key])
+              .map((p, i) => <li key={i}>{p.name}</li>)
+          }
 
         </ol>
         <Row className="justify-content-center">

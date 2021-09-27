@@ -9,6 +9,7 @@ import { AuthContext } from './contexts/AuthContext';
 import Floor from './components/game/Floor';
 import Lobby from './components/Lobby'
 import NavigationBar from './components/Navbar';
+import gameReducer from './reducers/gameReducer';
 
 const initialState = {
   isAuthenticated: false,
@@ -24,13 +25,7 @@ const initialState = {
 function App() {
   const [userState, dispatch] = useReducer(userReducer, initialState)
   const [socket, setSocket] = useState(null)
-  const [game, setGame] = useState({
-    id: null,
-    players: [], // TODO(): currently contains ONLY user.name. also add user.i
-    host: false,
-  })
-
-  console.log('us', userState)
+  const [game, gameDispatch] = useReducer(gameReducer)
 
   return (
     <AuthContext.Provider value={{ userState, dispatch }}>
@@ -38,15 +33,15 @@ function App() {
         <NavigationBar userState={userState} />
         <Switch>
           <Route path="/floor">
-            <Floor game={game} setGame={setGame} socket={socket} />
+            <Floor game={game} gameDispatch={gameDispatch} socket={socket} />
           </Route>
           <Route path="/lobby">
-            <Lobby game={game} setGame={setGame} socket={socket} />
+            <Lobby game={game} gameDispatch={gameDispatch} socket={socket} />
           </Route>
           <Route path="/">
             {
               userState.isAuthenticated
-                ? <Home game={game} setGame={setGame} socket={socket} setSocket={setSocket} />
+                ? <Home game={game} gameDispatch={gameDispatch} socket={socket} setSocket={setSocket} />
                 : <Login />
             }
           </Route>

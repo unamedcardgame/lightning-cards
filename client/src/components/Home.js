@@ -7,8 +7,9 @@ import { io } from 'socket.io-client'
 import gameService from '../services/gameService';
 import { useHistory } from 'react-router';
 import Popup from './overlay/PopupWindow'
+import { setHost, addPlayer, setGameId } from '../reducers/gameReducer';
 
-const Home = ({ setSocket, game, setGame }) => {
+const Home = ({ setSocket, game, gameDispatch }) => {
   const { userState: authState } = useContext(AuthContext)
   const [isJoinVisible, setisJoinVisible] = useState(false)
   const [popupConfig, setPopupConfig] = useState({ show: false })
@@ -22,13 +23,9 @@ const Home = ({ setSocket, game, setGame }) => {
       const response = await gameService.createGame()
       const gameId = response.data.gameId
 
-      // set game data in FRONTEND state
-      setGame({
-        ...game,
-        id: gameId,
-        players: [...game.players, authState.user.name],
-        host: true,
-      })
+      gameDispatch(setGameId(gameId))
+      gameDispatch(setHost())
+
       if (response.status === 201) {
         const tempSocket = process.env['NODE_ENV'] === 'development' ? io('/games') : io('https://lightning-cards-api.herokuapp.com/games')
         tempSocket.emit('join', {
@@ -37,6 +34,7 @@ const Home = ({ setSocket, game, setGame }) => {
         })
 
         tempSocket.on('joined', () => {
+          gameDispatch(addPlayer({ name: authState.user.name, sid: tempSocket.id }))
           history.push('/Lobby')
           console.log('joined successfully')
           history.push('/lobby')
@@ -63,20 +61,15 @@ const Home = ({ setSocket, game, setGame }) => {
     try {
       const status = await gameService.joinGame(joinCode)
       if (status === 200) {
-        console.log('joined')
         tempSocket.emit('join', {
           game: { gameId: joinCode },
           user: { name: authState.user.name }
         })
 
-        tempSocket.on('player list', (playerNames) => {
-          // set game data in FRONTEND state
-          setGame({
-            ...game,
-            id: joinCode,
-            players: [...playerNames],
-          })
-          console.log(playerNames)
+        tempSocket.on('player list', (playerList) => {
+          console.log('pl', playerList)
+          playerList.forEach(p => gameDispatch(addPlayer({ name: p.name, sid: p.sid })))
+          gameDispatch(addPlayer({ name: authState.user.name, sid: tempSocket.id }))
           history.push('/lobby')
         })
         setSocket(tempSocket) // set socket state

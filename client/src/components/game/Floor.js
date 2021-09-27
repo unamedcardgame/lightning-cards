@@ -34,12 +34,12 @@ const Floor = ({ game, setGame, socket }) => {
     <Container fluid className="h-100">
       <div className="table">
         {
-          game.players
+          Object.keys(game.players).map(key => game.players[key])
             .map((p, i) => {
               return (
                 <div key={i} onClick={drawCard}>
                   <Card back height={'6em'} />
-                  <p style={{ color: 'white' }}>{p}</p>
+                  <p style={{ color: 'white' }}>{p.name}</p>
                 </div>
               )
             })

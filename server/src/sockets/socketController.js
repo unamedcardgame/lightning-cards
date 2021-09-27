@@ -20,10 +20,10 @@ function setHandlers(io) {
       games[gameId].addPlayer(new Player(data.user.userId, socket.id, data.user.name))
 
       // send back a list of players in lobby to the new player
-      const playerNames = games[gameId]
+      const playerList = games[gameId]
         .players
-        .map(p => p.name);
-      io.of('/games').to(socket.id).emit('player list', playerNames)
+        .map(p => ({ name: p.name, sid: p.sid }))
+      io.of('/games').to(socket.id).emit('player list', playerList)
 
 
       // map google's userId to socket's internal id
@@ -33,7 +33,7 @@ function setHandlers(io) {
       socket.emit('joined')
 
       // tell all the other players a new player has arrived
-      socket.to(gameId).emit('new player', { name: data.user.name })
+      socket.to(gameId).emit('new player', { name: data.user.name, sid: socket.id })
     })
 
     // game action handlers

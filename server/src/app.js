@@ -62,6 +62,8 @@ app.post('/api/cards', (req, res) => {
   const playersCards = generateCards(numOfPlayers)
   const socket = app.get('socket')
 
+  const deckLenghts = playersCards.map(pc => pc.length)
+
   game.players.forEach((player, i) => {
     player.cards = playersCards[i]
     socket.io.of('/games').to(player.sid).emit('cards', { length: player.cards.length })
