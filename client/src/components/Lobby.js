@@ -16,9 +16,10 @@ const Lobby = ({ socket, game, gameDispatch }) => {
 
   // socket listeners
   useEffect(() => {
+    console.log('nl')
     // new player socket handler
     socket.on('new player', (user) => {
-      gameDispatch(addPlayer({ name: user.name, sid: user.sid })) // TODO(): get authstate context and put userId
+      gameDispatch(addPlayer({ name: user.name, sid: user.sid }))
     })
 
     // on cards ready handler
@@ -42,8 +43,6 @@ const Lobby = ({ socket, game, gameDispatch }) => {
     gameService.getCards(game.id)
     // tell backend to start game via sockets
     socket.emit('start game', { gameId: game.id })
-    // close hands (not sure if necessary, but safety and whatnot)
-    //hands.closeHands()
   }
 
   const onReady = () => {

@@ -65,17 +65,18 @@ export const useHands = () => {
             ctx.restore();
         }
         if (GE && ctx) {
-            console.log('hman')
-            handsRef.current.onResults(onResults)
+            setTimeout(() => {
+                handsRef.current.onResults(onResults)
 
-            const camera = new Camera(videoRef.current, {
-                onFrame: async () => {
-                    await handsRef.current.send({ image: videoRef.current });
-                },
-                width: 1280,
-                height: 720
-            });
-            camera.start();
+                const camera = new Camera(videoRef.current, {
+                    onFrame: async () => {
+                        await handsRef.current.send({ image: videoRef.current });
+                    },
+                    width: 1280,
+                    height: 720
+                });
+                camera.start()
+            }, 3)
         }
     }, [ctx, GE])
 
