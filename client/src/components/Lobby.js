@@ -38,7 +38,13 @@ const Lobby = ({ socket, game, gameDispatch }) => {
     })
   }, [gameDispatch, history, socket])
 
+  useEffect(() => {
+    console.log('initting')
+    hands.initialiseHands()
+  }, [hands])
+
   const startGame = () => {
+    hands.closeHands()
     // create cards at the backend
     gameService.getCards(game.id)
     // tell backend to start game via sockets

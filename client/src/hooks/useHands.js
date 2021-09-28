@@ -26,7 +26,6 @@ export const useHands = () => {
             minDetectionConfidence: 0.8,
             minTrackingConfidence: 0.5
         });
-        handsRef.current.initialize().then(success => setLoaded(true))
     }, [])
 
 
@@ -36,6 +35,10 @@ export const useHands = () => {
         setGE(new GestureEstimator(
             gestures
         ))
+    }
+
+    const initialiseHands = () => {
+        handsRef.current.initialize().then(success => setLoaded(true))
     }
 
     const closeHands = () => {
@@ -65,18 +68,16 @@ export const useHands = () => {
             ctx.restore();
         }
         if (GE && ctx) {
-            setTimeout(() => {
-                handsRef.current.onResults(onResults)
+            handsRef.current.onResults(onResults)
 
-                const camera = new Camera(videoRef.current, {
-                    onFrame: async () => {
-                        await handsRef.current.send({ image: videoRef.current });
-                    },
-                    width: 1280,
-                    height: 720
-                });
-                camera.start()
-            }, 3)
+            const camera = new Camera(videoRef.current, {
+                onFrame: async () => {
+                    await handsRef.current.send({ image: videoRef.current });
+                },
+                width: 1280,
+                height: 720
+            });
+            camera.start()
         }
     }, [ctx, GE])
 
@@ -87,6 +88,7 @@ export const useHands = () => {
         canvasRef,
         videoRef,
         closeHands,
+        initialiseHands,
         loaded,
     }
 }
