@@ -16,7 +16,6 @@ const Lobby = ({ socket, game, gameDispatch }) => {
 
   // socket listeners
   useEffect(() => {
-    console.log('kitlo')
     // new player socket handler
     socket.on('new player', (user) => {
       gameDispatch(addPlayer({ name: user.name, sid: user.sid })) // TODO(): get authstate context and put userId

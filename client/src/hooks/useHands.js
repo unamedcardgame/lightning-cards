@@ -14,6 +14,7 @@ export const useHands = () => {
     const handsRef = useRef(
         new Hands({
             locateFile: (file) => {
+                console.log(file)
                 return `@mediapipe/hands/${file}`;
             }
         })
@@ -43,27 +44,28 @@ export const useHands = () => {
 
     // initialise mediapipe
     useEffect(() => {
-        if (GE && ctx) {
-            const onResults = (results) => {
-                ctx.save();
-                ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-                ctx.drawImage(
-                    results.image, 0, 0, canvasRef.current.width, canvasRef.current.height);
-                if (results.multiHandLandmarks) {
-                    for (const landmarks of results.multiHandLandmarks) {
-                        drawLandmarks(ctx, landmarks, { color: '#FF0000', lineWidth: 2 });
+        function onResults(results) {
+            ctx.save();
+            ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+            ctx.drawImage(
+                results.image, 0, 0, canvasRef.current.width, canvasRef.current.height);
+            if (results.multiHandLandmarks) {
+                for (const landmarks of results.multiHandLandmarks) {
+                    drawLandmarks(ctx, landmarks, { color: '#FF0000', lineWidth: 2 });
 
-                        // conv landmarks for fp
-                        for (let f in landmarks) {
-                            landmarks[f] = Object.values(landmarks[f]).map((e, i) => i < 3 ? e * 1000 : null)
-                        }
-
-                        const estimatedGestures = GE.estimate(landmarks, 7.5);
-                        console.log(estimatedGestures.gestures[0])
+                    // conv landmarks for fp
+                    for (let f in landmarks) {
+                        landmarks[f] = Object.values(landmarks[f]).map((e, i) => i < 3 ? e * 1000 : null)
                     }
+
+                    const estimatedGestures = GE.estimate(landmarks, 7.5);
+                    console.log(estimatedGestures.gestures[0])
                 }
-                ctx.restore();
             }
+            ctx.restore();
+        }
+        if (GE && ctx) {
+            console.log('hman')
             handsRef.current.onResults(onResults)
 
             const camera = new Camera(videoRef.current, {
