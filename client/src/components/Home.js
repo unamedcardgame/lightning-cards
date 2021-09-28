@@ -6,37 +6,35 @@ import { Button } from 'react-bootstrap'
 import { io } from 'socket.io-client'
 import gameService from '../services/gameService';
 import { useHistory } from 'react-router';
+import Popup from './overlay/PopupWindow'
+import { setHost, addPlayer, setGameId } from '../reducers/gameReducer';
 
-const Home = ({ socket, setSocket, game, setGame }) => {
+const Home = ({ setSocket, game, gameDispatch }) => {
   const { userState: authState } = useContext(AuthContext)
   const [isJoinVisible, setisJoinVisible] = useState(false)
+  const [popupConfig, setPopupConfig] = useState({ show: false })
   const joinCodeInputRef = createRef()
-  // const [socket, setSocket] = useState()
   const history = useHistory()
 
   const handleCreate = async () => {
-    // get game id from backend api
-    const response = await gameService.createGame()
-    const gameId = response.data.gameId
-
-    // set game data in FRONTEND state
-    setGame({
-      ...game,
-      id: gameId,
-      players: [...game.players, authState.user.name],
-      host: true,
-    })
-
     // if game is created at backend successfully
     try {
+      // get game id from backend api
+      const response = await gameService.createGame()
+      const gameId = response.data.gameId
+
+      gameDispatch(setGameId(gameId))
+      gameDispatch(setHost())
+
       if (response.status === 201) {
-        const tempSocket = io('/games')
+        const tempSocket = process.env['NODE_ENV'] === 'development' ? io('/games') : io('https://lightning-cards-api.herokuapp.com/games')
         tempSocket.emit('join', {
           game: { gameId, isHost: true },
           user: { userId: authState.user.id, name: authState.user.name },
         })
 
         tempSocket.on('joined', () => {
+          gameDispatch(addPlayer({ name: authState.user.name, sid: tempSocket.id }))
           history.push('/Lobby')
           console.log('joined successfully')
           history.push('/lobby')
@@ -45,13 +43,16 @@ const Home = ({ socket, setSocket, game, setGame }) => {
         setSocket(tempSocket) // set socket state
       } // TODO(): fail gracefully on error
     } catch (e) {
-      console.log(e.message)
+      setPopupConfig({
+        msg: 'Error creating game at backend, please try again later',
+        show: true
+      })
     }
   }
 
   const handleJoin = async (e) => {
     e.preventDefault()
-    const tempSocket = io('/games')
+    const tempSocket = process.env['NODE_ENV'] === 'development' ? io('/games') : io('https://lightning-cards-api.herokuapp.com/games')
 
     // get code from input element
     const joinCode = joinCodeInputRef.current.value
@@ -60,20 +61,16 @@ const Home = ({ socket, setSocket, game, setGame }) => {
     try {
       const status = await gameService.joinGame(joinCode)
       if (status === 200) {
-        console.log('joined')
         tempSocket.emit('join', {
           game: { gameId: joinCode },
           user: { name: authState.user.name }
         })
 
-        tempSocket.on('player list', (playerNames) => {
-          // set game data in FRONTEND state
-          setGame({
-            ...game,
-            id: joinCode,
-            players: [...playerNames],
-          })
-          console.log(playerNames)
+        tempSocket.on('player list', (playerList) => {
+          console.log('pl', playerList)
+          gameDispatch(setGameId(joinCode))
+          playerList.forEach(p => gameDispatch(addPlayer({ name: p.name, sid: p.sid })))
+          gameDispatch(addPlayer({ name: authState.user.name, sid: tempSocket.id }))
           history.push('/lobby')
         })
         setSocket(tempSocket) // set socket state
@@ -90,27 +87,27 @@ const Home = ({ socket, setSocket, game, setGame }) => {
   }
 
   return (
-    <div className="h-100">
-      <Row className="m-auto justify-content-center align-items-center h-100">
-        <Col className="col-auto text-center">
+    <Row className="m-auto justify-content-center align-items-center h-100">
+      <Col className="text-center">
+        <Popup text={popupConfig.msg}
+          show={popupConfig.show}
+          onHide={() => setPopupConfig({ ...popupConfig, show: false })}
+        />
+        <Row>
           <p>welcome {authState?.user.name} !</p>
-          <Button onClick={handleCreate} className="d-inline">create game</Button>
-          <Button onClick={() => setisJoinVisible(true)} className="d-inline" style={{ marginLeft: '1em' }}>join game</Button>
-          <form>
-            {
-              // TODO(Disha): Ew, make these inputs pretty and aligned (we're
-              // using react-bootstrap)
-            }
-            <input ref={joinCodeInputRef} style={{ display: isJoinVisible ? null : 'none' }} />
-            <input type="submit" onClick={handleJoin} style={{ display: isJoinVisible ? null : 'none' }} />
-          </form>
-          <Button onClick={() => {
-            console.log(socket)
-            socket.emit('get details')
-          }}>Deets</Button>
-        </Col>
-      </Row>
-    </div>
+        </Row>
+        <Row>
+          <Button onClick={handleCreate}>Create</Button>
+        </Row>
+        <Row>
+          <Button onClick={() => setisJoinVisible(!isJoinVisible)} className="mt-2">Join</Button>
+        </Row>
+        <Row className="justify-content-center" style={{ display: isJoinVisible ? null : 'none' }}>
+          <input ref={joinCodeInputRef} className="form-control mt-2 w-75" style={{ marginRight: '1px' }} placeholder="Enter Game ID here..." />
+          <Button onClick={handleJoin} className="w-25 mt-1">Go</Button>
+        </Row>
+      </Col>
+    </Row>
   )
 }
 

@@ -11,9 +11,10 @@
 
 class Game {
   id
-  players = []
+  players = [] // look at Player.js for player details structure
   host
   running
+  currentTurn // TODO(): add current turn
   constructor(id) {
     this.id = id
     this.running = false
@@ -29,7 +30,10 @@ class Game {
 
   startGame() {
     this.running = true
+    // set this.currentTurn = someSID
   }
+
+  // TODO(): nextTurn() - changes currentTurn to next player's sid
 }
 
 module.exports = Game

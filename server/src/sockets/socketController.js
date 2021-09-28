@@ -1,5 +1,10 @@
 const Player = require("../models/Player")
 
+/*
+  Namespace - /games, /comms
+  Rooms - /[some_game_id]
+*/
+
 function setHandlers(io) {
   // main handler
   io.of('/games').on('connection', socket => {
@@ -15,10 +20,10 @@ function setHandlers(io) {
       games[gameId].addPlayer(new Player(data.user.userId, socket.id, data.user.name))
 
       // send back a list of players in lobby to the new player
-      const playerNames = games[gameId]
+      const playerList = games[gameId]
         .players
-        .map(p => p.name);
-      io.of('/games').to(socket.id).emit('player list', playerNames)
+        .map(p => ({ name: p.name, sid: p.sid }))
+      io.of('/games').to(socket.id).emit('player list', playerList)
 
 
       // map google's userId to socket's internal id
@@ -28,10 +33,10 @@ function setHandlers(io) {
       socket.emit('joined')
 
       // tell all the other players a new player has arrived
-      socket.to(gameId).emit('new player', { name: data.user.name })
+      socket.to(gameId).emit('new player', { name: data.user.name, sid: socket.id })
     })
 
-    // game action handlers
+    // Game handlers
     socket.on('start game', (game) => {
       games[game.gameId].startGame()
 
@@ -42,6 +47,7 @@ function setHandlers(io) {
       const { sid, gameId } = user
 
       // validate whether sid === current player's turn ka sid
+      // games[gameId].currentTurn === sid
 
       // get sid's top card
       const card = games[gameId].players
@@ -49,9 +55,12 @@ function setHandlers(io) {
         .cards
         .splice(0, 1)[0]
       io.of('/games').in(gameId).emit('draw pile', { card })
+
+      // notify room that player drew card
+      io.of('/games').in(gameId).emit('player drew', sid)
     })
 
-    // Debug handler
+    // Debug handlers
     socket.on('get details', () => {
       console.log(io.of('/games').sockets.get(socket.id).adapter.rooms)
     })
