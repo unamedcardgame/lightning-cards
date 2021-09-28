@@ -15,9 +15,11 @@ function setHandlers(io) {
       socket.join(gameId)
 
       // 'games' is a global variable declared in app.js
-      if (data.game.isHost) games[gameId].setHost(data.user.userId)
+      if (data.game.isHost) {
+        games[gameId].setHost(data.user.userId)
+      }
       // add player to game
-      games[gameId].addPlayer(new Player(data.user.userId, socket.id, data.user.name))
+      games[gameId].addPlayer(new Player(data.user.userId, socket.id, data.user.name, data.game.isHost ? true : false))
 
       // send back a list of players in lobby to the new player
       const playerList = games[gameId]
@@ -36,8 +38,22 @@ function setHandlers(io) {
       socket.to(gameId).emit('new player', { name: data.user.name, sid: socket.id })
     })
 
+    socket.on('ready', (details) => {
+      games[details.gameId]
+        .players
+        .find(p => p.sid === details.sid)
+        .makeReady()
+
+      console.log(games[details.gameId].players.find(p => p.sid === details.sid).ready)
+    })
+
     // Game handlers
     socket.on('start game', (game) => {
+      if (!games[game.gameId].isEveryoneReady()) {
+        const unreadyList = games[game.gameId].players.filter(p => p.ready === false)
+        socket.emit('unready', unreadyList)
+        return
+      }
       games[game.gameId].startGame()
 
       io.of('/games').in(game.gameId).emit('begin')
@@ -61,9 +77,6 @@ function setHandlers(io) {
     })
 
     // Debug handlers
-    socket.on('get details', () => {
-      console.log(io.of('/games').sockets.get(socket.id).adapter.rooms)
-    })
 
   })
 }

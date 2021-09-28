@@ -33,6 +33,10 @@ class Game {
     // set this.currentTurn = someSID
   }
 
+  isEveryoneReady() {
+    return this.players.every(p => p.ready)
+  }
+
   // TODO(): nextTurn() - changes currentTurn to next player's sid
 }
 

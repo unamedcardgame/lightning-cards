@@ -5,7 +5,6 @@ const Logout = () => {
   const history = useHistory()
 
   const onLogout = () => {
-    console.log('peace')
     history.push('/')
     history.go(0)
   }

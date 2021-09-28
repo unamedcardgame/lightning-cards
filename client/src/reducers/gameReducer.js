@@ -21,7 +21,6 @@ const gameReducer = (state = initialState, action) => {
       return { ...state, id }
     case 'SET_CARDS':
       const newPlayers = cloneDeep(state.players)
-      console.log(action.payload)
       action.payload.forEach(p => newPlayers[p.sid].cards = p.cards)
       return { ...state, players: newPlayers }
     case 'DRAW_CARD':

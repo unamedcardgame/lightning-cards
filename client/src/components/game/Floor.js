@@ -15,7 +15,6 @@ const Floor = ({ game, gameDispatch, socket }) => {
 
   useEffect(() => {
     setCallbacks(socket, setDrawPile, gameDispatch)
-    console.log(game.cards)
   }, [])
 
   useEffect(() => {

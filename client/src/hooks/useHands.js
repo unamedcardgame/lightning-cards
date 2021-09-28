@@ -14,7 +14,6 @@ export const useHands = () => {
     const handsRef = useRef(
         new Hands({
             locateFile: (file) => {
-                console.log('FILE: ', file)
                 return `@mediapipe/hands/${file}`;
             }
         })
