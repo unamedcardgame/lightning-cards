@@ -4,12 +4,14 @@ class Player {
   turn
   cards
   name
-  constructor(gid, sid, name) {
+  ready
+  constructor(gid, sid, name, ready) {
     this.gid = gid
     this.sid = sid
     this.name = name
     this.turn = false
     this.cards = []
+    this.ready = ready
   }
 
   isTurn() {
@@ -18,6 +20,10 @@ class Player {
 
   set cards(deck) {
     this.cards.push(...deck)
+  }
+
+  makeReady() {
+    this.ready = true
   }
 }
 

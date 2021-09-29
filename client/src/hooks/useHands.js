@@ -14,7 +14,7 @@ export const useHands = () => {
     const handsRef = useRef(
         new Hands({
             locateFile: (file) => {
-                console.log('FILE: ', file)
+                console.log(file)
                 return `@mediapipe/hands/${file}`;
             }
         })
@@ -26,7 +26,6 @@ export const useHands = () => {
             minDetectionConfidence: 0.8,
             minTrackingConfidence: 0.5
         });
-        handsRef.current.initialize().then(success => setLoaded(true))
     }, [])
 
 
@@ -38,33 +37,37 @@ export const useHands = () => {
         ))
     }
 
+    const initialiseHands = () => {
+        handsRef.current.initialize().then(success => setLoaded(true))
+    }
+
     const closeHands = () => {
         handsRef.current.close()
     }
 
     // initialise mediapipe
     useEffect(() => {
-        if (GE && ctx) {
-            const onResults = (results) => {
-                ctx.save();
-                ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-                ctx.drawImage(
-                    results.image, 0, 0, canvasRef.current.width, canvasRef.current.height);
-                if (results.multiHandLandmarks) {
-                    for (const landmarks of results.multiHandLandmarks) {
-                        drawLandmarks(ctx, landmarks, { color: '#FF0000', lineWidth: 2 });
+        function onResults(results) {
+            ctx.save();
+            ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+            ctx.drawImage(
+                results.image, 0, 0, canvasRef.current.width, canvasRef.current.height);
+            if (results.multiHandLandmarks) {
+                for (const landmarks of results.multiHandLandmarks) {
+                    drawLandmarks(ctx, landmarks, { color: '#FF0000', lineWidth: 2 });
 
-                        // conv landmarks for fp
-                        for (let f in landmarks) {
-                            landmarks[f] = Object.values(landmarks[f]).map((e, i) => i < 3 ? e * 1000 : null)
-                        }
-
-                        const estimatedGestures = GE.estimate(landmarks, 7.5);
-                        console.log(estimatedGestures.gestures[0])
+                    // conv landmarks for fp
+                    for (let f in landmarks) {
+                        landmarks[f] = Object.values(landmarks[f]).map((e, i) => i < 3 ? e * 1000 : null)
                     }
+
+                    const estimatedGestures = GE.estimate(landmarks, 7.5);
+                    console.log(estimatedGestures.gestures[0])
                 }
-                ctx.restore();
             }
+            ctx.restore();
+        }
+        if (GE && ctx) {
             handsRef.current.onResults(onResults)
 
             const camera = new Camera(videoRef.current, {
@@ -74,7 +77,7 @@ export const useHands = () => {
                 width: 1280,
                 height: 720
             });
-            camera.start();
+            camera.start()
         }
     }, [ctx, GE])
 
@@ -85,6 +88,7 @@ export const useHands = () => {
         canvasRef,
         videoRef,
         closeHands,
+        initialiseHands,
         loaded,
     }
 }

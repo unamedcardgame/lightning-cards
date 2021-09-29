@@ -9,37 +9,51 @@ import { addPlayer, setCardLengths } from '../reducers/gameReducer';
 
 
 const Lobby = ({ socket, game, gameDispatch }) => {
-  const [modalShow, setModalShow] = useState(false);
+  const [modalShow, setModalShow] = useState(false)
+  const [ready, setReady] = useState(false)
   const history = useHistory()
   const hands = useHands()
 
   // socket listeners
   useEffect(() => {
+    console.log('nl')
     // new player socket handler
     socket.on('new player', (user) => {
-      gameDispatch(addPlayer({ name: user.name, sid: user.sid })) // TODO(): get authstate context and put userId
+      gameDispatch(addPlayer({ name: user.name, sid: user.sid }))
     })
 
     // on cards ready handler
     socket.on('cards info', (cardsList) => {
       // set no. of cards
-      console.log('cl', cardsList)
       gameDispatch(setCardLengths(cardsList))
+    })
+
+    socket.on('unready', unreadyList => {
+      console.log('bc', unreadyList)
     })
 
     // on game start socket handler
     socket.on('begin', () => {
       history.push('/floor')
     })
-  })
+  }, [gameDispatch, history, socket])
+
+  useEffect(() => {
+    console.log('initting')
+    hands.initialiseHands()
+  }, [hands])
 
   const startGame = () => {
-    // close hands (not sure if necessary, but safety and whatnot)
     hands.closeHands()
     // create cards at the backend
     gameService.getCards(game.id)
     // tell backend to start game via sockets
     socket.emit('start game', { gameId: game.id })
+  }
+
+  const onReady = () => {
+    socket.emit('ready', { sid: socket.id, gameId: game.id })
+    setReady(true)
   }
 
   return (
@@ -57,7 +71,7 @@ const Lobby = ({ socket, game, gameDispatch }) => {
           {
             game.host
               ? <Button disabled={!hands.loaded} className="" onClick={startGame}>{hands.loaded ? 'Begin' : 'Loading assets, please wait'}</Button>
-              : null
+              : <Button variant="success" onClick={onReady} disabled={!hands.loaded || ready}>Ready</Button>
           }
         </Row>
         <Row className="justify-content-center">
