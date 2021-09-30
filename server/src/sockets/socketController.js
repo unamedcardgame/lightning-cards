@@ -1,4 +1,8 @@
-const Player = require("../models/Player")
+//import {getCurrgetTurn} from "../models/Player";
+const Game = require('../models/Game');
+const Player = require("../models/Player");
+
+
 
 /*
   Namespace - /games, /comms
@@ -43,6 +47,7 @@ function setHandlers(io) {
         .players
         .find(p => p.sid === details.sid)
         .makeReady()
+        
 
       console.log(games[details.gameId].players.find(p => p.sid === details.sid).ready)
     })
@@ -61,19 +66,34 @@ function setHandlers(io) {
 
     socket.on('draw card', user => {
       const { sid, gameId } = user
+      console.log(gameId)
+      let currentvalue = games[gameId].getCurrentTurn()
 
+      //console.log(currentvalue)
+      // get sid's top card
       // validate whether sid === current player's turn ka sid
       // games[gameId].currentTurn === sid
+      if(sid === games[gameId].players[currentvalue].sid)
+      {
+        
+        //console.log("valus is" + currentvalue)
 
       // get sid's top card
-      const card = games[gameId].players
+        const card = games[gameId].players
         .find(p => p.sid === sid)
         .cards
         .splice(0, 1)[0]
-      io.of('/games').in(gameId).emit('draw pile', { card })
+        io.of('/games').in(gameId).emit('draw pile', { card })
 
-      // notify room that player drew card
-      io.of('/games').in(gameId).emit('player drew', sid)
+        // notify room that player drew card
+        io.of('/games').in(gameId).emit('player drew', sid)
+        games[gameId].nextTurn()
+      }
+      else{
+        console.log("Not your Turn")
+      }
+      
+     
     })
 
     // Debug handlers
