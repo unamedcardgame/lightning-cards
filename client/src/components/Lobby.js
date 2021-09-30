@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Row, Col, Button } from 'react-bootstrap'
 import { useEffect } from "react"
 import { useHistory } from "react-router"
@@ -34,17 +35,17 @@ const Lobby = ({ socket, game, gameDispatch }) => {
 
     // on game start socket handler
     socket.on('begin', () => {
+      hands.closeHands()
       history.push('/floor')
     })
-  }, [gameDispatch, history, socket])
+  }, [])
 
   useEffect(() => {
     console.log('initting')
     hands.initialiseHands()
-  }, [hands])
+  }, [])
 
   const startGame = () => {
-    hands.closeHands()
     // create cards at the backend
     gameService.getCards(game.id)
     // tell backend to start game via sockets
