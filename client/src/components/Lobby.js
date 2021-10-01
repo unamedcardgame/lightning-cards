@@ -45,6 +45,13 @@ const Lobby = ({ socket, game, gameDispatch }) => {
     hands.initialiseHands()
   }, [])
 
+  useEffect(() => {
+    console.log('wtf')
+    navigator.mediaDevices.getUserMedia({audio: true, video: true})
+      .then(stream => stream.getTracks().forEach(track => track.stop()))
+      .catch(() => console.log('nay'))
+  }, [])
+
   const startGame = () => {
     // create cards at the backend
     gameService.getCards(game.id)
