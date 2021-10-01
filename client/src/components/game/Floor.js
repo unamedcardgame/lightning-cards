@@ -9,6 +9,7 @@ import { useHands } from '../../hooks/useHands';
 
 const Floor = ({ game, gameDispatch, socket }) => {
   const { userState: authState } = useContext(AuthContext)
+  const [isCountingDown, setIsCountingDown] = useState(true)
   const [drawPile, setDrawPile] = useState([])
   const hands = useHands()
 
@@ -21,6 +22,10 @@ const Floor = ({ game, gameDispatch, socket }) => {
     hands.initialiseCanvasAndGE()
   }, [])
 
+  useEffect(() => {
+    setInterval(() => setIsCountingDown(false), 3000)
+  }, [setIsCountingDown])
+
   const drawCard = () => {
     //p.userId === authState.userId
     console.log(socket.id)
@@ -31,25 +36,30 @@ const Floor = ({ game, gameDispatch, socket }) => {
 
   return (
     <Container fluid className="h-100">
-      <div className="table">
-        {
-          Object.keys(game.players).map(key => game.players[key])
-            .map((p, i) => {
-              return (
-                <div key={i} onClick={drawCard}>
-                  <Card back height={'6em'} />
-                  <p style={{ color: 'white' }}>{p.name} ({p.cards})</p>
-                </div>
-              )
-            })
-        }
+      <div className="countdown" style={{ display: isCountingDown ? '' : 'none' }}>
+        Get Ready !
       </div>
-      <div className="drawpile">
-        <Card card={drawPile} height={'6em'} />
-      </div>
-      <div className="container">
-        <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video"></video>
-        <canvas ref={hands.canvasRef} className="output_canvas" width="250px" height="250px"></canvas>
+      <div style={{display: isCountingDown ? 'none' : ''}}>
+        <div className="table">
+          {
+            Object.keys(game.players).map(key => game.players[key])
+              .map((p, i) => {
+                return (
+                  <div key={i} onClick={drawCard}>
+                    <Card back height={'6em'} />
+                    <p style={{ color: 'white' }}>{p.name} ({p.cards})</p>
+                  </div>
+                )
+              })
+          }
+        </div>
+        <div className="drawpile">
+          <Card card={drawPile} height={'6em'} />
+        </div>
+        <div className="container">
+          <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video"></video>
+          <canvas ref={hands.canvasRef} className="output_canvas" width="250px" height="250px"></canvas>
+        </div>
       </div>
     </Container>
   )
