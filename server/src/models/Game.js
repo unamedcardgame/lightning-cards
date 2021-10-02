@@ -14,7 +14,14 @@ class Game {
   players = [] // look at Player.js for player details structure
   host
   running
-  currentTurn =0// TODO(): add current turn
+  currentTurn =0 // TODO(): add current turn
+  rules = {
+    'K' : 'PewPew',
+    'Q' : 'peace',
+    'J' : 'Yolo',
+    'A' : 'callme',
+    'T' : 'okay',
+   };
   constructor(id) {
     this.id = id
     this.running = false
@@ -50,7 +57,6 @@ class Game {
     if(this.currentTurn<n)
     {
       this.currentTurn+=1
-
     }
     else
     {
