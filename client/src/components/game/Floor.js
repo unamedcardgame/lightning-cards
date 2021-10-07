@@ -28,7 +28,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
 
   const drawCard = (p) => {
     if(p.sid === socket.id){
-      // console.log(socket.id)
+      console.log(socket.id)
       // action draw card
       socket.emit('draw card', { sid: socket.id, gameId: game.id })
     }
