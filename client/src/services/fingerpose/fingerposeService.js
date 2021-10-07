@@ -170,10 +170,10 @@ export const gestures = [
     ]
   }),
   createGesture({
-    "name": "Four",
+    "name": "callme",
     "algorithm": "fingerpose",
     "models": "hands",
-    "confidence": "7.75",
+    "confidence": "6.75",
     "description": [
       [
         "addCurl",
@@ -182,12 +182,120 @@ export const gestures = [
         1
       ],
       [
+        "addDirection",
+        "Thumb",
+        "VerticalUp",
+        0.034482758620689655
+      ],
+      [
+        "addDirection",
+        "Thumb",
+        "DiagonalUpRight",
+        1
+      ],
+      [
+        "addCurl",
+        "Index",
+        "FullCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Index",
+        "DiagonalUpRight",
+        0.25
+      ],
+      [
+        "addDirection",
+        "Index",
+        "HorizontalRight",
+        1
+      ],
+      [
+        "addCurl",
+        "Middle",
+        "FullCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Middle",
+        "HorizontalRight",
+        1
+      ],
+      [
+        "addCurl",
+        "Ring",
+        "FullCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Ring",
+        "HorizontalRight",
+        1
+      ],
+      [
+        "addCurl",
+        "Pinky",
+        "NoCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Pinky",
+        "HorizontalRight",
+        1
+      ],
+      [
+        "addDirection",
+        "Thumb",
+        "VerticalDown",
+        0.034482758620689655
+      ],
+      [
+        "addDirection",
+        "Thumb",
+        "DiagonalDownRight",
+        1
+      ],
+      [
+        "addDirection",
+        "Index",
+        "DiagonalDownRight",
+        0.25
+      ],
+      [
+        "setWeight",
+        "Thumb",
+        2
+      ],
+      [
+        "setWeight",
+        "Pinky",
+        2
+      ]
+    ]
+  }),
+  createGesture({
+    "name": "peace",
+    "algorithm": "fingerpose",
+    "models": "hands",
+    "confidence": "7.25",
+    "description": [
+      [
         "addCurl",
         "Thumb",
         "HalfCurl",
         0.5
       ],
       [
+        "addCurl",
+        "Thumb",
+        "NoCurl",
+        1
+      ],
+      [
         "addDirection",
         "Thumb",
         "DiagonalUpRight",
@@ -202,8 +310,14 @@ export const gestures = [
       [
         "addDirection",
         "Index",
-        "VerticalUp",
+        "DiagonalUpLeft",
         1
+      ],
+      [
+        "addDirection",
+        "Index",
+        "VerticalUp",
+        0.5789473684210527
       ],
       [
         "addCurl",
@@ -218,6 +332,126 @@ export const gestures = [
         1
       ],
       [
+        "addDirection",
+        "Middle",
+        "DiagonalUpRight",
+        0.5789473684210527
+      ],
+      [
+        "addCurl",
+        "Ring",
+        "FullCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Ring",
+        "VerticalUp",
+        1
+      ],
+      [
+        "addDirection",
+        "Ring",
+        "DiagonalUpLeft",
+        0.4117647058823529
+      ],
+      [
+        "addDirection",
+        "Ring",
+        "DiagonalUpRight",
+        0.35294117647058826
+      ],
+      [
+        "addCurl",
+        "Pinky",
+        "FullCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Pinky",
+        "DiagonalUpRight",
+        1
+      ],
+      [
+        "addDirection",
+        "Pinky",
+        "VerticalUp",
+        0.42105263157894735
+      ],
+      [
+        "addDirection",
+        "Pinky",
+        "DiagonalUpLeft",
+        0.15789473684210525
+      ],
+      [
+        "setWeight",
+        "Index",
+        2
+      ],
+      [
+        "setWeight",
+        "Middle",
+        2
+      ]
+    ]
+  }),
+  createGesture({
+    "name": "okay",
+    "algorithm": "fingerpose",
+    "models": "hands",
+    "confidence": "7",
+    "description": [
+      [
+        "addCurl",
+        "Thumb",
+        "NoCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Thumb",
+        "HorizontalLeft",
+        1
+      ],
+      [
+        "addDirection",
+        "Thumb",
+        "DiagonalUpLeft",
+        0.7647058823529411
+      ],
+      [
+        "addCurl",
+        "Index",
+        "HalfCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Index",
+        "DiagonalUpLeft",
+        1
+      ],
+      [
+        "addDirection",
+        "Index",
+        "HorizontalLeft",
+        0.30434782608695654
+      ],
+      [
+        "addCurl",
+        "Middle",
+        "NoCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Middle",
+        "DiagonalUpLeft",
+        1
+      ],
+      [
         "addCurl",
         "Ring",
         "NoCurl",
@@ -226,8 +460,14 @@ export const gestures = [
       [
         "addDirection",
         "Ring",
-        "DiagonalUpRight",
+        "VerticalUp",
         1
+      ],
+      [
+        "addDirection",
+        "Ring",
+        "DiagonalUpLeft",
+        0.5
       ],
       [
         "addCurl",
@@ -240,10 +480,68 @@ export const gestures = [
         "Pinky",
         "DiagonalUpRight",
         1
+      ],
+      [
+        "addDirection",
+        "Pinky",
+        "VerticalUp",
+        0.36363636363636365
+      ],
+      [
+        "addDirection",
+        "Thumb",
+        "DiagonalDownLeft",
+        0.7647058823529411
+      ],
+      [
+        "addDirection",
+        "Index",
+        "DiagonalDownLeft",
+        1
+      ],
+      [
+        "addDirection",
+        "Middle",
+        "DiagonalDownLeft",
+        1
+      ],
+      [
+        "addDirection",
+        "Ring",
+        "VerticalDown",
+        1
+      ],
+      [
+        "addDirection",
+        "Ring",
+        "DiagonalDownLeft",
+        0.5
+      ],
+      [
+        "addDirection",
+        "Pinky",
+        "DiagonalDownRight",
+        1
+      ],
+      [
+        "addDirection",
+        "Pinky",
+        "VerticalDown",
+        0.36363636363636365
       ],
       [
         "setWeight",
         "Thumb",
+        2
+      ],
+      [
+        "setWeight",
+        "Index",
+        2
+      ],
+      [
+        "setWeight",
+        "Pinky",
         2
       ]
     ]
