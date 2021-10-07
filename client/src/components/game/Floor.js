@@ -26,12 +26,16 @@ const Floor = ({ game, gameDispatch, socket }) => {
     setInterval(() => setIsCountingDown(false), 3000)
   }, [setIsCountingDown])
 
-  const drawCard = () => {
-    //p.userId === authState.userId
-    console.log(socket.id)
-    // action draw card
-    socket.emit('draw card', { sid: socket.id, gameId: game.id })
+  const drawCard = (p) => {
+    if(p.sid === socket.id){
+      // console.log(socket.id)
+      // action draw card
+      socket.emit('draw card', { sid: socket.id, gameId: game.id })
+    }
+    
   }
+
+
 
 
   return (
@@ -42,10 +46,10 @@ const Floor = ({ game, gameDispatch, socket }) => {
       <div style={{display: isCountingDown ? 'none' : ''}}>
         <div className="table">
           {
-            Object.keys(game.players).map(key => game.players[key])
+            Object.keys(game.players).map(key => ({...game.players[key],sid: key}))
               .map((p, i) => {
                 return (
-                  <div key={i} onClick={drawCard}>
+                  <div key={i} onClick={() => drawCard(p)}>
                     <Card back height={'6em'} />
                     <p style={{ color: 'white' }}>{p.name} ({p.cards})</p>
                   </div>
