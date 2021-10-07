@@ -52,16 +52,6 @@ class Game {
   isEveryoneReady() {
     return this.players.every(p => p.ready)
   }
-<<<<<<< HEAD
-
-  //TODO(): distribute center cards to losers ?
-
-  nextTurn() {
-    // TODO(): check if any player has 0 cards
-    const n = this.players.length
-
-    this.currentTurn = this.currentTurn + 1 % n
-=======
 
   // TODO(): nextTurn() - changes currentTurn to next player's sid
   nextTurn()
@@ -76,7 +66,6 @@ class Game {
     {
       this.currentTurn=0
     }
->>>>>>> 334f2dd20f97eca838f7f29b5e4bf704cbcfc339
   }
 }
 
