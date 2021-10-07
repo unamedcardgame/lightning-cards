@@ -5,7 +5,7 @@ import { GestureEstimator } from 'fingerpose'
 import { gestures } from '../services/fingerpose/fingerposeService'
 import { Hands } from '@mediapipe/hands'
 
-export const useHands = () => {
+export const useHands = (socket) => {
     const [ctx, setCtx] = useState(null)
     const [GE, setGE] = useState(null)
     const canvasRef = useRef()
@@ -47,6 +47,7 @@ export const useHands = () => {
 
     // initialise mediapipe
     useEffect(() => {
+        console.log('ue run')
         function onResults(results) {
             ctx.save();
             ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
@@ -62,7 +63,16 @@ export const useHands = () => {
                     }
 
                     const estimatedGestures = GE.estimate(landmarks, 7.5);
-                    console.log(estimatedGestures.gestures[0]) // gesture results
+
+                    // gesture results
+                    console.log(estimatedGestures.gestures[0])
+                    const gesture = estimatedGestures.gestures[0]
+                    socket.emit('gesture', {
+                        reaction: {
+                            gesture: gesture,
+                            timestamp: new Date().getTime()
+                        },
+                    })
                 }
             }
             ctx.restore();

@@ -96,6 +96,11 @@ function setHandlers(io) {
      
     })
 
+    socket.on('gesture', reaction => {
+      console.log(reaction)
+      console.log(socket.id)
+    })
+
     // Debug handlers
 
   })

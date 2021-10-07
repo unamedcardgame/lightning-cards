@@ -11,7 +11,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
   const { userState: authState } = useContext(AuthContext)
   const [isCountingDown, setIsCountingDown] = useState(true)
   const [drawPile, setDrawPile] = useState([])
-  const hands = useHands()
+  const hands = useHands(socket)
 
 
   useEffect(() => {
