@@ -5,7 +5,7 @@ import { GestureEstimator } from 'fingerpose'
 import { gestures } from '../services/fingerpose/fingerposeService'
 import { Hands } from '@mediapipe/hands'
 
-export const useHands = (socket) => {
+export const useHands = (game, gameDispatch, socket) => {
     const [ctx, setCtx] = useState(null)
     const [GE, setGE] = useState(null)
     const canvasRef = useRef()
@@ -72,6 +72,7 @@ export const useHands = (socket) => {
                             gesture: gesture,
                             timestamp: new Date().getTime()
                         },
+                        gameId: game.id
                     })
                 }
             }
@@ -89,7 +90,7 @@ export const useHands = (socket) => {
             });
             camera.start()
         }
-    }, [ctx, GE])
+    }, [ctx, GE, socket])
 
     return {
         initialiseCanvasAndGE,

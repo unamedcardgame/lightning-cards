@@ -15,10 +15,9 @@ class Game {
   host
   running
   currentTurn
+  centerCards = []
   // TODO(): RULES MAP
   // TODO(): WINNERS ARRAY
-  // TODO(): CURRENT CARD
-  // TODO(): CENTER CARD DECK
   // TODO(): WRONGLY REACTED LIST OF PLAYERS
   rules = {
     'K': 'PewPew',
@@ -54,18 +53,24 @@ class Game {
   }
 
   // TODO(): nextTurn() - changes currentTurn to next player's sid
-  nextTurn()
-  {
-    let n = this.players.length-1
+  nextTurn() {
+    let n = this.players.length - 1
     //console.log("n="+ n)
-    if(this.currentTurn<n)
-    {
-      this.currentTurn+=1
+    if (this.currentTurn < n) {
+      this.currentTurn += 1
     }
-    else
-    {
-      this.currentTurn=0
+    else {
+      this.currentTurn = 0
     }
+  }
+
+  addToCenterDeck(card) {
+    this.centerCards.push(card)
+  }
+
+  get currentCard() {
+    console.log('CENTER CARD', this.centerCards)
+    return this.centerCards[this.centerCards.length - 1]
   }
 }
 
