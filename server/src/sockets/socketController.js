@@ -47,7 +47,7 @@ function setHandlers(io) {
         .players
         .find(p => p.sid === details.sid)
         .makeReady()
-        
+
 
       console.log(games[details.gameId].players.find(p => p.sid === details.sid).ready)
     })
@@ -73,27 +73,30 @@ function setHandlers(io) {
       // get sid's top card
       // validate whether sid === current player's turn ka sid
       // games[gameId].currentTurn === sid
-      if(sid === games[gameId].players[currentvalue].sid)
-      {
-        
-        //console.log("valus is" + currentvalue)
-
-      // get sid's top card
+      if (sid === games[gameId].players[currentvalue].sid) {
+        // get sid's top card
         const card = games[gameId].players
-        .find(p => p.sid === sid)
-        .cards
-        .splice(0, 1)[0]
+          .find(p => p.sid === sid)
+          .cards
+          .splice(0, 1)[0]
         io.of('/games').in(gameId).emit('draw pile', { card })
+        games[gameId].addToCenterDeck(card)
 
         // notify room that player drew card
         io.of('/games').in(gameId).emit('player drew', sid)
         games[gameId].nextTurn()
       }
-      else{
+      else {
         console.log("Not your Turn")
       }
-      
-     
+
+
+    })
+
+    socket.on('gesture', reaction => {
+      const {gameId} = reaction
+      console.log('compare reaction', reaction)
+      console.log('compare with card', games[gameId].currentCard)
     })
 
     // Debug handlers

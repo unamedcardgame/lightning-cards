@@ -11,7 +11,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
   const { userState: authState } = useContext(AuthContext)
   const [isCountingDown, setIsCountingDown] = useState(true)
   const [drawPile, setDrawPile] = useState([])
-  const hands = useHands()
+  const hands = useHands(game, gameDispatch, socket)
 
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
       <div className="countdown" style={{ display: isCountingDown ? '' : 'none' }}>
         Get Ready !
       </div>
-      <div style={{display: isCountingDown ? 'none' : ''}}>
+      <div style={{ display: isCountingDown ? 'none' : '' }}>
         <div className="table">
           {
             Object.keys(game.players).map(key => ({...game.players[key],sid: key}))
