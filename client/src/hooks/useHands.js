@@ -62,7 +62,7 @@ export const useHands = () => {
                     }
 
                     const estimatedGestures = GE.estimate(landmarks, 7.5);
-                    console.log(estimatedGestures.gestures[0])
+                    console.log(estimatedGestures.gestures[0]) // gesture results
                 }
             }
             ctx.restore();

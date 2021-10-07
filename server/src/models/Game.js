@@ -14,15 +14,20 @@ class Game {
   players = [] // look at Player.js for player details structure
   host
   running
-  currentTurn =0// TODO(): add current turn
+  currentTurn
+  // TODO(): RULES MAP
+  // TODO(): WINNERS ARRAY
+  // TODO(): CURRENT CARD
+  // TODO(): CENTER CARD DECK
+  // TODO(): WRONGLY REACTED LIST OF PLAYERS
   constructor(id) {
     this.id = id
     this.running = false
+    this.currentTurn = 0
   }
 
   addPlayer(player) {
     this.players.push(player)
-    this.currentTurn=0
   }
 
   setHost(player) {
@@ -31,7 +36,6 @@ class Game {
 
   startGame() {
     this.running = true
-    this.currentTurn = 0
   }
 
   getCurrentTurn() {
@@ -41,21 +45,14 @@ class Game {
   isEveryoneReady() {
     return this.players.every(p => p.ready)
   }
-  
-  // TODO(): nextTurn() - changes currentTurn to next player's sid
-  nextTurn()
-  {
-    let n = this.players.length-1
-    //console.log("n="+ n)
-    if(this.currentTurn<n)
-    {
-      this.currentTurn+=1
 
-    }
-    else
-    {
-      this.currentTurn=0
-    }
+  //TODO(): distribute center cards to losers ?
+
+  nextTurn() {
+    // TODO(): check if any player has 0 cards
+    const n = this.players.length
+
+    this.currentTurn = this.currentTurn + 1 % n
   }
 }
 
