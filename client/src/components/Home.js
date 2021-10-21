@@ -92,16 +92,16 @@ const Home = ({ setSocket, game, gameDispatch }) => {
           onHide={() => setPopupConfig({ ...popupConfig, show: false })}
         />
         <Row>
-          <p>welcome {authState?.user.name} !</p>
+          <p>Welcome {authState?.user.name} !</p>
         </Row>
         <Row>
-          <Button onClick={handleCreate}>Create</Button>
+          <Button onClick={handleCreate}>Create New Game</Button>
         </Row>
         <Row>
-          <Button onClick={() => setisJoinVisible(!isJoinVisible)} className="mt-2">Join</Button>
+          <Button onClick={() => setisJoinVisible(!isJoinVisible)} className="mt-2">Join Game</Button>
         </Row>
-        <Row className="justify-content-center" style={{ display: isJoinVisible ? null : 'none' }}>
-          <input ref={joinCodeInputRef} className="form-control mt-2 w-75" style={{ marginRight: '1px' }} placeholder="Enter Game ID here..." />
+        <Row className="justify-content-center" style={{ display: isJoinVisible ? null : 'none' }} >
+          <input ref={joinCodeInputRef} className="form-control mt-2 w-75" style={{ marginRight: '1px' }} placeholder="Enter Game ID" />
           <Button onClick={handleJoin} className="w-25 mt-1">Go</Button>
         </Row>
       </Col>

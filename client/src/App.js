@@ -10,6 +10,7 @@ import Floor from './components/game/Floor';
 import Lobby from './components/Lobby'
 import NavigationBar from './components/Navbar';
 import gameReducer from './reducers/gameReducer';
+import Speech from './components/game/Speech';
 
 const initialState = {
   isAuthenticated: false,
