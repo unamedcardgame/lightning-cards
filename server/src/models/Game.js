@@ -24,7 +24,7 @@ class Game {
     'Q': 'peace',
     'J': 'Yolo',
     'A': 'callme',
-    'T': 'okay',
+    '6': 'okay',
   };
   constructor(id) {
     this.id = id
@@ -51,6 +51,10 @@ class Game {
   isEveryoneReady() {
     return this.players.every(p => p.ready)
   }
+  isEveryonesTurnDone()
+  {
+    return this.players.every(p =>p.completedTurn)
+  }
 
   // TODO(): nextTurn() - changes currentTurn to next player's sid
   nextTurn() {
@@ -71,6 +75,10 @@ class Game {
   get currentCard() {
     console.log('CENTER CARD', this.centerCards)
     return this.centerCards[this.centerCards.length - 1]
+  }
+
+  getresult(){
+    
   }
 }
 
