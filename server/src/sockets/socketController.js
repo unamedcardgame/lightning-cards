@@ -84,16 +84,15 @@ function setHandlers(io) {
 
         // notify room that player drew card
         io.of('/games').in(gameId).emit('player drew', sid)
-        
+
         if (!games[gameId].isEveryonesTurnDone()) {
           const remainingList = games[gameId].players.filter(p => p.completedTurn === false)
           socket.emit('unready', remainingList)
         }
-        else
-        {
+        else {
           //games[gameId].nextTurn()
         }
-        
+
       }
       else {
         console.log("Not your Turn")
@@ -101,7 +100,7 @@ function setHandlers(io) {
 
 
     })
-    
+
     function getKeyByValue(object, value) {
       console.log("in function")
       return Object.keys(object).find(key => object[key] === value);
@@ -109,44 +108,48 @@ function setHandlers(io) {
 
     socket.on('gesture', reaction => {
       let gestureFlag = 0
-      const {gameId} = reaction
+      const { gameId } = reaction
+      // if undefined gesture, ignore
+      if (!reaction.reaction.gesture) return
+
       console.log('compare reaction', reaction)
       console.log('compare with card', games[gameId].currentCard)
-     
-        var keys = Object.keys(games[gameId].rules)
-        let curLetter=games[gameId].currentCard.substring(0,1)
-        let user_gesture
-        console.log(keys);
-        console.log("currentcard=",curLetter);
-        if(keys.find(c=>c==curLetter))
-        {
-         console.log("????",games[gameId].rules[curLetter])
-         console.log("cl",games[gameId].rules.curLetter)
-         console.log(games[gameId].rules)
-         
-          let cardGesture = games[gameId].rules[curLetter]
-          
-          Object.keys(reaction).forEach((key) => {
-          user_gesture = reaction[key].gesture?.name; 
-          console.log("Reaction done=",user_gesture);
-          });
-          
-            if(user_gesture==cardGesture)
-            {
-              console.log("correct");
-              gestureFlag=1;
-            }
-            else{
-              console.log("incorrect");
-            }
-        }
+
+      var keys = Object.keys(games[gameId].rules)
+      let curLetter = games[gameId].currentCard?.substring(0, 1)
+      let user_gesture
+      console.log(keys);
+      console.log("currentcard=", curLetter);
+      /*       if (keys.find(c => c == curLetter)) {
+              let cardGesture = games[gameId].rules[curLetter]
       
+              Object.keys(reaction).forEach((key) => {
+                user_gesture = reaction[key].gesture?.name;
+                console.log("Reaction done=", user_gesture);
+              });
+      
+              console.log('us', user_gesture)
+      
+              if (user_gesture == cardGesture) {
+                console.log("correct");
+                gestureFlag = 1;
+              }
+              else {
+                console.log("incorrect");
+              }
+            } */
+
+      if (games[gameId].rules[curLetter] === reaction.reaction.gesture.name) {
+        console.log('correct')
+      } else {
+        console.log('incorrect')
+      }
 
     })
 
-    
 
-    
+
+
 
     // Debug handlers
 
