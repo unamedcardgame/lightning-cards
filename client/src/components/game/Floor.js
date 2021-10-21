@@ -32,11 +32,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
       // action draw card
       socket.emit('draw card', { sid: socket.id, gameId: game.id })
     }
-    
   }
-
-
-
 
   return (
     <Container fluid className="h-100">

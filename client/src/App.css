@@ -1,7 +1,9 @@
 .main {
   color: white;
   /*background-color: #282c34;*/
-  background-color: #453f5c;
+  /* background-color: #453f5c; */
+  background: rgb(125,56,208);
+background: radial-gradient(circle, rgba(125,56,208,1) 0%, rgba(34,5,53,1) 92%);
   height: 100vh;
 }
 
