@@ -61,6 +61,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
   const handleSaveNote = () => {
     setSavedNotes([...savedNotes, note])
     setNote('')
+    mic.stop()
   }
 
   useEffect(() => {
@@ -78,6 +79,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
   const drawCard = (p) => {
     if (p.sid === socket.id) {
       console.log(socket.id)
+      setNote('')
       // action draw card
       socket.emit('draw card', { sid: socket.id, gameId: game.id })
     }
@@ -134,16 +136,16 @@ const Floor = ({ game, gameDispatch, socket }) => {
                     Save it
                   </button>
                   <button class="button-37" onClick={() => setIsListening(prevState => !prevState)}>
-                    Start/Stop Recording
+                    Mic On/Off
                   </button>
                   <p>{note}</p>
                 </div>
-                <div className="box">
+                {/*<div className="box">
                   <h6>Saved Texts</h6>
                   {savedNotes.map(n => (
                     <p key={n}>{n}</p>
                   ))}
-                </div>
+                </div> */}
               </div>
             </td>
           </tr>
