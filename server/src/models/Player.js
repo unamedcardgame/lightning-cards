@@ -5,6 +5,7 @@ class Player {
   cards
   name
   ready
+  completedTurn
   constructor(gid, sid, name, ready) {
     this.gid = gid
     this.sid = sid
@@ -12,6 +13,7 @@ class Player {
     this.turn = false
     this.cards = []
     this.ready = ready
+    this.completedTurn = false
   }
 
   isTurn() {
@@ -24,6 +26,12 @@ class Player {
 
   makeReady() {
     this.ready = true
+  }
+  makeTurnDone(){
+    this.completedTurn=true
+  }
+  makeTurnUnDone(){
+    this.completedTurn=false
   }
 }
 
