@@ -90,6 +90,7 @@ export const useHands = (game, gameDispatch, socket) => {
             });
             camera.start()
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ctx, GE, socket])
 
     return {
