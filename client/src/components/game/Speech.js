@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react'
-import { Row, Col, Button } from 'react-bootstrap'
 
 const SpeechRecognition  = 
     window.speechRecognition || window.webkitSpeechRecognition
