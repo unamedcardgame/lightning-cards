@@ -1,8 +1,10 @@
 .main {
   color: white;
   /*background-color: #282c34;*/
-  background-color: #453f5c;
-  height: 100vh;
+  /* background-color: #453f5c; */
+  background: rgb(125,56,208);
+  background: radial-gradient(circle, rgba(125,56,208,1) 0%, rgba(34,5,53,1) 92%);
+  height: 110vh;
 }
 
 .a-link {
@@ -25,4 +27,46 @@
   text-align: left;
   margin-right: 670px;
   margin-left: 0px;
+}
+
+.tableCenter{
+  margin-top: 10px;
+  text-align: center;
+  align-content: center;
+  align-self: center;
+  margin: auto;
+  width: auto;
+}
+
+.button-37 {
+  background-color: #0f4ead;
+  border: 1px solid #13aa52;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  outline: none;
+  outline: 0;
+  padding: 10px 25px;
+  text-align: center;
+  transform: translateY(0);
+  transition: transform 150ms, box-shadow 150ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-37:hover {
+  box-shadow: rgba(0, 0, 0, .15) 0 3px 9px 0;
+  transform: translateY(-2px);
+}
+
+@media (min-width: 768px) {
+  .button-37 {
+    padding: 10px 30px;
+  }
 }
