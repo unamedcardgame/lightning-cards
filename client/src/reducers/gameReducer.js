@@ -23,6 +23,9 @@ const gameReducer = (state = initialState, action) => {
       const newPlayers = cloneDeep(state.players)
       action.payload.forEach(p => newPlayers[p.sid].cards = p.cards)
       return { ...state, players: newPlayers }
+    case 'SET_GESTURES':
+      const { result, gesture } = action.payload
+      return { ...state, reaction: { result, gesture } }
     case 'DRAW_CARD':
       return {
         ...state, players: { ...state.players, [action.payload.playerSid]: { ...state.players[action.payload.playerSid], cards: state.players[action.payload.playerSid].cards - 1 } }
@@ -51,6 +54,10 @@ export const setCardLengths = cardsList => {
 
 export const updatePlayerCards = player => {
   return { type: 'DRAW_CARD', payload: { playerSid: player } }
+}
+
+export const setGesture = obj => {
+  return { type: 'SET_GESTURES', payload: obj }
 }
 
 export default gameReducer

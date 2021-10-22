@@ -141,8 +141,10 @@ function setHandlers(io) {
 
       if (games[gameId].rules[curLetter] === reaction.reaction.gesture.name) {
         console.log('correct')
+        socket.emit('validated gesture', { result: 'correct', gesture: reaction.reaction.gesture.name })
       } else {
         console.log('incorrect')
+        socket.emit('validated gesture', { result: 'incorrect', gesture: reaction.reaction.gesture.name })
       }
 
     })
