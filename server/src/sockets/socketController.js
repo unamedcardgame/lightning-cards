@@ -86,14 +86,6 @@ function setHandlers(io) {
         io.of('/games').in(gameId).emit('player drew', sid)
 
         games[gameId].nextTurn()
-        /*         if (!games[gameId].isEveryonesTurnDone()) {
-                  const remainingList = games[gameId].players.filter(p => p.completedTurn === false)
-                  socket.emit('unready', remainingList)
-                }
-                else {
-                  games[gameId].nextTurn()
-                } */
-
       }
       else {
         console.log("Not your Turn")
@@ -101,11 +93,6 @@ function setHandlers(io) {
 
 
     })
-
-    function getKeyByValue(object, value) {
-      console.log("in function")
-      return Object.keys(object).find(key => object[key] === value);
-    }
 
     socket.on('gesture', reaction => {
       let gestureFlag = 0

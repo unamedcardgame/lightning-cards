@@ -16,7 +16,6 @@ class Game {
   running
   currentTurn
   centerCards = []
-  // TODO(): RULES MAP
   // TODO(): WINNERS ARRAY
   // TODO(): WRONGLY REACTED LIST OF PLAYERS
   rules = {
@@ -60,7 +59,6 @@ class Game {
   nextTurn() {
     let n = this.players.length - 1
     console.log(n)
-    //console.log("n="+ n)
     if (this.currentTurn < n) {
       this.currentTurn += 1
     }
