@@ -85,13 +85,14 @@ function setHandlers(io) {
         // notify room that player drew card
         io.of('/games').in(gameId).emit('player drew', sid)
 
-        if (!games[gameId].isEveryonesTurnDone()) {
-          const remainingList = games[gameId].players.filter(p => p.completedTurn === false)
-          socket.emit('unready', remainingList)
-        }
-        else {
-          //games[gameId].nextTurn()
-        }
+        games[gameId].nextTurn()
+        /*         if (!games[gameId].isEveryonesTurnDone()) {
+                  const remainingList = games[gameId].players.filter(p => p.completedTurn === false)
+                  socket.emit('unready', remainingList)
+                }
+                else {
+                  games[gameId].nextTurn()
+                } */
 
       }
       else {
@@ -120,24 +121,6 @@ function setHandlers(io) {
       let user_gesture
       console.log(keys);
       console.log("currentcard=", curLetter);
-      /*       if (keys.find(c => c == curLetter)) {
-              let cardGesture = games[gameId].rules[curLetter]
-      
-              Object.keys(reaction).forEach((key) => {
-                user_gesture = reaction[key].gesture?.name;
-                console.log("Reaction done=", user_gesture);
-              });
-      
-              console.log('us', user_gesture)
-      
-              if (user_gesture == cardGesture) {
-                console.log("correct");
-                gestureFlag = 1;
-              }
-              else {
-                console.log("incorrect");
-              }
-            } */
 
       if (games[gameId].rules[curLetter] === reaction.reaction.gesture.name) {
         console.log('correct')
@@ -146,12 +129,7 @@ function setHandlers(io) {
         console.log('incorrect')
         socket.emit('validated gesture', { result: 'incorrect', gesture: reaction.reaction.gesture.name })
       }
-
     })
-
-
-
-
 
     // Debug handlers
 
