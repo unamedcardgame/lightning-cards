@@ -48,8 +48,6 @@ function setHandlers(io) {
         .find(p => p.sid === details.sid)
         .makeReady()
 
-
-      console.log(games[details.gameId].players.find(p => p.sid === details.sid).ready)
     })
 
     // Game handlers
@@ -66,10 +64,8 @@ function setHandlers(io) {
 
     socket.on('draw card', user => {
       const { sid, gameId } = user
-      console.log(gameId)
       let currentvalue = games[gameId].getCurrentTurn()
 
-      //console.log(currentvalue)
       // get sid's top card
       // validate whether sid === current player's turn ka sid
       // games[gameId].currentTurn === sid
@@ -100,14 +96,7 @@ function setHandlers(io) {
       // if undefined gesture, ignore
       if (!reaction.reaction.gesture) return
 
-      console.log('compare reaction', reaction)
-      console.log('compare with card', games[gameId].currentCard)
-
-      var keys = Object.keys(games[gameId].rules)
       let curLetter = games[gameId].currentCard?.substring(0, 1)
-      let user_gesture
-      console.log(keys);
-      console.log("currentcard=", curLetter);
 
       if (games[gameId].rules[curLetter] === reaction.reaction.gesture.name) {
         console.log('correct')
