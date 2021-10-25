@@ -23,7 +23,7 @@ class Game {
     'Q': 'peace',
     'J': 'Yolo',
     'A': 'callme',
-    '6': 'okay',
+    'T': 'okay',
   };
   constructor(id) {
     this.id = id

@@ -2,7 +2,6 @@
 /* eslint-disable no-unused-vars */
 import Card from '@heruka_urgyen/react-playing-cards/lib/TcN'
 import { useState, useEffect, useRef, useContext } from 'react'
-import { Row, Col, Button } from 'react-bootstrap'
 import { Container } from 'react-bootstrap'
 import { setCallbacks } from '../../services/socketService';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -133,7 +132,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
                   <h6 style={{ margin: "10px" }}>Record Voice</h6>
                   {isListening ? <span>🎙️</span> : <span>🛑🎙️</span>}
                   <button class="button-37" onClick={handleSaveNote} disabled={!note} style={{ margin: "10px" }}>
-                    Save it
+                    Clear
                   </button>
                   <button class="button-37" onClick={() => setIsListening(prevState => !prevState)}>
                     Mic On/Off
