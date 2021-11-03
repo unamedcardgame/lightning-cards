@@ -4,6 +4,7 @@ const initialState = {
   id: null,
   players: {},
   host: false,
+  reactionReady: false,
 }
 
 // CONSIDER A MAP RATHER THAN AN AN OBJECT TO MAINTAIN ORDER
@@ -29,6 +30,10 @@ const gameReducer = (state = initialState, action) => {
     case 'DRAW_CARD':
       return {
         ...state, players: { ...state.players, [action.payload.playerSid]: { ...state.players[action.payload.playerSid], cards: state.players[action.payload.playerSid].cards - 1 } }
+      }
+    case 'SET_REACTION_READY':
+      return {
+        ...state, reactionReady: action.payload
       }
     default:
       return state
@@ -58,6 +63,10 @@ export const updatePlayerCards = player => {
 
 export const setGesture = obj => {
   return { type: 'SET_GESTURES', payload: obj }
+}
+
+export const setReactionReady = status => {
+  return { type: 'SET_REACTION_READY', payload: status }
 }
 
 export default gameReducer

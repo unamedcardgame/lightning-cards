@@ -1,4 +1,4 @@
-import { updatePlayerCards, setGesture } from "../reducers/gameReducer"
+import { updatePlayerCards, setGesture, setReactionReady } from "../reducers/gameReducer"
 
 export const setCallbacks = (socket, setDrawPile, gameDispatch) => {
   socket.on('cards ready', () => {
@@ -11,6 +11,7 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch) => {
 
   socket.on('player drew', player => {
     gameDispatch(updatePlayerCards(player))
+    gameDispatch(setReactionReady(true))
   })
 
   socket.on('validated gesture', obj => {

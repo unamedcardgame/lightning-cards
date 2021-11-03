@@ -47,7 +47,6 @@ function setHandlers(io) {
         .players
         .find(p => p.sid === details.sid)
         .makeReady()
-
     })
 
     // Game handlers
@@ -81,6 +80,9 @@ function setHandlers(io) {
         // notify room that player drew card
         io.of('/games').in(gameId).emit('player drew', sid)
 
+        // TODO(Eric): reaction reception mode ON
+        // game.reactionMode = true
+
         games[gameId].nextTurn()
       }
       else {
@@ -91,20 +93,37 @@ function setHandlers(io) {
     })
 
     socket.on('gesture', reaction => {
-      let gestureFlag = 0
       const { gameId } = reaction
       // if undefined gesture, ignore
       if (!reaction.reaction.gesture) return
 
       let curLetter = games[gameId].currentCard?.substring(0, 1)
 
+      player = games[gameId]
+        .players
+        .find(p => p.sid === socket.id)
+
+      player.setTurnCompleted(true)
+
       if (games[gameId].rules[curLetter] === reaction.reaction.gesture.name) {
         console.log('correct')
         socket.emit('validated gesture', { result: 'correct', gesture: reaction.reaction.gesture.name })
+        player.setReactedCorrectly(true)
       } else {
         console.log('incorrect')
         socket.emit('validated gesture', { result: 'incorrect', gesture: reaction.reaction.gesture.name })
+        player.setReactedCorrectly(false)
       }
+
+      // check if everyone has reacted or if everyone except 1 person has (cz he's the loser then)
+      everyoneReacted = games[gameId]
+        .players
+        .every(p => p.turnCompleted === true)
+
+      if (everyoneReacted) {
+        console.log('Everyone reacted !')
+      }
+      
     })
 
     // Debug handlers

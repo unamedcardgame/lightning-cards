@@ -19,6 +19,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
   const [isCountingDown, setIsCountingDown] = useState(true)
   const [drawPile, setDrawPile] = useState([])
   const hands = useHands(game, gameDispatch, socket)
+  console.log('gr', game.reactionReady)
 
   const [isListening, setIsListening] = useState(false)
   const [note, setNote] = useState(null)
@@ -121,7 +122,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
           <tr>
             <td>
               <div className="container">
-                <h6 style={{ margin: "10px" }}>Captured reaction: {game.reaction?.gesture} Result: {game.reaction?.result}</h6>
+                <h6 style={{ margin: "10px" }}>{ game.reactionReady ? 'MAKE YOUR REACTION ! ' : 'Wait for Draw... ' } {game.reaction?.gesture} Result: {game.reaction?.result}</h6>
                 <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video"></video>
                 <canvas ref={hands.canvasRef} className="output_canvas" width="250px" height="250px"></canvas>
               </div>
