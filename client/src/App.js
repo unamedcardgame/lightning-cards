@@ -11,7 +11,7 @@ import Lobby from './components/Lobby'
 import NavigationBar from './components/Navbar';
 import gameReducer from './reducers/gameReducer';
 
-const initialState = {
+const initialState = process.env.NODE_ENV === 'production' ? {
   isAuthenticated: false,
   /*
     Structure of user
@@ -22,6 +22,13 @@ const initialState = {
   user: null,
   token: null,
 }
+  : {
+    isAuthenticated: true,
+    user: { name: 'appleUser ' + parseInt(Math.random() * 100) },
+    token: 'none'
+  }
+
+
 function App() {
   const [userState, dispatch] = useReducer(userReducer, initialState)
   const [socket, setSocket] = useState(null)

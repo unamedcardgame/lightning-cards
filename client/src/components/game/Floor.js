@@ -124,7 +124,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
               <div className="container">
                 <h6 style={{ margin: "10px" }}>{ game.reactionReady ? 'MAKE YOUR REACTION ! ' : 'Wait for Draw... ' } {game.reaction?.gesture} Result: {game.reaction?.result}</h6>
                 <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video"></video>
-                <canvas ref={hands.canvasRef} className="output_canvas" width="250px" height="250px"></canvas>
+                <canvas ref={hands.canvasRef} className="output_canvas" width="1280px" height="720px"></canvas>
               </div>
             </td>
             <td>

@@ -23,7 +23,7 @@ export const useHands = (game, gameDispatch, socket) => {
     useEffect(() => {
         handsRef.current.setOptions({
             maxNumHands: 1,
-            minDetectionConfidence: 0.8,
+            minDetectionConfidence: 0.5,
             minTrackingConfidence: 0.5
         });
     }, [])
