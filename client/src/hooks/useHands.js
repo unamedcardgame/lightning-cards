@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { Camera } from '@mediapipe/camera_utils'
-import { drawLandmarks } from '@mediapipe/drawing_utils'
+import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils'
 import { GestureEstimator } from 'fingerpose'
 import { gestures } from '../services/fingerpose/fingerposeService'
-import { Hands } from '@mediapipe/hands'
+import { Hands, HAND_CONNECTIONS } from '@mediapipe/hands'
 
 export const useHands = (game, gameDispatch, socket) => {
     const [ctx, setCtx] = useState(null)
@@ -55,6 +55,7 @@ export const useHands = (game, gameDispatch, socket) => {
                 results.image, 0, 0, canvasRef.current.width, canvasRef.current.height);
             if (results.multiHandLandmarks) {
                 for (const landmarks of results.multiHandLandmarks) {
+                    drawConnectors(ctx, landmarks, HAND_CONNECTIONS, { color: '#FF0000' })
                     drawLandmarks(ctx, landmarks, { color: '#FF0000', lineWidth: 2 });
 
                     // conv landmarks for fp
@@ -77,6 +78,32 @@ export const useHands = (game, gameDispatch, socket) => {
                 }
             }
             ctx.restore();
+
+            if (results.multiHandWorldLandmarks) {
+                // We only get to call updateLandmarks once, so we need to cook the data to
+                // fit. The landmarks just merge, but the connections need to be offset.
+                const landmarks = results.multiHandWorldLandmarks.reduce(
+                    (prev, current) => [...prev, ...current], []);
+                const colors = [];
+                let connections = [];
+                for (let loop = 0; loop < results.multiHandWorldLandmarks.length; ++loop) {
+                    const offset = loop * HAND_CONNECTIONS.length;
+                    const offsetConnections =
+                        HAND_CONNECTIONS.map(
+                            (connection) =>
+                                [connection[0] + offset, connection[1] + offset]);
+                    connections = connections.concat(offsetConnections);
+                    const classification = results.multiHandedness[loop];
+                    colors.push({
+                        list: offsetConnections.map((unused, i) => i + offset),
+                        color: classification.label,
+                    });
+                }
+                //grid.updateLandmarks(landmarks, connections, colors);
+            } else {
+                //grid.updateLandmarks([]);
+            }
+
         }
         if (GE && ctx) {
             handsRef.current.onResults(onResults)
@@ -90,7 +117,7 @@ export const useHands = (game, gameDispatch, socket) => {
             });
             camera.start()
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ctx, GE, socket])
 
     return {
