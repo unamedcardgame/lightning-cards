@@ -28,11 +28,7 @@
     
       function fetchRemotePackage(packageName, packageSize, callback, errback) {
         
-        const isNodeJs = () => (typeof process !== 'undefined') &&
-          (typeof process.versions !== 'undefined') &&
-          (typeof process.versions.node !== 'undefined');
-
-        if (isNodeJs()) {
+        if (typeof process === 'object' && typeof process.versions === 'object' && typeof process.versions.node === 'string') {
           require('fs').readFile(packageName, function(err, contents) {
             if (err) {
               errback(err);
@@ -195,7 +191,7 @@ Module['FS_createPath']("/third_party/mediapipe/modules", "hand_landmark", true,
     }
   
    }
-   loadPackage({"files": [{"filename": "/third_party/mediapipe/modules/palm_detection/palm_detection.tflite", "start": 0, "end": 3877888, "audio": 0}, {"filename": "/third_party/mediapipe/modules/hand_landmark/handedness.txt", "start": 3877888, "end": 3877899, "audio": 0}, {"filename": "/third_party/mediapipe/modules/hand_landmark/hand_landmark.tflite", "start": 3877899, "end": 7670519, "audio": 0}], "remote_package_size": 7670519, "package_uuid": "a2a9bf7d-cb63-47b4-b34a-cb1d293098b9"});
+   loadPackage({"files": [{"filename": "/third_party/mediapipe/modules/palm_detection/palm_detection_lite.tflite", "start": 0, "end": 1985440, "audio": 0}, {"filename": "/third_party/mediapipe/modules/palm_detection/palm_detection_full.tflite", "start": 1985440, "end": 4326720, "audio": 0}, {"filename": "/third_party/mediapipe/modules/hand_landmark/handedness.txt", "start": 4326720, "end": 4326731, "audio": 0}], "remote_package_size": 4326731, "package_uuid": "fd2c5510-9f9b-40f4-96d7-a6bab2e00753"});
   
   })();
   

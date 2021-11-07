@@ -24,7 +24,8 @@ export const useHands = (game, gameDispatch, socket) => {
         handsRef.current.setOptions({
             maxNumHands: 1,
             minDetectionConfidence: 0.5,
-            minTrackingConfidence: 0.5
+            minTrackingConfidence: 0.5,
+            modelComplexity: 1,
         });
     }, [])
 
