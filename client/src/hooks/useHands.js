@@ -25,7 +25,7 @@ export const useHands = (game, gameDispatch, socket) => {
             maxNumHands: 1,
             minDetectionConfidence: 0.5,
             minTrackingConfidence: 0.5,
-            modelComplexity: 1,
+            modelComplexity: 0,
         });
     }, [])
 
