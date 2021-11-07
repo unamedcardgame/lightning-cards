@@ -28,26 +28,8 @@ export const useHands = (game, gameDispatch, socket) => {
         });
     }, [])
 
-
-    // create a canvas and initialise fingerpose gesture estimators
-    const initialiseCanvasAndGE = () => {
-        setCtx(canvasRef.current.getContext('2d'))
-        setGE(new GestureEstimator(
-            gestures
-        ))
-    }
-
-    const initialiseHands = () => {
-        handsRef.current.initialize().then(success => setLoaded(true))
-    }
-
-    const closeHands = () => {
-        handsRef.current.close()
-    }
-
-    // initialise mediapipe
     useEffect(() => {
-        console.log('ue run')
+        console.log('another callback')
         function onResults(results) {
             ctx.save();
             ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
@@ -68,13 +50,17 @@ export const useHands = (game, gameDispatch, socket) => {
                     // gesture results
                     console.log(estimatedGestures.gestures[0])
                     const gesture = estimatedGestures.gestures[0]
-                    socket.emit('gesture', {
-                        reaction: {
-                            gesture: gesture,
-                            timestamp: new Date().getTime()
-                        },
-                        gameId: game.id
-                    })
+
+                    if (gesture !== undefined) {
+                        console.log('gesture sent')
+                        socket.emit('gesture', {
+                            reaction: {
+                                gesture: gesture,
+                                timestamp: new Date().getTime()
+                            },
+                            gameId: game.id
+                        })
+                    }
                 }
             }
             ctx.restore();
@@ -91,8 +77,24 @@ export const useHands = (game, gameDispatch, socket) => {
             });
             camera.start()
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [ctx, GE, socket, game])
+    }, [GE, ctx, game?.id, socket, game?.reactionReady])
+
+
+    // create a canvas and initialise fingerpose gesture estimators
+    const initialiseCanvasAndGE = () => {
+        setCtx(canvasRef.current.getContext('2d'))
+        setGE(new GestureEstimator(
+            gestures
+        ))
+    }
+
+    const initialiseHands = () => {
+        handsRef.current.initialize().then(success => setLoaded(true))
+    }
+
+    const closeHands = () => {
+        handsRef.current.close()
+    }
 
     return {
         initialiseCanvasAndGE,

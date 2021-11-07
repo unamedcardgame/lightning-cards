@@ -73,7 +73,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
   }, [])
 
   useEffect(() => {
-    setInterval(() => setIsCountingDown(false), 3000)
+    setInterval(() => setIsCountingDown(false), 0) // TODO(): Set back to 3000
   }, [setIsCountingDown])
 
   const drawCard = (p) => {
@@ -122,9 +122,9 @@ const Floor = ({ game, gameDispatch, socket }) => {
           <tr>
             <td>
               <div className="container">
-                <h6 style={{ margin: "10px" }}>{ game.reactionReady ? 'MAKE YOUR REACTION ! ' : 'Wait for Draw... ' } {game.reaction?.gesture} Result: {game.reaction?.result}</h6>
+                <h6 style={{ margin: "10px" }}>{game.reactionReady ? 'MAKE YOUR REACTION ! ' : 'Wait for Draw... '} {game.reaction?.gesture} Result: {game.reaction?.result}</h6>
                 <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video"></video>
-                <canvas ref={hands.canvasRef} className="output_canvas" width="1280px" height="720px"></canvas>
+                <canvas ref={hands.canvasRef} className="output_canvas" width="480px" height="320px"></canvas>
               </div>
             </td>
             <td>
