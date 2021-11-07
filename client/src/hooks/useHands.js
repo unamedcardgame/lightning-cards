@@ -10,7 +10,7 @@ export const useHands = (game, gameDispatch, socket) => {
     const [GE, setGE] = useState(null)
     const canvasRef = useRef()
     const videoRef = useRef()
-    const [loaded, setLoaded] = useState(false)
+    const [loaded, setLoaded] = useState(true)
     const handsRef = useRef(
         new Hands({
             locateFile: (file) => {
@@ -73,7 +73,7 @@ export const useHands = (game, gameDispatch, socket) => {
                     await handsRef.current.send({ image: videoRef.current });
                 },
                 width: 1280,
-                height: 720
+                height: 720,
             });
             camera.start()
         }
