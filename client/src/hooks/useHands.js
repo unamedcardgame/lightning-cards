@@ -68,7 +68,6 @@ export const useHands = (game, gameDispatch, socket) => {
             }
             ctx.restore();
         }
-        console.log('cam stat', cameraInitialised)
         handsRef.current.onResults(onResults)
         if (GE && ctx && cameraInitialised === false) {
 

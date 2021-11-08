@@ -113,7 +113,10 @@ const Floor = ({ game, gameDispatch, socket }) => {
           <tr>
             <td>
               <div className="drawpile" style={{ marginBottom: "30px" }}>
-                <Card card={drawPile} height={'7em'} />
+                {drawPile.length > 0
+                  ? <Card card={drawPile} height={'7em'} />
+                  : ''
+                }
               </div>
             </td>
           </tr>

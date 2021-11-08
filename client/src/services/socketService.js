@@ -20,5 +20,6 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch) => {
 
   socket.on('loser declared', () => {
     gameDispatch(setReactionReady(false))
+    setDrawPile([])
   })
 }
