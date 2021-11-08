@@ -57,7 +57,6 @@ class Game {
   // TODO(): nextTurn() - changes currentTurn to next player's sid
   nextTurn() {
     let n = this.players.length - 1
-    console.log(n)
     if (this.currentTurn < n) {
       this.currentTurn += 1
     }

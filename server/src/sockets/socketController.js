@@ -97,52 +97,58 @@ function setHandlers(io) {
       let player = games[gameId]
         .players
         .find(p => p.sid === socket.id)
-      // if undefined gesture, ignore
+      // if undefined gesture or player reacted already, ignore
       if (!reaction.reaction.gesture || player.turnCompleted) return
 
       let curLetter = games[gameId].currentCard?.substring(0, 1)
       const numberOfCenterCards = games[gameId].centerCards.length
-      console.log('cennum', numberOfCenterCards)
+      let everyoneReacted = false
 
-      player.setTurnCompleted(true)
-      // check if everyone except 1 person has (cz he's the loser then)
-      let everyoneReacted
-      const playerCount = games[gameId].players.length
-      let reactedCount = 0
-      for (player of games[gameId].players) {
-        if (player.turnCompleted) reactedCount++
-      }
-      if (reactedCount === playerCount - 1) everyoneReacted = true
-      else everyoneReacted = false
 
       // check validity of reaction
       const correctReaction = games[gameId].rules[curLetter] === reaction.reaction.gesture.name
       if (correctReaction && !everyoneReacted) {
         socket.emit('validated gesture', { result: 'correct', gesture: reaction.reaction.gesture.name })
         player.setReactedCorrectly(true)
-        player.setTurnCompleted(false)
-
-      } else {
-        let loser
-        if (!correctReaction) {
-          socket.emit('validated gesture', { result: 'incorrect', gesture: reaction.reaction.gesture.name })
-          player.setReactedCorrectly(false)
-          loser = player
-        }
-        loser = loser ? loser : games[gameId].players.find(p => p.turnCompleted === false)
-
+        player.setTurnCompleted(true)
+      } else if (!correctReaction) {
+        // declar loser + reset turns
+        socket.emit('validated gesture', { result: 'incorrect', gesture: reaction.reaction.gesture.name })
+        player.setReactedCorrectly(false)
+        loser = player
         loser.addCards(games[gameId].centerCards)
         games[gameId].clearCenterDeck()
-
         // reset turn completed status
         games[gameId]
           .players
           .forEach(p => p.setTurnCompleted(false))
-
         io.of('/games').in(gameId).emit('loser declared', { sid: loser.sid, cards: numberOfCenterCards })
-        /*         console.log(games[gameId].players[0].name + ': ' + games[gameId].players[0].cards.length +
-                  ' and'+ games[gameId].players[1].name + ':' + games[gameId].players[1].cards.length) */
       }
+
+      // check if everyone except 1 person has (cz he's the loser then)
+      const playerCount = games[gameId].players.length
+      let reactedCount = 0
+      for (player of games[gameId].players) {
+        if (player.turnCompleted) reactedCount++
+      }
+      if (reactedCount === playerCount - 1) everyoneReacted = true
+
+      if (everyoneReacted) {
+        // declar loser + reset turns
+        player = games[gameId]
+          .players
+          .find(p => p.turnCompleted === false)
+        player.setReactedCorrectly(false)
+        loser = player
+        loser.addCards(games[gameId].centerCards)
+        games[gameId].clearCenterDeck()
+        // reset turn completed status
+        games[gameId]
+          .players
+          .forEach(p => p.setTurnCompleted(false))
+        io.of('/games').in(gameId).emit('loser declared', { sid: loser.sid, cards: numberOfCenterCards })
+      }
+
     })
 
     // Debug handlers
