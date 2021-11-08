@@ -94,14 +94,15 @@ function setHandlers(io) {
 
     socket.on('gesture', reaction => {
       const { gameId } = reaction
-      // if undefined gesture, ignore
-      if (!reaction.reaction.gesture) return
-
-      let curLetter = games[gameId].currentCard?.substring(0, 1)
-
       let player = games[gameId]
         .players
         .find(p => p.sid === socket.id)
+      // if undefined gesture, ignore
+      if (!reaction.reaction.gesture || player.turnCompleted) return
+
+      let curLetter = games[gameId].currentCard?.substring(0, 1)
+      const numberOfCenterCards = games[gameId].centerCards.length
+      console.log('cennum', numberOfCenterCards)
 
       player.setTurnCompleted(true)
       // check if everyone except 1 person has (cz he's the loser then)
@@ -119,6 +120,7 @@ function setHandlers(io) {
       if (correctReaction && !everyoneReacted) {
         socket.emit('validated gesture', { result: 'correct', gesture: reaction.reaction.gesture.name })
         player.setReactedCorrectly(true)
+        player.setTurnCompleted(false)
 
       } else {
         let loser
@@ -137,8 +139,9 @@ function setHandlers(io) {
           .players
           .forEach(p => p.setTurnCompleted(false))
 
-        io.of('/games').in(gameId).emit('loser declared')
-        console.log(loser.cards)
+        io.of('/games').in(gameId).emit('loser declared', { sid: loser.sid, cards: numberOfCenterCards })
+        /*         console.log(games[gameId].players[0].name + ': ' + games[gameId].players[0].cards.length +
+                  ' and'+ games[gameId].players[1].name + ':' + games[gameId].players[1].cards.length) */
       }
     })
 
