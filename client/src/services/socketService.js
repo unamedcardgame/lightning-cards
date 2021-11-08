@@ -17,4 +17,8 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch) => {
   socket.on('validated gesture', obj => {
     gameDispatch(setGesture(obj))
   })
+
+  socket.on('loser declared', () => {
+    gameDispatch(setReactionReady(false))
+  })
 }

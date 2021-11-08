@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@heruka_urgyen/react-playing-cards": "^0.4.2",
-    "@mediapipe/camera_utils": "^0.3.1631210127",
+    "@mediapipe/camera_utils": "^0.3.1632432234",
     "@mediapipe/drawing_utils": "^0.3.1620248257",
     "@mediapipe/hands": "^0.4.1635986972",
     "@testing-library/jest-dom": "^5.14.1",

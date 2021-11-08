@@ -70,6 +70,10 @@ class Game {
     this.centerCards.push(card)
   }
 
+  clearCenterDeck() {
+    this.centerCards = []
+  }
+
   get currentCard() {
     return this.centerCards[this.centerCards.length - 1]
   }

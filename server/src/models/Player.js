@@ -6,7 +6,7 @@ class Player {
   name
   ready
   reactedCorrectly
-  turnCompleted
+  turnCompleted = false
 
   constructor(gid, sid, name, ready) {
     this.gid = gid
@@ -24,6 +24,10 @@ class Player {
 
   set cards(deck) {
     this.cards.push(...deck)
+  }
+
+  addCards(cards) {
+    this.cards.push(...cards)
   }
 
   makeReady() {

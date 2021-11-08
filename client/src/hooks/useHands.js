@@ -8,6 +8,7 @@ import { Hands, HAND_CONNECTIONS } from '@mediapipe/hands'
 export const useHands = (game, gameDispatch, socket) => {
     const [ctx, setCtx] = useState(null)
     const [GE, setGE] = useState(null)
+    const [cameraInitialised, setCameraInitialised] = useState(false)
     const canvasRef = useRef()
     const videoRef = useRef()
     const [loaded, setLoaded] = useState(false)
@@ -26,6 +27,7 @@ export const useHands = (game, gameDispatch, socket) => {
             minDetectionConfidence: 0.5,
             minTrackingConfidence: 0.5,
             modelComplexity: 0,
+            selfieMode: true,
         });
     }, [])
 
@@ -66,9 +68,11 @@ export const useHands = (game, gameDispatch, socket) => {
             }
             ctx.restore();
         }
-        if (GE && ctx) {
-            handsRef.current.onResults(onResults)
+        console.log('cam stat', cameraInitialised)
+        handsRef.current.onResults(onResults)
+        if (GE && ctx && cameraInitialised === false) {
 
+            console.log('ayo new cam', cameraInitialised, videoRef)
             const camera = new Camera(videoRef.current, {
                 onFrame: async () => {
                     await handsRef.current.send({ image: videoRef.current });
@@ -77,8 +81,9 @@ export const useHands = (game, gameDispatch, socket) => {
                 height: 720,
             });
             camera.start()
+            setCameraInitialised(true)
         }
-    }, [GE, ctx, game?.id, socket, game?.reactionReady])
+    }, [GE, ctx, socket, game, cameraInitialised])
 
 
     // create a canvas and initialise fingerpose gesture estimators
