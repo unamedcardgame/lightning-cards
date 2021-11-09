@@ -15,7 +15,6 @@ class Player {
     this.turn = false
     this.cards = []
     this.ready = ready
-    this.completedTurn = false
   }
 
   isTurn() {

@@ -76,6 +76,18 @@ function setHandlers(io) {
         io.of('/games').in(gameId).emit('draw pile', { card })
         games[gameId].addToCenterDeck(card)
 
+        // TODO(): Round in progress for face card
+        if (['K', 'Q', 'A', 'T', 'J'].some(c => c === card[0])) {
+          // start timer
+          setTimeout(() => {
+            console.log('to')
+            const loser = games[gameId]
+              .players
+              .find(p => p.turnCompleted === false)
+            declareLoser(loser, games[gameId], gameId, games[gameId].centerCards.length, io)
+          }, 5000)
+        }
+
         // notify room that player drew card
         io.of('/games').in(gameId).emit('player drew', sid)
 

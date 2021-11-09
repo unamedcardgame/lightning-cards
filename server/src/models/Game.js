@@ -50,9 +50,6 @@ class Game {
   isEveryoneReady() {
     return this.players.every(p => p.ready)
   }
-  isEveryonesTurnDone() {
-    return this.players.every(p => p.completedTurn)
-  }
 
   // TODO(): nextTurn() - changes currentTurn to next player's sid
   nextTurn() {
