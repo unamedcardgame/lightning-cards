@@ -86,7 +86,7 @@ function setHandlers(io) {
         games[gameId].nextTurn()
       }
       else {
-        console.log("Not your Turn")
+        // TODO(): Send to frontend to display not your turn or something ?
       }
 
 
@@ -98,12 +98,14 @@ function setHandlers(io) {
         .players
         .find(p => p.sid === socket.id)
       // if undefined gesture or player reacted already, ignore
-      if (!reaction.reaction.gesture || player.turnCompleted) return
+      if (!reaction.reaction.gesture || player.turnCompleted || games[gameId].centerCards.length === 0) return
+
 
       let curLetter = games[gameId].currentCard?.substring(0, 1)
       const numberOfCenterCards = games[gameId].centerCards.length
       let everyoneReacted = false
 
+      console.log('center react: ', curLetter, 'my react: ', reaction.reaction.gesture.name)
 
       // check validity of reaction
       const correctReaction = games[gameId].rules[curLetter] === reaction.reaction.gesture.name
