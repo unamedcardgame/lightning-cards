@@ -19,9 +19,9 @@ class Game {
   // TODO(): WINNERS ARRAY
   // TODO(): WRONGLY REACTED LIST OF PLAYERS
   rules = {
-    'K': 'pewPew',
-    'Q': 'peace',
-    'J': 'yolo',
+    'K': 'pewpew',
+    'Q': 'okay',
+    'J': 'good morning sir',
     'A': 'callme',
     'T': 'okay',
   };
