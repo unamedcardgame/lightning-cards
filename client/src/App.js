@@ -8,6 +8,7 @@ import userReducer from './reducers/UserReducer';
 import { AuthContext } from './contexts/AuthContext';
 import Floor from './components/game/Floor';
 import Lobby from './components/Lobby'
+import Endgame from './components/game/Endgame';
 import NavigationBar from './components/Navbar';
 import gameReducer from './reducers/gameReducer';
 
@@ -44,6 +45,9 @@ function App() {
           </Route>
           <Route path="/lobby">
             <Lobby game={game} gameDispatch={gameDispatch} socket={socket} />
+          </Route>
+          <Route path="/end">
+            <Endgame game={game} gameDispatch={gameDispatch} socket={socket} />
           </Route>
           <Route path="/">
             {

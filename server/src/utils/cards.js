@@ -16,14 +16,14 @@ let cards = ["4d", "3c", "Ah", "2s", "Ac", "Tc", "6h", "Qh", "6s", "As", "Ks", "
 const generateCards = (numOfPlayers) => {
   shuffleArray(cards)
   let playerCards = []
-  const cardsPerPlayer = (52 / numOfPlayers) | 0
+  const cardsPerPlayer = (3 / numOfPlayers) | 0
 
   for (let i = 0; i < numOfPlayers; i++) {
     const start = i * cardsPerPlayer
     playerCards.push(cards.slice(start, cardsPerPlayer + start))
   }
 
-  playerCards[numOfPlayers - 1].push(...cards.slice(numOfPlayers * cardsPerPlayer))
+  //playerCards[numOfPlayers - 1].push(...cards.slice(numOfPlayers * cardsPerPlayer))
   return playerCards
 }
 

@@ -6,6 +6,7 @@ import { Container } from 'react-bootstrap'
 import { setCallbacks } from '../../services/socketService';
 import { AuthContext } from '../../contexts/AuthContext';
 import { useHands } from '../../hooks/useHands';
+import { useHistory } from 'react-router'
 
 const SpeechRecognition =
   window.speechRecognition || window.webkitSpeechRecognition
@@ -15,6 +16,7 @@ mic.interimResults = true
 mic.lang = 'en-US'
 
 const Floor = ({ game, gameDispatch, socket }) => {
+  const history = useHistory()
   const { userState: authState } = useContext(AuthContext)
   const [isCountingDown, setIsCountingDown] = useState(true)
   const [drawPile, setDrawPile] = useState([])
@@ -64,7 +66,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
   }
 
   useEffect(() => {
-    setCallbacks(socket, setDrawPile, gameDispatch)
+    setCallbacks(socket, setDrawPile, gameDispatch, history)
   }, [])
 
   useEffect(() => {
