@@ -91,8 +91,9 @@ const Floor = ({ game, gameDispatch, socket }) => {
         Get Ready !
       </div>
       <div style={{ display: isCountingDown ? 'none' : '' }}>
-        <table class="tableCenter">
-          <div className="table">
+        <table className="tableCenter">
+        <tbody>
+          {/* <div className="table"> */}
             <tr>
               {
                 Object.keys(game.players).map(key => ({ ...game.players[key], sid: key }))
@@ -108,7 +109,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
                   })
               }
             </tr>
-          </div>
+          {/* </div> */}
 
           <tr>
             <td>
@@ -120,8 +121,10 @@ const Floor = ({ game, gameDispatch, socket }) => {
               </div>
             </td>
           </tr>
+          </tbody>
         </table>
-        <table class="tableCenter">
+        <table className="tableCenter">
+        <tbody>
           <tr>
             <td>
               <div className="container">
@@ -138,10 +141,10 @@ const Floor = ({ game, gameDispatch, socket }) => {
                 <div className="box">
                   <h6 style={{ margin: "10px" }}>Record Voice</h6>
                   {isListening ? <span>🎙️</span> : <span>🛑🎙️</span>}
-                  <button class="button-37" onClick={handleSaveNote} disabled={!note} style={{ margin: "10px" }}>
+                  <button className="button-37" onClick={handleSaveNote} disabled={!note} style={{ margin: "10px" }}>
                     Clear
                   </button>
-                  <button class="button-37" onClick={() => setIsListening(prevState => !prevState)}>
+                  <button className="button-37" onClick={() => setIsListening(prevState => !prevState)}>
                     Mic On/Off
                   </button>
                   <p>{note}</p>
@@ -155,6 +158,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
               </div>
             </td>
           </tr>
+          </tbody>
         </table>
       </div>
     </Container>

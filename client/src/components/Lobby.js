@@ -17,7 +17,7 @@ const Lobby = ({ socket, game, gameDispatch }) => {
 
   // socket listeners
   useEffect(() => {
-    console.log('nl')
+    // console.log('nl')
     // new player socket handler
     socket.on('new player', (user) => {
       gameDispatch(addPlayer({ name: user.name, sid: user.sid }))
@@ -30,7 +30,7 @@ const Lobby = ({ socket, game, gameDispatch }) => {
     })
 
     socket.on('unready', unreadyList => {
-      console.log('bc', unreadyList)
+      console.log('UnReady', unreadyList)
     })
 
     // on game start socket handler
