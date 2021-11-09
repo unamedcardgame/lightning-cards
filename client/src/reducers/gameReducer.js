@@ -8,6 +8,7 @@ const initialState = {
   roundLoser: '',
   reaction: undefined,
   winner: undefined,
+  rules: undefined,
 }
 
 // CONSIDER A MAP RATHER THAN AN AN OBJECT TO MAINTAIN ORDER
@@ -58,6 +59,11 @@ const gameReducer = (state = initialState, action) => {
         ...state,
         winner: action.payload
       }
+    case 'SET_RULES':
+      return {
+        ...state,
+        rules: action.payload
+      }
     default:
       return state
   }
@@ -107,5 +113,7 @@ export const setReactionReady = status => {
 export const setWinner = winner => {
   return { type: 'SET_WINNER', payload: winner }
 }
+
+// export const setRules (follow ^)
 
 export default gameReducer

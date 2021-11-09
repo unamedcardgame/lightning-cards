@@ -36,6 +36,9 @@ const Lobby = ({ socket, game, gameDispatch }) => {
     // on game start socket handler
     socket.on('begin', () => {
       hands.closeHands()
+      // TODO(Disha): axios GET request to /api/rules
+      // {gameRules} = response
+      // gameDispatch(setRules(gameRules))
       history.push('/floor')
     })
   }, [])
@@ -47,7 +50,7 @@ const Lobby = ({ socket, game, gameDispatch }) => {
 
   useEffect(() => {
     console.log('wtf')
-    navigator.mediaDevices.getUserMedia({audio: true, video: true})
+    navigator.mediaDevices.getUserMedia({ audio: true, video: true })
       .then(stream => stream.getTracks().forEach(track => track.stop()))
       .catch(() => console.log('nay'))
   }, [])

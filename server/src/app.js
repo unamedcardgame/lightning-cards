@@ -42,8 +42,13 @@ app.post('/api/games', (req, res) => {
   const gameUuid = uuidv4()
   games[gameUuid] = (new Game(gameUuid))
   console.log('game id:', gameUuid)
-  res.status(201).json({ gameId: gameUuid })
+  res.status(201).json({ gameId: gameUuid }) // gameRules: game.rules
 })
+
+// get rules
+//app.get('/api/rules', () => {
+//  res.status(200).json(game.rules)
+//})
 
 // join game
 app.get('/api/games/:gameId', (req, res) => {

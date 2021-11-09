@@ -22,6 +22,8 @@ const joinGame = async (gameId) => {
   return status
 }
 
+// const getRules
+
 const getCards = async (gameId) => {
   let status
   try {
