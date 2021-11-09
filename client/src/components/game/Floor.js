@@ -99,9 +99,8 @@ const Floor = ({ game, gameDispatch, socket }) => {
         Get Ready !
       </div>
       <div style={{ display: isCountingDown ? 'none' : '' }}>
-        <table className="tableCenter">
-        <tbody>
-          {/* <div className="table"> */}
+        <table class="tableCenter">
+          <div className="table">
             <tr>
               {
                 Object.keys(game.players).map(key => ({ ...game.players[key], sid: key }))
@@ -117,7 +116,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
                   })
               }
             </tr>
-          {/* </div> */}
+          </div>
 
           <tr>
             <td>
@@ -129,10 +128,8 @@ const Floor = ({ game, gameDispatch, socket }) => {
               </div>
             </td>
           </tr>
-          </tbody>
         </table>
-        <table className="tableCenter">
-        <tbody>
+        <table class="tableCenter">
           <tr>
             <td>
               <div className="container">
@@ -145,13 +142,9 @@ const Floor = ({ game, gameDispatch, socket }) => {
               </div>
               <div className="container">
                 <div className="box">
-                  <h6 style={{ margin: "10px" }}>Record Voice</h6>
-                  {isListening ? <span>🎙️</span> : <span>🛑🎙️</span>}
-                  <button className="button-37" onClick={handleSaveNote} disabled={!note} style={{ margin: "10px" }}>
-                    Clear
-                  </button>
-                  <button className="button-37" onClick={() => setIsListening(prevState => !prevState)}>
-                    Mic On/Off
+                  {!isListening ? <span>🎙️</span> : <span>🛑🎙️</span>}
+                  <button class="button-37" onClick={toggleVoiceReaction}>
+                    Record voice reaction
                   </button>
                   <p>{note}</p>
                 </div>
@@ -164,7 +157,6 @@ const Floor = ({ game, gameDispatch, socket }) => {
               </div>
             </td>
           </tr>
-          </tbody>
         </table>
       </div>
     </Container>
