@@ -1,282 +1,7 @@
 import { createGesture } from "./createGesture";
 
 export const gestures = [
-  createGesture({
-    "name": "Yolo",
-    "algorithm": "fingerpose",
-    "models": "hands",
-    "confidence": "7.75",
-    "description": [
-      [
-        "addCurl",
-        "Thumb",
-        "NoCurl",
-        1
-      ],
-      [
-        "addDirection",
-        "Thumb",
-        "VerticalUp",
-        1
-      ],
-      [
-        "addCurl",
-        "Index",
-        "FullCurl",
-        1
-      ],
-      [
-        "addDirection",
-        "Index",
-        "DiagonalUpRight",
-        1
-      ],
-      [
-        "addDirection",
-        "Index",
-        "VerticalUp",
-        0.7647058823529411
-      ],
-      [
-        "addCurl",
-        "Middle",
-        "FullCurl",
-        1
-      ],
-      [
-        "addDirection",
-        "Middle",
-        "DiagonalUpRight",
-        1
-      ],
-      [
-        "addCurl",
-        "Ring",
-        "FullCurl",
-        1
-      ],
-      [
-        "addDirection",
-        "Ring",
-        "DiagonalUpRight",
-        1
-      ],
-      [
-        "addCurl",
-        "Pinky",
-        "NoCurl",
-        1
-      ],
-      [
-        "addDirection",
-        "Pinky",
-        "DiagonalUpRight",
-        1
-      ],
-      [
-        "setWeight",
-        "Thumb",
-        2
-      ],
-      [
-        "setWeight",
-        "Pinky",
-        2
-      ]
-    ],
-    "enabled": true
-  }),
-  createGesture({
-    "name": "PewPew",
-    "algorithm": "fingerpose",
-    "models": "hands",
-    "confidence": "7.75",
-    "description": [
-      [
-        "addCurl",
-        "Thumb",
-        "NoCurl",
-        1
-      ],
-      [
-        "addDirection",
-        "Thumb",
-        "DiagonalUpRight",
-        1
-      ],
-      [
-        "addCurl",
-        "Index",
-        "NoCurl",
-        1
-      ],
-      [
-        "addDirection",
-        "Index",
-        "HorizontalRight",
-        1
-      ],
-      [
-        "addCurl",
-        "Middle",
-        "NoCurl",
-        1
-      ],
-      [
-        "addDirection",
-        "Middle",
-        "HorizontalRight",
-        1
-      ],
-      [
-        "addCurl",
-        "Ring",
-        "FullCurl",
-        1
-      ],
-      [
-        "addDirection",
-        "Ring",
-        "HorizontalRight",
-        1
-      ],
-      [
-        "addCurl",
-        "Pinky",
-        "FullCurl",
-        1
-      ],
-      [
-        "addDirection",
-        "Pinky",
-        "HorizontalRight",
-        1
-      ],
-      [
-        "setWeight",
-        "Thumb",
-        2
-      ],
-      [
-        "setWeight",
-        "Index",
-        2
-      ],
-      [
-        "setWeight",
-        "Middle",
-        2
-      ]
-    ]
-  }),
-  createGesture({
-    "name": "callme",
-    "algorithm": "fingerpose",
-    "models": "hands",
-    "confidence": "6.75",
-    "description": [
-      [
-        "addCurl",
-        "Thumb",
-        "NoCurl",
-        1
-      ],
-      [
-        "addDirection",
-        "Thumb",
-        "VerticalUp",
-        0.034482758620689655
-      ],
-      [
-        "addDirection",
-        "Thumb",
-        "DiagonalUpRight",
-        1
-      ],
-      [
-        "addCurl",
-        "Index",
-        "FullCurl",
-        1
-      ],
-      [
-        "addDirection",
-        "Index",
-        "DiagonalUpRight",
-        0.25
-      ],
-      [
-        "addDirection",
-        "Index",
-        "HorizontalRight",
-        1
-      ],
-      [
-        "addCurl",
-        "Middle",
-        "FullCurl",
-        1
-      ],
-      [
-        "addDirection",
-        "Middle",
-        "HorizontalRight",
-        1
-      ],
-      [
-        "addCurl",
-        "Ring",
-        "FullCurl",
-        1
-      ],
-      [
-        "addDirection",
-        "Ring",
-        "HorizontalRight",
-        1
-      ],
-      [
-        "addCurl",
-        "Pinky",
-        "NoCurl",
-        1
-      ],
-      [
-        "addDirection",
-        "Pinky",
-        "HorizontalRight",
-        1
-      ],
-      [
-        "addDirection",
-        "Thumb",
-        "VerticalDown",
-        0.034482758620689655
-      ],
-      [
-        "addDirection",
-        "Thumb",
-        "DiagonalDownRight",
-        1
-      ],
-      [
-        "addDirection",
-        "Index",
-        "DiagonalDownRight",
-        0.25
-      ],
-      [
-        "setWeight",
-        "Thumb",
-        2
-      ],
-      [
-        "setWeight",
-        "Pinky",
-        2
-      ]
-    ]
-  }),
+  // PEACE
   createGesture({
     "name": "peace",
     "algorithm": "fingerpose",
@@ -397,11 +122,12 @@ export const gestures = [
       ]
     ]
   }),
+  // OKAY
   createGesture({
     "name": "okay",
     "algorithm": "fingerpose",
     "models": "hands",
-    "confidence": "7",
+    "confidence": "7.25",
     "description": [
       [
         "addCurl",
@@ -412,32 +138,20 @@ export const gestures = [
       [
         "addDirection",
         "Thumb",
-        "HorizontalLeft",
+        "DiagonalUpRight",
         1
-      ],
-      [
-        "addDirection",
-        "Thumb",
-        "DiagonalUpLeft",
-        0.7647058823529411
       ],
       [
         "addCurl",
         "Index",
-        "HalfCurl",
+        "FullCurl",
         1
       ],
       [
         "addDirection",
         "Index",
-        "DiagonalUpLeft",
+        "DiagonalUpRight",
         1
-      ],
-      [
-        "addDirection",
-        "Index",
-        "HorizontalLeft",
-        0.30434782608695654
       ],
       [
         "addCurl",
@@ -448,95 +162,277 @@ export const gestures = [
       [
         "addDirection",
         "Middle",
-        "DiagonalUpLeft",
-        1
-      ],
-      [
-        "addCurl",
-        "Ring",
-        "NoCurl",
-        1
-      ],
-      [
-        "addDirection",
-        "Ring",
-        "VerticalUp",
-        1
-      ],
-      [
-        "addDirection",
-        "Ring",
-        "DiagonalUpLeft",
-        0.5
-      ],
-      [
-        "addCurl",
-        "Pinky",
-        "NoCurl",
-        1
-      ],
-      [
-        "addDirection",
-        "Pinky",
         "DiagonalUpRight",
         1
       ],
       [
         "addDirection",
+        "Middle",
+        "VerticalUp",
+        0.25
+      ],
+      [
+        "addCurl",
+        "Ring",
+        "NoCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Ring",
+        "VerticalUp",
+        1
+      ],
+      [
+        "addCurl",
+        "Pinky",
+        "NoCurl",
+        1
+      ],
+      [
+        "addDirection",
         "Pinky",
         "VerticalUp",
-        0.36363636363636365
+        1
       ],
       [
         "addDirection",
         "Thumb",
-        "DiagonalDownLeft",
-        0.7647058823529411
+        "DiagonalUpLeft",
+        1
       ],
       [
         "addDirection",
         "Index",
-        "DiagonalDownLeft",
+        "DiagonalUpLeft",
         1
       ],
       [
         "addDirection",
         "Middle",
-        "DiagonalDownLeft",
+        "DiagonalUpLeft",
         1
-      ],
-      [
-        "addDirection",
-        "Ring",
-        "VerticalDown",
-        1
-      ],
-      [
-        "addDirection",
-        "Ring",
-        "DiagonalDownLeft",
-        0.5
-      ],
-      [
-        "addDirection",
-        "Pinky",
-        "DiagonalDownRight",
-        1
-      ],
-      [
-        "addDirection",
-        "Pinky",
-        "VerticalDown",
-        0.36363636363636365
-      ],
-      [
-        "setWeight",
-        "Thumb",
-        2
       ],
       [
         "setWeight",
         "Index",
+        2
+      ]
+    ],
+    "enabled": true
+  }),
+  // PEWPEW
+  createGesture({
+    "name": "pewpew",
+    "algorithm": "fingerpose",
+    "models": "hands",
+    "confidence": "7.25",
+    "description": [
+      [
+        "addCurl",
+        "Thumb",
+        "NoCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Thumb",
+        "DiagonalUpLeft",
+        1
+      ],
+      [
+        "addCurl",
+        "Index",
+        "NoCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Index",
+        "HorizontalLeft",
+        1
+      ],
+      [
+        "addCurl",
+        "Middle",
+        "NoCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Middle",
+        "HorizontalLeft",
+        1
+      ],
+      [
+        "addCurl",
+        "Ring",
+        "FullCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Ring",
+        "HorizontalLeft",
+        1
+      ],
+      [
+        "addCurl",
+        "Pinky",
+        "FullCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Pinky",
+        "HorizontalLeft",
+        1
+      ],
+      [
+        "addDirection",
+        "Thumb",
+        "DiagonalUpRight",
+        1
+      ],
+      [
+        "addDirection",
+        "Index",
+        "HorizontalRight",
+        1
+      ],
+      [
+        "addDirection",
+        "Middle",
+        "HorizontalRight",
+        1
+      ],
+      [
+        "addDirection",
+        "Ring",
+        "HorizontalRight",
+        1
+      ],
+      [
+        "addDirection",
+        "Pinky",
+        "HorizontalRight",
+        1
+      ]
+    ],
+    "enabled": true
+  }),
+  // CALLME
+  createGesture({
+    "name": "callme",
+    "algorithm": "fingerpose",
+    "models": "hands",
+    "confidence": "7.25",
+    "description": [
+      [
+        "addCurl",
+        "Thumb",
+        "NoCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Thumb",
+        "DiagonalUpLeft",
+        1
+      ],
+      [
+        "addCurl",
+        "Index",
+        "FullCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Index",
+        "DiagonalUpLeft",
+        1
+      ],
+      [
+        "addCurl",
+        "Middle",
+        "FullCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Middle",
+        "HorizontalLeft",
+        1
+      ],
+      [
+        "addDirection",
+        "Middle",
+        "DiagonalUpLeft",
+        0.034482758620689655
+      ],
+      [
+        "addCurl",
+        "Ring",
+        "FullCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Ring",
+        "HorizontalLeft",
+        1
+      ],
+      [
+        "addCurl",
+        "Pinky",
+        "NoCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Pinky",
+        "HorizontalLeft",
+        1
+      ],
+      [
+        "addDirection",
+        "Thumb",
+        "DiagonalUpRight",
+        1
+      ],
+      [
+        "addDirection",
+        "Index",
+        "DiagonalUpRight",
+        1
+      ],
+      [
+        "addDirection",
+        "Middle",
+        "HorizontalRight",
+        1
+      ],
+      [
+        "addDirection",
+        "Middle",
+        "DiagonalUpRight",
+        0.034482758620689655
+      ],
+      [
+        "addDirection",
+        "Ring",
+        "HorizontalRight",
+        1
+      ],
+      [
+        "addDirection",
+        "Pinky",
+        "HorizontalRight",
+        1
+      ],
+      [
+        "setWeight",
+        "Thumb",
         2
       ],
       [
@@ -544,6 +440,93 @@ export const gestures = [
         "Pinky",
         2
       ]
-    ]
+    ],
+    "enabled": true
   }),
+  // YOLO
+  createGesture({
+    "name": "yolo",
+    "algorithm": "fingerpose",
+    "models": "hands",
+    "confidence": "7.25",
+    "description": [
+      [
+        "addCurl",
+        "Thumb",
+        "NoCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Thumb",
+        "DiagonalUpRight",
+        1
+      ],
+      [
+        "addCurl",
+        "Index",
+        "FullCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Index",
+        "VerticalUp",
+        1
+      ],
+      [
+        "addCurl",
+        "Middle",
+        "FullCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Middle",
+        "VerticalUp",
+        1
+      ],
+      [
+        "addCurl",
+        "Ring",
+        "FullCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Ring",
+        "VerticalUp",
+        1
+      ],
+      [
+        "addCurl",
+        "Pinky",
+        "NoCurl",
+        1
+      ],
+      [
+        "addDirection",
+        "Pinky",
+        "VerticalUp",
+        1
+      ],
+      [
+        "addDirection",
+        "Thumb",
+        "DiagonalUpLeft",
+        1
+      ],
+      [
+        "setWeight",
+        "Thumb",
+        2
+      ],
+      [
+        "setWeight",
+        "Pinky",
+        2
+      ]
+    ],
+    "enabled": true
+  })
 ]
