@@ -1,7 +1,6 @@
-//import {getCurrgetTurn} from "../models/Player";
 const Game = require('../models/Game');
 const Player = require("../models/Player");
-
+const { declareLoser, checkForWinner } = require('../utils/gameService')
 
 
 /*
@@ -116,15 +115,8 @@ function setHandlers(io) {
       } else if (!correctReaction) {
         // declar loser + reset turns
         socket.emit('validated gesture', { result: 'incorrect', gesture: reaction.reaction.gesture.name })
-        player.setReactedCorrectly(false)
-        loser = player
-        loser.addCards(games[gameId].centerCards)
-        games[gameId].clearCenterDeck()
-        // reset turn completed status
-        games[gameId]
-          .players
-          .forEach(p => p.setTurnCompleted(false))
-        io.of('/games').in(gameId).emit('loser declared', { name: loser.name, sid: loser.sid, cards: numberOfCenterCards })
+        declareLoser(player, games[gameId], gameId, numberOfCenterCards, io)
+        checkForWinner(games[gameId], gameId, io)
         return
       }
 
@@ -141,15 +133,8 @@ function setHandlers(io) {
         player = games[gameId]
           .players
           .find(p => p.turnCompleted === false)
-        player.setReactedCorrectly(false)
-        loser = player
-        loser.addCards(games[gameId].centerCards)
-        games[gameId].clearCenterDeck()
-        // reset turn completed status
-        games[gameId]
-          .players
-          .forEach(p => p.setTurnCompleted(false))
-        io.of('/games').in(gameId).emit('loser declared', { name: loser.name, sid: loser.sid, cards: numberOfCenterCards })
+        declareLoser(player, games[gameId], gameId, numberOfCenterCards, io)
+        checkForWinner(games[gameId], gameId, io)
       }
 
     })

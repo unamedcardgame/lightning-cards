@@ -7,6 +7,7 @@ const initialState = {
   reactionReady: false,
   roundLoser: '',
   reaction: undefined,
+  winner: undefined,
 }
 
 // CONSIDER A MAP RATHER THAN AN AN OBJECT TO MAINTAIN ORDER
@@ -52,6 +53,11 @@ const gameReducer = (state = initialState, action) => {
       return {
         ...state, reactionReady: action.payload
       }
+    case 'SET_WINNER':
+      return {
+        ...state,
+        winner: action.payload
+      }
     default:
       return state
   }
@@ -96,6 +102,10 @@ export const resetGesture = () => {
 
 export const setReactionReady = status => {
   return { type: 'SET_REACTION_READY', payload: status }
+}
+
+export const setWinner = winner => {
+  return { type: 'SET_WINNER', payload: winner }
 }
 
 export default gameReducer

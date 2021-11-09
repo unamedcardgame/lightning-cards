@@ -80,7 +80,7 @@ export const useHands = (game, gameDispatch, socket) => {
             camera.start()
             setCameraInitialised(true)
         }
-    }, [GE, ctx, socket, game, cameraInitialised])
+    }, [GE, ctx, socket, game, cameraInitialised, gameDispatch])
 
 
     // create a canvas and initialise fingerpose gesture estimators
