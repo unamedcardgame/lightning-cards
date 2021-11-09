@@ -145,7 +145,6 @@ const Floor = ({ game, gameDispatch, socket }) => {
               </div>
               <div className="container">
                 <div className="box">
-<<<<<<< HEAD
                   <h6 style={{ margin: "10px" }}>Record Voice</h6>
                   {isListening ? <span>🎙️</span> : <span>🛑🎙️</span>}
                   <button className="button-37" onClick={handleSaveNote} disabled={!note} style={{ margin: "10px" }}>
@@ -153,11 +152,6 @@ const Floor = ({ game, gameDispatch, socket }) => {
                   </button>
                   <button className="button-37" onClick={() => setIsListening(prevState => !prevState)}>
                     Mic On/Off
-=======
-                  {!isListening ? <span>🎙️</span> : <span>🛑🎙️</span>}
-                  <button class="button-37" onClick={toggleVoiceReaction}>
-                    Record voice reaction
->>>>>>> ca0d19feb2be08136059bc0d995ca20a04916af3
                   </button>
                   <p>{note}</p>
                 </div>
