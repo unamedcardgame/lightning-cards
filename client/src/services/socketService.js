@@ -1,6 +1,6 @@
 import { updatePlayerCards, setGesture, setReactionReady, setRoundLoser, setReacted, setWinner } from "../reducers/gameReducer"
 
-export const setCallbacks = (socket, setDrawPile, gameDispatch, history) => {
+export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsListening) => {
   socket.on('cards ready', () => {
     console.log('yummy cards')
   })
@@ -12,6 +12,7 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch, history) => {
   socket.on('player drew', player => {
     gameDispatch(updatePlayerCards(player))
     gameDispatch(setReactionReady(true))
+    setIsListening(true)
   })
 
   socket.on('validated gesture', obj => {
@@ -23,6 +24,7 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch, history) => {
     gameDispatch(setRoundLoser(loser))
     gameDispatch(setReactionReady(false))
     gameDispatch(setReacted(false))
+    setIsListening(false)
     setDrawPile([])
   })
 

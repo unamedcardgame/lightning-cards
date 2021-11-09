@@ -66,7 +66,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
   }
 
   useEffect(() => {
-    setCallbacks(socket, setDrawPile, gameDispatch, history)
+    setCallbacks(socket, setDrawPile, gameDispatch, history, setIsListening)
   }, [])
 
   useEffect(() => {
