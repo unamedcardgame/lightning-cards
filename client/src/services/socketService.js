@@ -12,7 +12,6 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsLi
   socket.on('player drew', player => {
     gameDispatch(updatePlayerCards(player))
     gameDispatch(setReactionReady(true))
-    setIsListening(true)
   })
 
   socket.on('validated gesture', obj => {
@@ -25,7 +24,7 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsLi
     gameDispatch(setReactionReady(false))
     gameDispatch(setReacted(false))
     setIsListening(false)
-    setDrawPile([])
+    setDrawPile(undefined)
   })
 
   socket.on('winner declared', winner => {

@@ -1,10 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import Card from '@heruka_urgyen/react-playing-cards/lib/TcN'
-import { useState, useEffect, useRef, useContext } from 'react'
+import { useState, useEffect } from 'react'
 import { Container } from 'react-bootstrap'
 import { setCallbacks } from '../../services/socketService';
-import { AuthContext } from '../../contexts/AuthContext';
 import { useHands } from '../../hooks/useHands';
 import { useHistory } from 'react-router'
 
@@ -17,14 +16,12 @@ mic.lang = 'en-US'
 
 const Floor = ({ game, gameDispatch, socket }) => {
   const history = useHistory()
-  const { userState: authState } = useContext(AuthContext)
   const [isCountingDown, setIsCountingDown] = useState(true)
-  const [drawPile, setDrawPile] = useState([])
+  const [drawPile, setDrawPile] = useState(undefined)
   const hands = useHands(game, gameDispatch, socket)
 
   const [isListening, setIsListening] = useState(false)
   const [note, setNote] = useState(null)
-  const [savedNotes, setSavedNotes] = useState([])
 
   useEffect(() => {
     handleListen()
@@ -59,10 +56,20 @@ const Floor = ({ game, gameDispatch, socket }) => {
       }
     }
   }
-  const handleSaveNote = () => {
-    setSavedNotes([...savedNotes, note])
-    setNote('')
-    mic.stop()
+
+  const toggleVoiceReaction = () => {
+    if (!isListening && game.reactionReady) setIsListening(true)
+    else {
+      // TODO(): send reaction to backend
+      setIsListening(false)
+      socket.emit('gesture', {
+        reaction: {
+          gesture: { name: note },
+          timestamp: new Date().getTime()
+        },
+        gameId: game.id
+      })
+    }
   }
 
   useEffect(() => {
@@ -78,7 +85,8 @@ const Floor = ({ game, gameDispatch, socket }) => {
   }, [setIsCountingDown])
 
   const drawCard = (p) => {
-    if (p.sid === socket.id) {
+    console.log(drawPile)
+    if (drawPile === undefined || (p.sid === socket.id && ['K', 'Q', 'A', 'J', 'T'].every(c => drawPile[0] !== c))) {
       setNote('')
       // action draw card
       socket.emit('draw card', { sid: socket.id, gameId: game.id })
@@ -114,7 +122,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
           <tr>
             <td>
               <div className="drawpile" style={{ marginBottom: "30px" }}>
-                {drawPile.length > 0
+                {drawPile
                   ? <Card card={drawPile} height={'7em'} />
                   : ''
                 }
@@ -135,10 +143,9 @@ const Floor = ({ game, gameDispatch, socket }) => {
                 <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video" crossOrigin="anonymous" playsInline="true"></video>
                 <canvas ref={hands.canvasRef} className="output_canvas" width="480px" height="320px"></canvas>
               </div>
-            </td>
-            <td>
               <div className="container">
                 <div className="box">
+<<<<<<< HEAD
                   <h6 style={{ margin: "10px" }}>Record Voice</h6>
                   {isListening ? <span>🎙️</span> : <span>🛑🎙️</span>}
                   <button className="button-37" onClick={handleSaveNote} disabled={!note} style={{ margin: "10px" }}>
@@ -146,6 +153,11 @@ const Floor = ({ game, gameDispatch, socket }) => {
                   </button>
                   <button className="button-37" onClick={() => setIsListening(prevState => !prevState)}>
                     Mic On/Off
+=======
+                  {!isListening ? <span>🎙️</span> : <span>🛑🎙️</span>}
+                  <button class="button-37" onClick={toggleVoiceReaction}>
+                    Record voice reaction
+>>>>>>> ca0d19feb2be08136059bc0d995ca20a04916af3
                   </button>
                   <p>{note}</p>
                 </div>
