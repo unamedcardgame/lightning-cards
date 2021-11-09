@@ -1,4 +1,4 @@
-import { updatePlayerCards, setGesture, setReactionReady, setLoserCards } from "../reducers/gameReducer"
+import { updatePlayerCards, setGesture, setReactionReady, setRoundLoser, resetGesture, setReacted } from "../reducers/gameReducer"
 
 export const setCallbacks = (socket, setDrawPile, gameDispatch) => {
   socket.on('cards ready', () => {
@@ -19,8 +19,10 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch) => {
   })
 
   socket.on('loser declared', (loser) => {
-    gameDispatch(setLoserCards(loser))
+    console.log('looserrrr')
+    gameDispatch(setRoundLoser(loser))
     gameDispatch(setReactionReady(false))
+    gameDispatch(setReacted(false))
     setDrawPile([])
   })
 }

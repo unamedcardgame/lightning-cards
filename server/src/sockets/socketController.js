@@ -124,7 +124,8 @@ function setHandlers(io) {
         games[gameId]
           .players
           .forEach(p => p.setTurnCompleted(false))
-        io.of('/games').in(gameId).emit('loser declared', { sid: loser.sid, cards: numberOfCenterCards })
+        io.of('/games').in(gameId).emit('loser declared', { name: loser.name, sid: loser.sid, cards: numberOfCenterCards })
+        return
       }
 
       // check if everyone except 1 person has (cz he's the loser then)
@@ -148,7 +149,7 @@ function setHandlers(io) {
         games[gameId]
           .players
           .forEach(p => p.setTurnCompleted(false))
-        io.of('/games').in(gameId).emit('loser declared', { sid: loser.sid, cards: numberOfCenterCards })
+        io.of('/games').in(gameId).emit('loser declared', { name: loser.name, sid: loser.sid, cards: numberOfCenterCards })
       }
 
     })

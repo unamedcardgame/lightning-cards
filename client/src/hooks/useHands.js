@@ -4,6 +4,7 @@ import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils'
 import { GestureEstimator } from 'fingerpose'
 import { gestures } from '../services/fingerpose/fingerposeService'
 import { Hands, HAND_CONNECTIONS } from '@mediapipe/hands'
+import { setReacted } from '../reducers/gameReducer'
 
 export const useHands = (game, gameDispatch, socket) => {
     const [ctx, setCtx] = useState(null)
@@ -32,13 +33,12 @@ export const useHands = (game, gameDispatch, socket) => {
     }, [])
 
     useEffect(() => {
-        console.log('another callback')
         function onResults(results) {
             ctx.save();
             ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
             ctx.drawImage(
                 results.image, 0, 0, canvasRef.current.width, canvasRef.current.height);
-            if (results.multiHandLandmarks && game.reactionReady) {
+            if (results.multiHandLandmarks && game.reactionReady && !game.reacted) {
                 for (const landmarks of results.multiHandLandmarks) {
                     drawConnectors(ctx, landmarks, HAND_CONNECTIONS, { color: '#FF0000' })
                     drawLandmarks(ctx, landmarks, { color: '#FF0000', lineWidth: 2 });
@@ -51,11 +51,11 @@ export const useHands = (game, gameDispatch, socket) => {
                     const estimatedGestures = GE.estimate(landmarks, 7.5);
 
                     // gesture results
-                    console.log(estimatedGestures.gestures[0])
                     const gesture = estimatedGestures.gestures[0]
 
-                    if (gesture !== undefined) {
-                        console.log('gesture sent')
+                    if (gesture !== undefined && gesture.confidence > 8) {
+                        console.log('gesture sent', gesture)
+                        gameDispatch(setReacted(true))
                         socket.emit('gesture', {
                             reaction: {
                                 gesture: gesture,
@@ -70,8 +70,6 @@ export const useHands = (game, gameDispatch, socket) => {
         }
         handsRef.current.onResults(onResults)
         if (GE && ctx && cameraInitialised === false) {
-
-            console.log('ayo new cam', cameraInitialised, videoRef)
             const camera = new Camera(videoRef.current, {
                 onFrame: async () => {
                     await handsRef.current.send({ image: videoRef.current });

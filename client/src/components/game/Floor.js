@@ -19,7 +19,6 @@ const Floor = ({ game, gameDispatch, socket }) => {
   const [isCountingDown, setIsCountingDown] = useState(true)
   const [drawPile, setDrawPile] = useState([])
   const hands = useHands(game, gameDispatch, socket)
-  console.log('gr', game.reactionReady)
 
   const [isListening, setIsListening] = useState(false)
   const [note, setNote] = useState(null)
@@ -78,7 +77,6 @@ const Floor = ({ game, gameDispatch, socket }) => {
 
   const drawCard = (p) => {
     if (p.sid === socket.id) {
-      console.log(socket.id)
       setNote('')
       // action draw card
       socket.emit('draw card', { sid: socket.id, gameId: game.id })
@@ -125,7 +123,10 @@ const Floor = ({ game, gameDispatch, socket }) => {
           <tr>
             <td>
               <div className="container">
-                <h6 style={{ margin: "10px" }}>{game.reactionReady ? 'MAKE YOUR REACTION ! ' : 'Wait for Draw... '} {game.reaction?.gesture} Result: {game.reaction?.result}</h6>
+                <h6 style={{ margin: "10px" }}>{game.reactionReady ? 'MAKE YOUR REACTION ! ' : 'Wait for Draw... '}  </h6>
+                <h6>Your reaction: {game.reaction?.gesture}</h6>
+                <h6>Your result: {game.reaction?.result}</h6>
+                <h5>{game.roundLoser ? 'Round loser: ' + game.roundLoser : ''}</h5>
                 <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video" crossOrigin="anonymous" playsInline="true"></video>
                 <canvas ref={hands.canvasRef} className="output_canvas" width="480px" height="320px"></canvas>
               </div>
