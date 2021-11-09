@@ -24,7 +24,7 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsLi
     gameDispatch(setReactionReady(false))
     gameDispatch(setReacted(false))
     setIsListening(false)
-    setDrawPile([])
+    setDrawPile(undefined)
   })
 
   socket.on('winner declared', winner => {

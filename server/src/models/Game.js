@@ -20,7 +20,7 @@ class Game {
   // TODO(): WRONGLY REACTED LIST OF PLAYERS
   rules = {
     'K': 'pewpew',
-    'Q': 'okay',
+    'Q': 'peace',
     'J': 'good morning sir',
     'A': 'callme',
     'T': 'okay',

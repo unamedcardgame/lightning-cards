@@ -17,7 +17,7 @@ mic.lang = 'en-US'
 const Floor = ({ game, gameDispatch, socket }) => {
   const history = useHistory()
   const [isCountingDown, setIsCountingDown] = useState(true)
-  const [drawPile, setDrawPile] = useState([])
+  const [drawPile, setDrawPile] = useState(undefined)
   const hands = useHands(game, gameDispatch, socket)
 
   const [isListening, setIsListening] = useState(false)
@@ -85,7 +85,8 @@ const Floor = ({ game, gameDispatch, socket }) => {
   }, [setIsCountingDown])
 
   const drawCard = (p) => {
-    if (p.sid === socket.id) {
+    console.log(drawPile)
+    if (drawPile === undefined || (p.sid === socket.id && ['K', 'Q', 'A', 'J', 'T'].every(c => drawPile[0] !== c))) {
       setNote('')
       // action draw card
       socket.emit('draw card', { sid: socket.id, gameId: game.id })
@@ -120,7 +121,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
           <tr>
             <td>
               <div className="drawpile" style={{ marginBottom: "30px" }}>
-                {drawPile.length > 0
+                {drawPile
                   ? <Card card={drawPile} height={'7em'} />
                   : ''
                 }
