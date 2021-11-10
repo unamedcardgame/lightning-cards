@@ -1,4 +1,4 @@
-const declareLoser = (player, game, gameId, numberOfCenterCards, io, timeup = false, prevTimeout) => {
+const declareLoser = (player, game, gameId, numberOfCenterCards, io, timeup = false, prevTimeout, reaction) => {
   if (prevTimeout) clearInterval(prevTimeout)
   player.setReactedCorrectly(false)
   loser = player
@@ -8,7 +8,7 @@ const declareLoser = (player, game, gameId, numberOfCenterCards, io, timeup = fa
   game
     .players
     .forEach(p => p.setTurnCompleted(false))
-  io.of('/games').in(gameId).emit('loser declared', { timeup, name: loser.name, sid: loser.sid, cards: numberOfCenterCards })
+  io.of('/games').in(gameId).emit('loser declared', { timeup, name: loser.name, sid: loser.sid, cards: numberOfCenterCards, reaction })
 }
 
 const checkForWinner = (game, gameId, io) => {
