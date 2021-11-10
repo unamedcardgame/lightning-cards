@@ -34,11 +34,11 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsLi
 
   socket.on('validated gesture', obj => {
     gameDispatch(setGesture(obj))
-    setPlayerResultToggles(
-      {
-        ...playerResultToggles,
-        [obj.sid]: true
-      }
+    setPlayerResultToggles((state) =>
+    ({
+      ...state,
+      [obj.sid]: true
+    })
     )
   })
 
@@ -52,7 +52,6 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsLi
     if (loser.timeup) gameDispatch(setGesture({ sid: loser.sid, result: 'time up' }))
     setIsListening(false)
     setDrawPile(undefined)
-
   })
 
   socket.on('winner declared', winner => {
