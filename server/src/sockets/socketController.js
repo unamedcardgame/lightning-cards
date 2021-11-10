@@ -156,7 +156,7 @@ function setHandlers(io) {
         player = games[gameId]
           .players
           .find(p => p.turnCompleted === false)
-        declareLoser(player, games[gameId], gameId, numberOfCenterCards, io, false, prevTimeout, reaction.reaction.gesture.name)
+        declareLoser(player, games[gameId], gameId, numberOfCenterCards, io, false, prevTimeout, 'last')
         checkForWinner(games[gameId], gameId, io)
       }
 
