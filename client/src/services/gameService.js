@@ -22,6 +22,17 @@ const joinGame = async (gameId) => {
   return status
 }
 
+const getRules = async (gameId) => {
+  let rules
+  try {
+    ({ rules } = await axios.get(`${baseUrl}/api/rules`, { gameId }))
+  } catch (e) {
+    throw new Error(e.response.data.error)
+  }
+
+  return rules
+}
+
 const getCards = async (gameId) => {
   let status
   try {
@@ -37,6 +48,7 @@ const gameService = {
   createGame,
   joinGame,
   getCards,
+  getRules,
 }
 
 export default gameService

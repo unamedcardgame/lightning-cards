@@ -6,8 +6,7 @@ import Popup from "./overlay/PopupWindow";
 import React, { useState } from 'react';
 import gameService from "../services/gameService"
 import { useHands } from '../hooks/useHands';
-import { addPlayer, setCardLengths } from '../reducers/gameReducer';
-
+import { addPlayer, setCardLengths, setRules } from '../reducers/gameReducer';
 
 const Lobby = ({ socket, game, gameDispatch }) => {
   const [modalShow, setModalShow] = useState(false)
@@ -36,6 +35,8 @@ const Lobby = ({ socket, game, gameDispatch }) => {
     // on game start socket handler
     socket.on('begin', () => {
       hands.closeHands()
+      gameService.getRules(game.gameId)
+      gameDispatch(setRules)
       history.push('/floor')
     })
   }, [])

@@ -45,10 +45,17 @@ app.post('/api/games', (req, res) => {
   res.status(201).json({ gameId: gameUuid })
 })
 
+//get rules
+app.get('/api/rules', (req, res) => {
+  const gameId = req.body.gameId
+  const game = games[gameId]
+  res.status(200).json({ rules: game.rules })
+})
+
+
 // join game
 app.get('/api/games/:gameId', (req, res) => {
   const gameId = req.params.gameId
-
   // game exists ?
   if (games[gameId]) res.status(200).end()
   else res.status(400).json({ error: `Game code ${gameId} invalid` })

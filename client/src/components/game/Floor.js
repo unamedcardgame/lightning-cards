@@ -1,5 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
+import Popup from '../overlay/Popup'
+import { Button } from 'react-bootstrap'
 import Card from '@heruka_urgyen/react-playing-cards/lib/TcN'
 import { useState, useEffect } from 'react'
 import { Container } from 'react-bootstrap'
@@ -19,6 +21,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
   const [isCountingDown, setIsCountingDown] = useState(true)
   const [drawPile, setDrawPile] = useState(undefined)
   const hands = useHands(game, gameDispatch, socket)
+  const [modalShow, setModalShow] = useState(false)
 
   const [isListening, setIsListening] = useState(false)
   const [note, setNote] = useState(null)
@@ -85,6 +88,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
   }, [setIsCountingDown])
 
   const drawCard = (p) => {
+    console.log(game.rules)
     console.log(drawPile)
     if (drawPile === undefined || (p.sid === socket.id && ['K', 'Q', 'A', 'J', 'T'].every(c => drawPile[0] !== c))) {
       setNote('')
@@ -98,9 +102,19 @@ const Floor = ({ game, gameDispatch, socket }) => {
       <div className="countdown" style={{ display: isCountingDown ? '' : 'none' }}>
         Get Ready !
       </div>
+      <div>
+      <Button className="mt-2" variant="primary" onClick={() => setModalShow(true)}>
+            Rules
+          </Button>
+          <Popup text={game.rules}
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+          />
+      </div>
       <div style={{ display: isCountingDown ? 'none' : '' }}>
-        <table class="tableCenter">
-          <div className="table">
+        <table className="tableCenter">
+          <tbody>
+          {/* <div className="table"> */}
             <tr>
               {
                 Object.keys(game.players).map(key => ({ ...game.players[key], sid: key }))
@@ -116,8 +130,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
                   })
               }
             </tr>
-          </div>
-
+          {/* </div> */}
           <tr>
             <td>
               <div className="drawpile" style={{ marginBottom: "30px" }}>
@@ -128,8 +141,10 @@ const Floor = ({ game, gameDispatch, socket }) => {
               </div>
             </td>
           </tr>
+          </tbody>
         </table>
-        <table class="tableCenter">
+        <table className="tableCenter">
+          <tbody>
           <tr>
             <td>
               <div className="container">
@@ -140,11 +155,12 @@ const Floor = ({ game, gameDispatch, socket }) => {
                 <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video" crossOrigin="anonymous" playsInline="true"></video>
                 <canvas ref={hands.canvasRef} className="output_canvas" width="480px" height="320px"></canvas>
               </div>
+              </td><td>
               <div className="container">
                 <div className="box">
                   {!isListening ? <span>🎙️</span> : <span>🛑🎙️</span>}
-                  <button class="button-37" onClick={toggleVoiceReaction}>
-                    Record voice reaction
+                  <button className="button-37" onClick={toggleVoiceReaction}>
+                    Record Voice Reaction
                   </button>
                   <p>{note}</p>
                 </div>
@@ -157,6 +173,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
               </div>
             </td>
           </tr>
+          </tbody>
         </table>
       </div>
     </Container>
