@@ -27,7 +27,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
     objectMap(game.players, () => false)
   )
   const [displayRoundLoser, setDisplayRoundLoser] = useState(false)
-  const [drawPile, setDrawPile] = useState(undefined)
+  const [drawPile, setDrawPile] = useState([])
   const hands = useHands(game, gameDispatch, socket, ignoredOne, setIgnoredOne)
   const [modalShow, setModalShow] = useState(false)
 
@@ -86,6 +86,8 @@ const Floor = ({ game, gameDispatch, socket }) => {
     }
   }
 
+  console.log('fml')
+
   useEffect(() => {
     setCallbacks(socket, setDrawPile, gameDispatch, history, setIsListening,
       playerResultToggles, setPlayerResultToggles, setDisplayRoundLoser, setTimer, game.players)
@@ -101,8 +103,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
 
   const drawCard = (p) => {
     console.log(game.rules)
-    console.log(drawPile)
-    if (drawPile === undefined || (p.sid === socket.id && ['K', 'Q', 'A', 'J', 'T'].every(c => drawPile[0] !== c))) {
+    if (drawPile.length === 0 || (p.sid === socket.id && ['K', 'Q', 'A', 'J', 'T'].every(c => drawPile[drawPile.length - 1][0] !== c))) {
       setNote('')
       // action draw card
       socket.emit('draw card', { sid: socket.id, gameId: game.id })
@@ -170,9 +171,20 @@ const Floor = ({ game, gameDispatch, socket }) => {
           <tbody>
             <tr>
               <td>
-                <div className="drawpile" style={{ marginBottom: "30px", marginTop: "30px", margin: "30px" }}>
-                  {drawPile
-                    ? <Card card={drawPile} height={'8em'} />
+                <div className="drawpile" style={{ height: '8em', width: '10em', marginBottom: "30px", marginTop: "30px", margin: "30px" }}>
+                  {drawPile.length !== 0
+                    ? drawPile
+                      .map((c, i) => {
+                        const transf = i*8
+                        console.log('tr', transf)
+                        return (
+                          <div key={c} className="center-card" style={{
+                            position: 'absolute',
+                            transform: 'translateX(' + transf + 'px)'
+                          }}>
+                            <Card card={c} height={'8em'} />
+                          </div>)
+                      })
                     : ''
                   }
                 </div>
@@ -187,20 +199,19 @@ const Floor = ({ game, gameDispatch, socket }) => {
                     <br />
                     <span>You reacted: {game.players[socket.id].reaction?.gesture} </span>
                     <br />
-                    <span>Actual reaction: {drawPile ? game.rules[drawPile[0]] : ''}</span>
                   </div>
                 </div>
                 <SweetAlert
                   show={displayRoundLoser}
                   danger
                   title={game.roundLoser.name}
-                  timeout={2000}
+                  timeout={1100}
                   onConfirm={() => { }}
                   customButtons={<Fragment>
                   </Fragment>}
                   style={{ color: 'black' }}
                 >
-                  He reacted {game.roundLoser.reaction}
+                  He reacted <strong><em>{game.roundLoser.reaction}</em></strong> lmao what a guy
                 </SweetAlert>
                 {/* </td><td> */}
               </td>
