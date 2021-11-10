@@ -1,6 +1,8 @@
 import { updatePlayerCards, setGesture, setReactionReady, setRoundLoser, setReacted, setWinner, setPlayerTurn } from "../reducers/gameReducer"
 import { objectMap } from "../utils/jsUtils"
 
+let int
+
 export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsListening,
   playerResultToggles, setPlayerResultToggles, setDisplayRoundLoser,
   setTimer, players) => {
@@ -16,7 +18,7 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsLi
     // set timer
     if (['T', 'K', 'A', 'Q', 'J'].includes(card[0])) {
       let i = 7 // ROUND TIMEOUT
-      let int = setInterval((setTimer) => {
+      int = setInterval((setTimer) => {
         setTimer(i);
         i-- || clearInterval(int);  //if i is 0, then stop the interval
       }, 1000, setTimer);
@@ -54,6 +56,8 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsLi
     if (loser.timeup) gameDispatch(setGesture({ sid: loser.sid, result: 'time up' }))
     setIsListening(false)
     setDrawPile([])
+    setTimer(0)
+    clearInterval(int)
   })
 
   socket.on('winner declared', winner => {
