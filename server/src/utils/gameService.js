@@ -1,4 +1,5 @@
-const declareLoser = (player, game, gameId, numberOfCenterCards, io, timeup = false) => {
+const declareLoser = (player, game, gameId, numberOfCenterCards, io, timeup = false, prevTimeout) => {
+  if (prevTimeout) clearInterval(prevTimeout)
   player.setReactedCorrectly(false)
   loser = player
   loser.addCards(games[gameId].centerCards)

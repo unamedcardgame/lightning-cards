@@ -80,7 +80,10 @@ function setHandlers(io) {
         // TODO(): Round in progress for face card
         if (['K', 'Q', 'A', 'T', 'J'].some(c => c === card[0])) {
           // clear prev timer
-          if (prevTimeout) clearInterval(prevTimeout)
+          if (prevTimeout) {
+            clearInterval(prevTimeout)
+            prevTimeout = undefined
+          }
           // start timer
           prevTimeout = setTimeout(() => {
             console.log('to')
@@ -135,7 +138,7 @@ function setHandlers(io) {
       } else if (!correctReaction) {
         // declare loser + reset turns
         io.of('/games').in(gameId).emit('validated gesture', { sid: socket.id, result: 'incorrect', gesture: reaction.reaction.gesture.name })
-        declareLoser(player, games[gameId], gameId, numberOfCenterCards, io)
+        declareLoser(player, games[gameId], gameId, numberOfCenterCards, io, false, prevTimeout)
         checkForWinner(games[gameId], gameId, io)
         return
       }
@@ -153,7 +156,7 @@ function setHandlers(io) {
         player = games[gameId]
           .players
           .find(p => p.turnCompleted === false)
-        declareLoser(player, games[gameId], gameId, numberOfCenterCards, io)
+        declareLoser(player, games[gameId], gameId, numberOfCenterCards, io, false, prevTimeout)
         checkForWinner(games[gameId], gameId, io)
       }
 
