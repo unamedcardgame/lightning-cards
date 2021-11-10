@@ -94,7 +94,7 @@ function setHandlers(io) {
             if (loser) {
               declareLoser(loser, games[gameId], gameId, games[gameId].centerCards.length, io, true)
             }
-          }, 5000)
+          }, 8000) // ROUND TIMEOUT
         }
 
         // notify room that player drew card

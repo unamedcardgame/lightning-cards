@@ -12,7 +12,7 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsLi
     // set timer
     console.log(card[0])
     if (['T', 'K', 'A', 'Q', 'J'].includes(card[0])) {
-      let i = 4
+      let i = 7 // ROUND TIMEOUT
       let int = setInterval((setTimer) => {
         setTimer(i);
         i-- || clearInterval(int);  //if i is 0, then stop the interval
