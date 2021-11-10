@@ -70,3 +70,7 @@ background: radial-gradient(circle, rgba(172,132,207,1) 0%, rgba(133,67,192,1) 8
     padding: 10px 30px;
   }
 }
+
+.player-turn img {
+  border: rgb(52, 197, 88) 3px solid;
+}

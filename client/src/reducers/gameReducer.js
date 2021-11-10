@@ -20,14 +20,29 @@ const gameReducer = (state = initialState, action) => {
     case 'ADD_PLAYER':
       const playerName = action.payload.name
       const playerSid = action.payload.sid
-      return { ...state, players: { ...state.players, [playerSid]: { name: playerName } } }
+      return {
+        ...state, players: {
+          ...state.players, [playerSid]: {
+            name: playerName,
+            turn: Object.keys(state.players).length === 0 ? true : false
+          }
+        }
+      }
+    case 'SET_PLAYER_TURN':
+      const newPlayers = cloneDeep(state.players)
+      for (let p in newPlayers) {
+        newPlayers[p].turn = p === action.payload
+      }
+      return {
+        ...state, players: { ...newPlayers }
+      }
     case 'SET_ID':
       const id = action.payload
       return { ...state, id }
     case 'SET_CARDS_LENGTH':
-      const newPlayers = cloneDeep(state.players)
-      action.payload.forEach(p => newPlayers[p.sid].cards = p.cards)
-      return { ...state, players: newPlayers }
+      const newPlayersTurns = cloneDeep(state.players)
+      action.payload.forEach(p => newPlayersTurns[p.sid].cards = p.cards)
+      return { ...state, players: newPlayersTurns }
     case 'ADD_LOSER_DETAILS':
       const currCardsLength = state.players[action.payload.sid].cards
       console.log('ccl ', currCardsLength, 'name: ', action.payload.name)
@@ -42,8 +57,8 @@ const gameReducer = (state = initialState, action) => {
         reacted: action.payload
       }
     case 'SET_GESTURES':
-      const { result, gesture } = action.payload
-      return { ...state, reaction: { result, gesture } }
+      const { sid, result, gesture } = action.payload
+      return { ...state, players: { ...state.players, [sid]: { ...state.players[sid], reaction: { result, gesture } } } }
     case 'RESET_GESTURE':
       return { ...state, reaction: undefined }
     case 'DRAW_CARD':
@@ -115,7 +130,11 @@ export const setWinner = winner => {
 }
 
 export const setRules = rules => {
-  return { type: 'SET_RULES', payload: rules}
+  return { type: 'SET_RULES', payload: rules }
+}
+
+export const setPlayerTurn = player => {
+  return { type: 'SET_PLAYER_TURN', payload: player.nextTurnSid }
 }
 
 export default gameReducer

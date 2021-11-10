@@ -2,6 +2,7 @@ const Game = require('../models/Game');
 const Player = require("../models/Player");
 const { declareLoser, checkForWinner } = require('../utils/gameService')
 
+let prevTimeout = undefined
 
 /*
   Namespace - /games, /comms
@@ -76,13 +77,30 @@ function setHandlers(io) {
         io.of('/games').in(gameId).emit('draw pile', { card })
         games[gameId].addToCenterDeck(card)
 
+        // TODO(): Round in progress for face card
+        if (['K', 'Q', 'A', 'T', 'J'].some(c => c === card[0])) {
+          // clear prev timer
+          if (prevTimeout) clearInterval(prevTimeout)
+          // start timer
+          prevTimeout = setTimeout(() => {
+            console.log('to')
+            const loser = games[gameId]
+              .players
+              .find(p => p.turnCompleted === false)
+
+            if (loser) {
+              declareLoser(loser, games[gameId], gameId, games[gameId].centerCards.length, io, true)
+            }
+          }, 5000)
+        }
+
         // notify room that player drew card
-        io.of('/games').in(gameId).emit('player drew', sid)
+        const turn = games[gameId].nextTurn()
+        io.of('/games').in(gameId).emit('player drew', { sid, nextTurnSid: games[gameId].players[turn].sid })
 
         // TODO(Eric): reaction reception mode ON
         // game.reactionMode = true
 
-        games[gameId].nextTurn()
       }
       else {
         // TODO(): Send to frontend to display not your turn or something ?
@@ -99,6 +117,8 @@ function setHandlers(io) {
       // if undefined gesture or player reacted already, ignore
       if (!reaction.reaction.gesture || player.turnCompleted || games[gameId].centerCards.length === 0) return
 
+      console.log('player is', player)
+
 
       let curLetter = games[gameId].currentCard?.substring(0, 1)
       const numberOfCenterCards = games[gameId].centerCards.length
@@ -109,12 +129,12 @@ function setHandlers(io) {
       // check validity of reaction
       const correctReaction = games[gameId].rules[curLetter] === reaction.reaction.gesture.name
       if (correctReaction && !everyoneReacted) {
-        socket.emit('validated gesture', { result: 'correct', gesture: reaction.reaction.gesture.name })
+        io.of('/games').in(gameId).emit('validated gesture', { sid: socket.id, result: 'correct', gesture: reaction.reaction.gesture.name })
         player.setReactedCorrectly(true)
         player.setTurnCompleted(true)
       } else if (!correctReaction) {
-        // declar loser + reset turns
-        socket.emit('validated gesture', { result: 'incorrect', gesture: reaction.reaction.gesture.name })
+        // declare loser + reset turns
+        io.of('/games').in(gameId).emit('validated gesture', { sid: socket.id, result: 'incorrect', gesture: reaction.reaction.gesture.name })
         declareLoser(player, games[gameId], gameId, numberOfCenterCards, io)
         checkForWinner(games[gameId], gameId, io)
         return
