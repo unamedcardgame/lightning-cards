@@ -3,13 +3,14 @@
 import Popup from '../overlay/Popup'
 import { Button } from 'react-bootstrap'
 import Card from '@heruka_urgyen/react-playing-cards/lib/TcN'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import gameService from "../../services/gameService"
 import { Container } from 'react-bootstrap'
 import { setCallbacks } from '../../services/socketService';
 import { useHands } from '../../hooks/useHands';
 import { useHistory } from 'react-router'
 import { objectMap } from '../../utils/jsUtils'
+import SweetAlert from 'react-bootstrap-sweetalert'
 
 const SpeechRecognition =
   window.speechRecognition || window.webkitSpeechRecognition
@@ -188,8 +189,19 @@ const Floor = ({ game, gameDispatch, socket }) => {
                     <br />
                     <span>Actual reaction: {drawPile ? game.rules[drawPile[0]] : ''}</span>
                   </div>
-                  <h5>{displayRoundLoser ? 'Round loser: ' + game.roundLoser : ''}</h5>
                 </div>
+                <SweetAlert
+                  show={displayRoundLoser}
+                  danger
+                  title={game.roundLoser.name}
+                  timeout={2000}
+                  onConfirm={() => { }}
+                  customButtons={<Fragment>
+                  </Fragment>}
+                  style={{ color: 'black' }}
+                >
+                  He reacted {game.roundLoser.reaction}
+                </SweetAlert>
                 {/* </td><td> */}
               </td>
             </tr>

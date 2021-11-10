@@ -92,7 +92,7 @@ function setHandlers(io) {
                         .find(p => p.turnCompleted === false)
           
                       if (loser) {
-                        declareLoser(loser, games[gameId], gameId, games[gameId].centerCards.length, io, true)
+                        declareLoser(loser, games[gameId], gameId, games[gameId].centerCards.length, io, true, "slowpoke")
                       }
                     }, 8000) // ROUND TIMEOUT */
         }
@@ -138,7 +138,7 @@ function setHandlers(io) {
       } else if (!correctReaction) {
         // declare loser + reset turns
         io.of('/games').in(gameId).emit('validated gesture', { sid: socket.id, result: 'incorrect', gesture: reaction.reaction.gesture.name })
-        declareLoser(player, games[gameId], gameId, numberOfCenterCards, io, false, prevTimeout)
+        declareLoser(player, games[gameId], gameId, numberOfCenterCards, io, false, prevTimeout, reaction.reaction.gesture.name)
         checkForWinner(games[gameId], gameId, io)
         return
       }
@@ -156,7 +156,7 @@ function setHandlers(io) {
         player = games[gameId]
           .players
           .find(p => p.turnCompleted === false)
-        declareLoser(player, games[gameId], gameId, numberOfCenterCards, io, false, prevTimeout)
+        declareLoser(player, games[gameId], gameId, numberOfCenterCards, io, false, prevTimeout, reaction.reaction.gesture.name)
         checkForWinner(games[gameId], gameId, io)
       }
 

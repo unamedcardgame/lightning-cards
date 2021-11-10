@@ -5,7 +5,7 @@ const initialState = {
   players: {},
   host: false,
   reactionReady: false,
-  roundLoser: '',
+  roundLoser: {},
   reaction: undefined,
   winner: undefined,
   rules: undefined,
@@ -49,7 +49,7 @@ const gameReducer = (state = initialState, action) => {
       return {
         ...state,
         players: { ...state.players, [action.payload.sid]: { ...state.players[action.payload.sid], cards: currCardsLength + action.payload.cards } },
-        roundLoser: action.payload.name
+        roundLoser: { name: action.payload.name, reaction: action.payload.reaction }
       }
     case 'SET_REACTED':
       return {
