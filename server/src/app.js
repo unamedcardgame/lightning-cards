@@ -46,7 +46,7 @@ app.post('/api/games', (req, res) => {
 
 //get rules
 app.get('/api/rules/:gameId', (req, res) => {
-  console.log('eh wtf like')
+  // console.log('eh wtf like')
   const gameId = req.params.gameId
   console.log('gameidb', gameId)
   const game = games[gameId]

@@ -4,6 +4,7 @@ import Popup from '../overlay/Popup'
 import { Button } from 'react-bootstrap'
 import Card from '@heruka_urgyen/react-playing-cards/lib/TcN'
 import { useState, useEffect } from 'react'
+import gameService from "../../services/gameService"
 import { Container } from 'react-bootstrap'
 import { setCallbacks } from '../../services/socketService';
 import { useHands } from '../../hooks/useHands';
