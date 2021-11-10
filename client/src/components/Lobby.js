@@ -36,8 +36,7 @@ const Lobby = ({ socket, game, gameDispatch }) => {
     socket.on('begin', async () => {
       hands.closeHands()
       const { rules } = await gameService.getRules(game.id)
-      console.log(rules)
-      gameDispatch(setRules)
+      gameDispatch(setRules(rules))
       history.push('/floor')
     })
   }, [])

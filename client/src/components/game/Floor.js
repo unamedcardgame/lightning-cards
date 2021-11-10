@@ -40,6 +40,8 @@ const Floor = ({ game, gameDispatch, socket }) => {
   const [isListening, setIsListening] = useState(false)
   const [note, setNote] = useState(null)
 
+  console.log(game.rules)
+
   useEffect(() => {
     handleListen()
   }, [isListening])
@@ -129,7 +131,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
       <div style={{ display: isCountingDown ? 'none' : '' }}>
         <table className="tableCenter">
           <tbody>
-          {/* <div className="table"> */}
+            {/* <div className="table"> */}
             <tr>
               {
                 Object.keys(game.players).map(key => ({ ...game.players[key], sid: key }))
@@ -146,47 +148,47 @@ const Floor = ({ game, gameDispatch, socket }) => {
                   })
               }
             </tr>
-          {/* </div> */}
-          <tr>
-            <td>
-              <div className="drawpile" style={{ marginBottom: "30px" }}>
-                {drawPile
-                  ? <Card card={drawPile} height={'7em'} />
-                  : ''
-                }
-              </div>
-            </td>
-          </tr>
+            {/* </div> */}
+            <tr>
+              <td>
+                <div className="drawpile" style={{ marginBottom: "30px" }}>
+                  {drawPile
+                    ? <Card card={drawPile} height={'7em'} />
+                    : ''
+                  }
+                </div>
+              </td>
+            </tr>
           </tbody>
         </table>
         <table className="tableCenter">
           <tbody>
-          <tr>
-            <td>
-              <div className="container">
-                <h6 style={{ margin: "10px" }}>{game.reactionReady ? 'MAKE YOUR REACTION ! ' : 'Wait for Draw... '}  </h6>
-                <h5>{displayRoundLoser ? 'Round loser: ' + game.roundLoser : ''}</h5>
-                <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video" crossOrigin="anonymous" playsInline="true"></video>
-                <canvas ref={hands.canvasRef} className="output_canvas" width="480px" height="320px"></canvas>
-              </div>
-              </td><td>
-              <div className="container">
-                <div className="box">
-                  {!isListening ? <span>🎙️</span> : <span>🛑🎙️</span>}
-                  <button className="button-37" onClick={toggleVoiceReaction}>
-                    Record Voice Reaction
-                  </button>
-                  <p>{note}</p>
+            <tr>
+              <td>
+                <div className="container">
+                  <h6 style={{ margin: "10px" }}>{game.reactionReady ? 'MAKE YOUR REACTION ! ' : 'Wait for Draw... '}  </h6>
+                  <h5>{displayRoundLoser ? 'Round loser: ' + game.roundLoser : ''}</h5>
+                  <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video" crossOrigin="anonymous" playsInline="true"></video>
+                  <canvas ref={hands.canvasRef} className="output_canvas" width="480px" height="320px"></canvas>
                 </div>
-                {/*<div className="box">
+              </td><td>
+                <div className="container">
+                  <div className="box">
+                    {!isListening ? <span>🎙️</span> : <span>🛑🎙️</span>}
+                    <button className="button-37" onClick={toggleVoiceReaction}>
+                      Record Voice Reaction
+                    </button>
+                    <p>{note}</p>
+                  </div>
+                  {/*<div className="box">
                   <h6>Saved Texts</h6>
                   {savedNotes.map(n => (
                     <p key={n}>{n}</p>
                   ))}
                 </div> */}
-              </div>
-            </td>
-          </tr>
+                </div>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
