@@ -51,7 +51,7 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsLi
     setTimeout(() => setDisplayRoundLoser(false), 3000)
     gameDispatch(setReactionReady(false))
     gameDispatch(setReacted(false))
-    if (loser.timeup) gameDispatch(setGesture({ sid: loser.sid, result: 'time up' }))
+    if (loser.timeup) gameDispatch(setGesture({ sid: loser.sid, result: 'Time up' }))
     setPlayerResultToggles(
       {
         ...playerResultToggles,

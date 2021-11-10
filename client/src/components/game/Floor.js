@@ -118,19 +118,40 @@ const Floor = ({ game, gameDispatch, socket }) => {
 
   return (
     <Container fluid className="h-100">
-      <div className="countdown" style={{ display: isCountingDown ? '' : 'none' }}>
+      <div className="countdown"  style={{ display: isCountingDown ? '' : 'none' }}>
         Get Ready !
       </div>
-      <div>
-        <Button className="mt-2" variant="primary" onClick={() => setModalShow(true)}> Rules</Button>
-        <Popup text={Object.entries(game.rules).map((r, i) => (<div key={i}>{r[0]}: {r[1]}</div>))}
-          show={modalShow}
-          onHide={() => setModalShow(false)}
-        />
+      <div className="div-right">
+          <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video" crossOrigin="anonymous" playsInline="true"></video>
+          <canvas ref={hands.canvasRef} className="output_canvas" width="360" height="250px"></canvas>
+          <div className="container">
+            <div className="box" >
+              {!isListening ? <span> 🎙️ </span> : <span> 🛑🎙️ </span>}
+              <button className="button-37" onClick={toggleVoiceReaction}>
+                Record Voice Reaction
+              </button>
+              <p>{note}</p>
+            </div>
+            {/*<div className="box">
+            <h6>Saved Texts</h6>
+            {savedNotes.map(n => (
+              <p key={n}>{n}</p>
+            ))}
+          </div> */}
+          </div>
+      </div>
+      <div className="div-left">
+            <div >
+                  <Button className="button-35" style={{ marginTop:10 }} variant="primary" onClick={() => setModalShow(true)}> Rules</Button>
+                  <Popup text={Object.entries(game.rules).map((r, i) => (<div key={i}>{r[0]}: {r[1]}</div>))}
+                    show={modalShow}
+                    onHide={() => setModalShow(false)}
+                  />
+            </div>
+            <div style={{marginTop: "10px", fontSize: "30px", float: "left"}}> ⏱️ : {timer !== 0 ? timer : ''}</div>
       </div>
       <div style={{ display: isCountingDown ? 'none' : '' }}>
-        <div>{timer !== 0 ? timer : ''}</div>
-        <table className="tableCenter">
+        <table className="tableCenter"  >
           <tbody>
             <tr>
               {
@@ -138,9 +159,9 @@ const Floor = ({ game, gameDispatch, socket }) => {
                   .map((p, i) => {
                     return (
                       <td>
-                        <div className={p.turn ? 'player player-turn' : 'player'} style={{ margin: "10px" }} key={i} onClick={() => drawCard(p)}>
-                          <div style={{ display: playerResultToggles[p.sid] ? '' : 'none' }} class="reaction">{p.reaction?.result}</div>
-                          <Card back height={'6em'} />
+                        <div className={p.turn ? 'player player-turn' : 'player'} style={{ margin: "30px" }} key={i} onClick={() => drawCard(p)}>
+                          <div style={{ display: playerResultToggles[p.sid] ? '' : 'none' }} class="reaction"> {p.reaction?.result}</div>
+                          <Card back height={'8em'} />
                           <p style={{ color: 'white', marginTop: '10px' }}>{p.name} ({p.cards})</p>
                         </div>
                       </td>
@@ -148,21 +169,21 @@ const Floor = ({ game, gameDispatch, socket }) => {
                   })
               }
             </tr>
+            </tbody>
+            </table>
             {/* </div> */}
+            <table className="tableCenter" width="30%" >
+            <tbody>
             <tr>
               <td>
-                <div className="drawpile" style={{ marginBottom: "30px" }}>
+                <div className="drawpile" style={{ marginBottom: "30px", marginTop: "30px", margin:"30px" }}>
                   {drawPile
-                    ? <Card card={drawPile} height={'7em'} />
+                    ? <Card card={drawPile} height={'8em'} />
                     : ''
                   }
                 </div>
               </td>
             </tr>
-          </tbody>
-        </table>
-        <table className="tableCenter">
-          <tbody>
             <tr>
               <td>
                 <div className="container">
@@ -175,27 +196,15 @@ const Floor = ({ game, gameDispatch, socket }) => {
                     <span>Actual reaction: {drawPile ? game.rules[drawPile[0]] : ''}</span>
                   </div>
                   <h5>{displayRoundLoser ? 'Round loser: ' + game.roundLoser : ''}</h5>
-                  <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video" crossOrigin="anonymous" playsInline="true"></video>
-                  <canvas ref={hands.canvasRef} className="output_canvas" width="480px" height="320px"></canvas>
-                </div>
-              </td><td>
-                <div className="container">
-                  <div className="box">
-                    {!isListening ? <span>🎙️</span> : <span>🛑🎙️</span>}
-                    <button className="button-37" onClick={toggleVoiceReaction}>
-                      Record Voice Reaction
-                    </button>
-                    <p>{note}</p>
                   </div>
-                  {/*<div className="box">
-                  <h6>Saved Texts</h6>
-                  {savedNotes.map(n => (
-                    <p key={n}>{n}</p>
-                  ))}
-                </div> */}
-                </div>
+              {/* </td><td> */}
               </td>
             </tr>
+          </tbody>
+        </table>
+        <table className="tableCenter">
+          <tbody>
+           
           </tbody>
         </table>
       </div>
