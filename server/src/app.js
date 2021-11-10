@@ -41,15 +41,17 @@ app.get("/api/login", async (req, res) => {
 app.post('/api/games', (req, res) => {
   const gameUuid = uuidv4()
   games[gameUuid] = (new Game(gameUuid))
-  console.log('game id:', gameUuid)
   res.status(201).json({ gameId: gameUuid })
 })
 
 //get rules
-app.get('/api/rules', (req, res) => {
-  const gameId = req.body.gameId
+app.get('/api/rules/:gameId', (req, res) => {
+  console.log('eh wtf like')
+  const gameId = req.params.gameId
+  console.log('gameidb', gameId)
   const game = games[gameId]
-  res.status(200).json({ rules: game.rules })
+  console.log(game.rules)
+  res.json({ rules: game.rules })
 })
 
 

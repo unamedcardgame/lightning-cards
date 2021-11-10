@@ -33,9 +33,10 @@ const Lobby = ({ socket, game, gameDispatch }) => {
     })
 
     // on game start socket handler
-    socket.on('begin', () => {
+    socket.on('begin', async () => {
       hands.closeHands()
-      gameService.getRules(game.gameId)
+      const { rules } = await gameService.getRules(game.id)
+      console.log(rules)
       gameDispatch(setRules)
       history.push('/floor')
     })
@@ -48,7 +49,7 @@ const Lobby = ({ socket, game, gameDispatch }) => {
 
   useEffect(() => {
     console.log('wtf')
-    navigator.mediaDevices.getUserMedia({audio: true, video: true})
+    navigator.mediaDevices.getUserMedia({ audio: true, video: true })
       .then(stream => stream.getTracks().forEach(track => track.stop()))
       .catch(() => console.log('nay'))
   }, [])

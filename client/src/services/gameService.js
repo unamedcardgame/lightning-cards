@@ -23,14 +23,14 @@ const joinGame = async (gameId) => {
 }
 
 const getRules = async (gameId) => {
-  let rules
+  let response
   try {
-    ({ rules } = await axios.get(`${baseUrl}/api/rules`, { gameId }))
+    response = await axios.get(`${baseUrl}/api/rules/${gameId}`)
   } catch (e) {
+    console.log('errorring', e.response)
     throw new Error(e.response.data.error)
   }
-
-  return rules
+  return response.data
 }
 
 const getCards = async (gameId) => {
