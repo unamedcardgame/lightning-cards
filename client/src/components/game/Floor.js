@@ -4,6 +4,7 @@ import Popup from '../overlay/Popup'
 import { Button } from 'react-bootstrap'
 import Card from '@heruka_urgyen/react-playing-cards/lib/TcN'
 import { useState, useEffect } from 'react'
+import gameService from "../../services/gameService"
 import { Container } from 'react-bootstrap'
 import { setCallbacks } from '../../services/socketService';
 import { useHands } from '../../hooks/useHands';
@@ -115,6 +116,15 @@ const Floor = ({ game, gameDispatch, socket }) => {
     <Container fluid className="h-100">
       <div className="countdown" style={{ display: isCountingDown ? '' : 'none' }}>
         Get Ready !
+      </div>
+      <div>
+      <Button className="mt-2" variant="primary" onClick={() => setModalShow(true)}>
+            Rules
+          </Button>
+          <Popup text={game.rules}
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+          />
       </div>
       <div style={{ display: isCountingDown ? 'none' : '' }}>
         <table className="tableCenter">
