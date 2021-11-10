@@ -9,9 +9,11 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsLi
   })
 
   socket.on('draw pile', ({ card }) => {
-    setDrawPile(card)
+    setDrawPile(state => {
+      console.log([...state, card])
+      return [...state, card]
+    })
     // set timer
-    console.log(card[0])
     if (['T', 'K', 'A', 'Q', 'J'].includes(card[0])) {
       let i = 7 // ROUND TIMEOUT
       let int = setInterval((setTimer) => {
@@ -51,7 +53,7 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsLi
     gameDispatch(setReacted(false))
     if (loser.timeup) gameDispatch(setGesture({ sid: loser.sid, result: 'time up' }))
     setIsListening(false)
-    setDrawPile(undefined)
+    setDrawPile([])
   })
 
   socket.on('winner declared', winner => {
