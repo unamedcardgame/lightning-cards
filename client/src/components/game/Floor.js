@@ -37,10 +37,10 @@ const Floor = ({ game, gameDispatch, socket }) => {
   const hands = useHands(game, gameDispatch, socket)
   const [modalShow, setModalShow] = useState(false)
 
+  const [timer, setTimer] = useState(null)
+
   const [isListening, setIsListening] = useState(false)
   const [note, setNote] = useState(null)
-
-  console.log(game.rules)
 
   useEffect(() => {
     handleListen()
@@ -78,9 +78,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
 
   const toggleVoiceReaction = () => {
     if (!isListening && game.reactionReady) setIsListening(true)
-    else {
-      // TODO(): send reaction to backend
-      setIsListening(false)
+    else if (note !== '') {
       socket.emit('gesture', {
         reaction: {
           gesture: { name: note },
@@ -88,12 +86,15 @@ const Floor = ({ game, gameDispatch, socket }) => {
         },
         gameId: game.id
       })
+      setIsListening(false)
+    } else {
+      setIsListening(false)
     }
   }
 
   useEffect(() => {
     setCallbacks(socket, setDrawPile, gameDispatch, history, setIsListening,
-      playerResultToggles, setPlayerResultToggles, setDisplayRoundLoser)
+      playerResultToggles, setPlayerResultToggles, setDisplayRoundLoser, setTimer)
   }, [])
 
   useEffect(() => {
@@ -111,6 +112,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
       setNote('')
       // action draw card
       socket.emit('draw card', { sid: socket.id, gameId: game.id })
+
     }
   }
 
@@ -120,18 +122,16 @@ const Floor = ({ game, gameDispatch, socket }) => {
         Get Ready !
       </div>
       <div>
-      <Button className="mt-2" variant="primary" onClick={() => setModalShow(true)}>
-            Rules
-          </Button>
-          <Popup text={game.rules}
-            show={modalShow}
-            onHide={() => setModalShow(false)}
-          />
+        <Button className="mt-2" variant="primary" onClick={() => setModalShow(true)}> Rules</Button>
+        <Popup text={Object.entries(game.rules).map((r, i) => (<div key={i}>{r[0]}: {r[1]}</div>))}
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+        />
       </div>
       <div style={{ display: isCountingDown ? 'none' : '' }}>
+        <div>{timer !== 0 ? timer : ''}</div>
         <table className="tableCenter">
           <tbody>
-            {/* <div className="table"> */}
             <tr>
               {
                 Object.keys(game.players).map(key => ({ ...game.players[key], sid: key }))
@@ -167,6 +167,13 @@ const Floor = ({ game, gameDispatch, socket }) => {
               <td>
                 <div className="container">
                   <h6 style={{ margin: "10px" }}>{game.reactionReady ? 'MAKE YOUR REACTION ! ' : 'Wait for Draw... '}  </h6>
+                  <div className="debug">
+                    Debug
+                    <br />
+                    <span>You reacted: {game.players[socket.id].reaction?.gesture} </span>
+                    <br />
+                    <span>Actual reaction: {drawPile ? game.rules[drawPile[0]] : ''}</span>
+                  </div>
                   <h5>{displayRoundLoser ? 'Round loser: ' + game.roundLoser : ''}</h5>
                   <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video" crossOrigin="anonymous" playsInline="true"></video>
                   <canvas ref={hands.canvasRef} className="output_canvas" width="480px" height="320px"></canvas>
@@ -192,7 +199,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
           </tbody>
         </table>
       </div>
-    </Container>
+    </Container >
   )
 }
 

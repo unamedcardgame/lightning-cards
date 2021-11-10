@@ -1,13 +1,23 @@
 import { updatePlayerCards, setGesture, setReactionReady, setRoundLoser, setReacted, setWinner, setPlayerTurn } from "../reducers/gameReducer"
 
 export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsListening,
-  playerResultToggles, setPlayerResultToggles, setDisplayRoundLoser) => {
+  playerResultToggles, setPlayerResultToggles, setDisplayRoundLoser,
+  setTimer) => {
   socket.on('cards ready', () => {
     console.log('yummy cards')
   })
 
   socket.on('draw pile', ({ card }) => {
     setDrawPile(card)
+    // set timer
+    console.log(card[0])
+    if (['T', 'K', 'A', 'Q', 'J'].includes(card[0])) {
+      let i = 4
+      let int = setInterval((setTimer) => {
+        setTimer(i);
+        i-- || clearInterval(int);  //if i is 0, then stop the interval
+      }, 1000, setTimer);
+    }
   })
 
   socket.on('player drew', player => {
