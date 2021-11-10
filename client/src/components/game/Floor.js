@@ -166,6 +166,13 @@ const Floor = ({ game, gameDispatch, socket }) => {
               <td>
                 <div className="container">
                   <h6 style={{ margin: "10px" }}>{game.reactionReady ? 'MAKE YOUR REACTION ! ' : 'Wait for Draw... '}  </h6>
+                  <div className="debug">
+                    Debug
+                    <br />
+                    <span>You reacted: {game.players[socket.id].reaction?.gesture} </span>
+                    <br />
+                    <span>Actual reaction: {drawPile ? game.rules[drawPile[0]] : ''}</span>
+                  </div>
                   <h5>{displayRoundLoser ? 'Round loser: ' + game.roundLoser : ''}</h5>
                   <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video" crossOrigin="anonymous" playsInline="true"></video>
                   <canvas ref={hands.canvasRef} className="output_canvas" width="480px" height="320px"></canvas>
@@ -191,7 +198,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
           </tbody>
         </table>
       </div>
-    </Container>
+    </Container >
   )
 }
 
