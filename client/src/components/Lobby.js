@@ -11,6 +11,8 @@ import { addPlayer, setCardLengths, setRules } from '../reducers/gameReducer';
 const Lobby = ({ socket, game, gameDispatch }) => {
   const [modalShow, setModalShow] = useState(false)
   const [ready, setReady] = useState(false)
+  const [unreadyList, setUnreadyList] = useState([])
+  const [unreadyShow, setUnreadyShow] = useState(false)
   const history = useHistory()
   const hands = useHands()
 
@@ -29,7 +31,8 @@ const Lobby = ({ socket, game, gameDispatch }) => {
     })
 
     socket.on('unready', unreadyList => {
-      console.log('UnReady', unreadyList)
+      setUnreadyList(unreadyList)
+      setUnreadyShow(true)
     })
 
     // on game start socket handler
@@ -67,6 +70,7 @@ const Lobby = ({ socket, game, gameDispatch }) => {
 
   return (
     <Row className="m-auto justify-content-center align-items-center h-100">
+      <Popup show={unreadyShow} onHide={() => setUnreadyShow(false)} text={<div><p>Following players aren't ready !</p><ol>{unreadyList.map((p, i) => <li key={i}>{p}</li>)}</ol></div>} />
       <Col className="col-auto text-center">
         <ol style={{ paddingLeft: '0px' }}>
           <strong><p>Players</p></strong>
