@@ -6,7 +6,7 @@ import { gestures } from '../services/fingerpose/fingerposeService'
 import { Hands, HAND_CONNECTIONS } from '@mediapipe/hands'
 import { setReacted } from '../reducers/gameReducer'
 
-export const useHands = (game, gameDispatch, socket) => {
+export const useHands = (game, gameDispatch, socket, ignoredOne, setIgnoredOne) => {
     const [ctx, setCtx] = useState(null)
     const [GE, setGE] = useState(null)
     const [cameraInitialised, setCameraInitialised] = useState(false)
@@ -54,15 +54,19 @@ export const useHands = (game, gameDispatch, socket) => {
                     const gesture = estimatedGestures.gestures[0]
 
                     if (gesture !== undefined && gesture.confidence > 8) {
-                        console.log('gesture sent', gesture)
-                        gameDispatch(setReacted(true))
-                        socket.emit('gesture', {
-                            reaction: {
-                                gesture: gesture,
-                                timestamp: new Date().getTime()
-                            },
-                            gameId: game.id
-                        })
+                        if (ignoredOne) {
+                            console.log('gesture sent', gesture)
+                            gameDispatch(setReacted(true))
+                            socket.emit('gesture', {
+                                reaction: {
+                                    gesture: gesture,
+                                    timestamp: new Date().getTime()
+                                },
+                                gameId: game.id
+                            })
+                            setIgnoredOne(false)
+                        }
+                        setIgnoredOne(true)
                     }
                 }
             }

@@ -28,12 +28,13 @@ mic.lang = 'en-US'
 const Floor = ({ game, gameDispatch, socket }) => {
   const history = useHistory()
   const [isCountingDown, setIsCountingDown] = useState(true)
+  const [ignoredOne, setIgnoredOne] = useState(false)
   const [playerResultToggles, setPlayerResultToggles] = useState(
     objectMap(game.players, () => false)
   )
   const [displayRoundLoser, setDisplayRoundLoser] = useState(false)
   const [drawPile, setDrawPile] = useState(undefined)
-  const hands = useHands(game, gameDispatch, socket)
+  const hands = useHands(game, gameDispatch, socket, ignoredOne, setIgnoredOne)
   const [modalShow, setModalShow] = useState(false)
 
   const [timer, setTimer] = useState(null)
