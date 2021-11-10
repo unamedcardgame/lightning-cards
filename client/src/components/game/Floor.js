@@ -39,8 +39,6 @@ const Floor = ({ game, gameDispatch, socket }) => {
   const [isListening, setIsListening] = useState(false)
   const [note, setNote] = useState(null)
 
-  console.log(game.rules)
-
   useEffect(() => {
     handleListen()
   }, [isListening])
@@ -77,9 +75,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
 
   const toggleVoiceReaction = () => {
     if (!isListening && game.reactionReady) setIsListening(true)
-    else {
-      // TODO(): send reaction to backend
-      setIsListening(false)
+    else if (note !== '') {
       socket.emit('gesture', {
         reaction: {
           gesture: { name: note },
@@ -87,6 +83,9 @@ const Floor = ({ game, gameDispatch, socket }) => {
         },
         gameId: game.id
       })
+      setIsListening(false)
+    } else {
+      setIsListening(false)
     }
   }
 
