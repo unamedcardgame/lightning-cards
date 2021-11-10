@@ -42,8 +42,8 @@ const gameReducer = (state = initialState, action) => {
         reacted: action.payload
       }
     case 'SET_GESTURES':
-      const { result, gesture } = action.payload
-      return { ...state, reaction: { result, gesture } }
+      const { sid, result, gesture } = action.payload
+      return { ...state, players: { ...state.players, [sid]: { ...state.players[sid], reaction: { result, gesture } } } }
     case 'RESET_GESTURE':
       return { ...state, reaction: undefined }
     case 'DRAW_CARD':

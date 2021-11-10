@@ -6,6 +6,15 @@ import { Container } from 'react-bootstrap'
 import { setCallbacks } from '../../services/socketService';
 import { useHands } from '../../hooks/useHands';
 import { useHistory } from 'react-router'
+import { cloneDeep } from 'lodash';
+
+// map for objects
+const objectMap = (obj, fn) =>
+  Object.fromEntries(
+    Object.entries(obj).map(
+      ([k, v], i) => [k, fn(v, k, i)]
+    )
+  )
 
 const SpeechRecognition =
   window.speechRecognition || window.webkitSpeechRecognition
@@ -17,6 +26,9 @@ mic.lang = 'en-US'
 const Floor = ({ game, gameDispatch, socket }) => {
   const history = useHistory()
   const [isCountingDown, setIsCountingDown] = useState(true)
+  const [playerResultToggles, setPlayerResultToggles] = useState(
+    objectMap(game.players, () => false)
+  )
   const [drawPile, setDrawPile] = useState(undefined)
   const hands = useHands(game, gameDispatch, socket)
 
@@ -73,7 +85,8 @@ const Floor = ({ game, gameDispatch, socket }) => {
   }
 
   useEffect(() => {
-    setCallbacks(socket, setDrawPile, gameDispatch, history, setIsListening)
+    setCallbacks(socket, setDrawPile, gameDispatch, history, setIsListening,
+      playerResultToggles, setPlayerResultToggles)
   }, [])
 
   useEffect(() => {
@@ -98,6 +111,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
       <div className="countdown" style={{ display: isCountingDown ? '' : 'none' }}>
         Get Ready !
       </div>
+
       <div style={{ display: isCountingDown ? 'none' : '' }}>
         <table class="tableCenter">
           <div className="table">
@@ -107,7 +121,8 @@ const Floor = ({ game, gameDispatch, socket }) => {
                   .map((p, i) => {
                     return (
                       <td>
-                        <div style={{ margin: "10px" }} key={i} onClick={() => drawCard(p)}>
+                        <div class="player" style={{ margin: "10px" }} key={i} onClick={() => drawCard(p)}>
+                          <div style={{ display: playerResultToggles[p.sid] ? '' : 'none' }} class="reaction">{p.reaction?.result}</div>
                           <Card back height={'6em'} />
                           <p style={{ color: 'white', marginTop: '10px' }}>{p.name} ({p.cards})</p>
                         </div>
