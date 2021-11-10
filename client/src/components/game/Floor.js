@@ -155,9 +155,9 @@ const Floor = ({ game, gameDispatch, socket }) => {
                     return (
                       <td>
                         <div className={p.turn ? 'player player-turn' : 'player'} style={{ margin: "30px" }} key={i} onClick={() => drawCard(p)}>
-                          <div style={{ display: playerResultToggles[p.sid] ? '' : 'none' }} class="reaction"> {p.reaction?.result}</div>
                           <Card back height={'8em'} />
                           <p style={{ color: 'white', marginTop: '10px' }}>{p.name} ({p.cards})</p>
+                          <div style={{ display: playerResultToggles[p.sid] ? '' : '' }} class="reaction">Status : {p.reaction?.result}</div>
                         </div>
                       </td>
                     )
@@ -211,7 +211,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
                   </Fragment>}
                   style={{ color: 'black' }}
                 >
-                  He reacted <strong><em>{game.roundLoser.reaction}</em></strong> lmao what a guy
+                  Player Reacted <strong><em>{game.roundLoser.reaction}</em></strong> LMAO what a guy!
                 </SweetAlert>
                 {/* </td><td> */}
               </td>
