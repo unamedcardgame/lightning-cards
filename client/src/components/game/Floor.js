@@ -120,12 +120,12 @@ const Floor = ({ game, gameDispatch, socket }) => {
         <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video" crossOrigin="anonymous" playsInline="true"></video>
         <canvas ref={hands.canvasRef} className="output_canvas" width="360" height="250px"></canvas>
         <div className="container">
-          <div className="box" >
+          <div className="box"style={{fontSize: "30px"}} >
             {!isListening ? <span> 🎙️ </span> : <span> 🛑🎙️ </span>}
-            <button className="button-37" onClick={toggleVoiceReaction}>
+            <Button className="button-35" onClick={toggleVoiceReaction}>
               Record Voice Reaction
-            </button>
-            <p>{note}</p>
+            </Button>
+            <p style={{fontSize: "20px"}}>{note}</p>
           </div>
           {/*<div className="box">
             <h6>Saved Texts</h6>
