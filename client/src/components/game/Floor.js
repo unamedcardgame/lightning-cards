@@ -120,6 +120,13 @@ const Floor = ({ game, gameDispatch, socket }) => {
       <div className="countdown" style={{ display: isCountingDown ? '' : 'none' }}>
         Get Ready !
       </div>
+      <div>
+        <Button className="mt-2" variant="primary" onClick={() => setModalShow(true)}> Rules</Button>
+        <Popup text={Object.entries(game.rules).map((r, i) => (<div key={i}>{r[0]}: {r[1]}</div>))}
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+        />
+      </div>
       <div style={{ display: isCountingDown ? 'none' : '' }}>
         <div>{timer !== 0 ? timer : ''}</div>
         <table className="tableCenter">
