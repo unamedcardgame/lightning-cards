@@ -36,6 +36,8 @@ const Floor = ({ game, gameDispatch, socket }) => {
   const hands = useHands(game, gameDispatch, socket)
   const [modalShow, setModalShow] = useState(false)
 
+  const [timer, setTimer] = useState(null)
+
   const [isListening, setIsListening] = useState(false)
   const [note, setNote] = useState(null)
 
@@ -91,7 +93,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
 
   useEffect(() => {
     setCallbacks(socket, setDrawPile, gameDispatch, history, setIsListening,
-      playerResultToggles, setPlayerResultToggles, setDisplayRoundLoser)
+      playerResultToggles, setPlayerResultToggles, setDisplayRoundLoser, setTimer)
   }, [])
 
   useEffect(() => {
@@ -109,6 +111,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
       setNote('')
       // action draw card
       socket.emit('draw card', { sid: socket.id, gameId: game.id })
+
     }
   }
 
@@ -118,9 +121,9 @@ const Floor = ({ game, gameDispatch, socket }) => {
         Get Ready !
       </div>
       <div style={{ display: isCountingDown ? 'none' : '' }}>
+        <div>{timer !== 0 ? timer : ''}</div>
         <table className="tableCenter">
           <tbody>
-            {/* <div className="table"> */}
             <tr>
               {
                 Object.keys(game.players).map(key => ({ ...game.players[key], sid: key }))
