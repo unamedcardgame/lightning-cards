@@ -171,7 +171,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
           <tbody>
             <tr>
               <td>
-                <div className="drawpile" style={{ height: '10em', width: '10em', marginBottom: "30px", marginTop: "30px", margin: "30px" }}>
+                <div className="drawpile" style={{ height: '8em', width: '10em', marginBottom: "30px", marginTop: "30px", margin: "30px" }}>
                   {drawPile.length !== 0
                     ? drawPile
                       .map((c, i) => {
