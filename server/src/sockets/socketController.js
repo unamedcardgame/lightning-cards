@@ -89,18 +89,18 @@ function setHandlers(io) {
               .find(p => p.turnCompleted === false)
 
             if (loser) {
-              declareLoser(loser, games[gameId], gameId, games[gameId].centerCards.length, io)
+              declareLoser(loser, games[gameId], gameId, games[gameId].centerCards.length, io, true)
             }
           }, 5000)
         }
 
         // notify room that player drew card
-        io.of('/games').in(gameId).emit('player drew', sid)
+        const turn = games[gameId].nextTurn()
+        io.of('/games').in(gameId).emit('player drew', { sid, nextTurnSid: games[gameId].players[turn].sid })
 
         // TODO(Eric): reaction reception mode ON
         // game.reactionMode = true
 
-        games[gameId].nextTurn()
       }
       else {
         // TODO(): Send to frontend to display not your turn or something ?

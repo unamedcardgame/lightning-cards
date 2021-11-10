@@ -20,14 +20,29 @@ const gameReducer = (state = initialState, action) => {
     case 'ADD_PLAYER':
       const playerName = action.payload.name
       const playerSid = action.payload.sid
-      return { ...state, players: { ...state.players, [playerSid]: { name: playerName } } }
+      return {
+        ...state, players: {
+          ...state.players, [playerSid]: {
+            name: playerName,
+            turn: Object.keys(state.players).length === 0 ? true : false
+          }
+        }
+      }
+    case 'SET_PLAYER_TURN':
+      const newPlayers = cloneDeep(state.players)
+      for (let p in newPlayers) {
+        newPlayers[p].turn = p === action.payload
+      }
+      return {
+        ...state, players: { ...newPlayers }
+      }
     case 'SET_ID':
       const id = action.payload
       return { ...state, id }
     case 'SET_CARDS_LENGTH':
-      const newPlayers = cloneDeep(state.players)
-      action.payload.forEach(p => newPlayers[p.sid].cards = p.cards)
-      return { ...state, players: newPlayers }
+      const newPlayersTurns = cloneDeep(state.players)
+      action.payload.forEach(p => newPlayersTurns[p.sid].cards = p.cards)
+      return { ...state, players: newPlayersTurns }
     case 'ADD_LOSER_DETAILS':
       const currCardsLength = state.players[action.payload.sid].cards
       console.log('ccl ', currCardsLength, 'name: ', action.payload.name)
@@ -112,6 +127,10 @@ export const setReactionReady = status => {
 
 export const setWinner = winner => {
   return { type: 'SET_WINNER', payload: winner }
+}
+
+export const setPlayerTurn = player => {
+  return { type: 'SET_PLAYER_TURN', payload: player.nextTurnSid }
 }
 
 // export const setRules (follow ^)

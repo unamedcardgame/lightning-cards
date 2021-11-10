@@ -60,6 +60,8 @@ class Game {
     else {
       this.currentTurn = 0
     }
+
+    return this.currentTurn
   }
 
   addToCenterDeck(card) {
