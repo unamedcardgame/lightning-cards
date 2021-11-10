@@ -9,15 +9,7 @@ import { Container } from 'react-bootstrap'
 import { setCallbacks } from '../../services/socketService';
 import { useHands } from '../../hooks/useHands';
 import { useHistory } from 'react-router'
-import { cloneDeep } from 'lodash';
-
-// map for objects
-const objectMap = (obj, fn) =>
-  Object.fromEntries(
-    Object.entries(obj).map(
-      ([k, v], i) => [k, fn(v, k, i)]
-    )
-  )
+import { objectMap } from '../../utils/jsUtils'
 
 const SpeechRecognition =
   window.speechRecognition || window.webkitSpeechRecognition
@@ -95,7 +87,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
 
   useEffect(() => {
     setCallbacks(socket, setDrawPile, gameDispatch, history, setIsListening,
-      playerResultToggles, setPlayerResultToggles, setDisplayRoundLoser, setTimer)
+      playerResultToggles, setPlayerResultToggles, setDisplayRoundLoser, setTimer, game.players)
   }, [])
 
   useEffect(() => {
