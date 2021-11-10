@@ -85,16 +85,16 @@ function setHandlers(io) {
             prevTimeout = undefined
           }
           // start timer
-          prevTimeout = setTimeout(() => {
-            console.log('to')
-            const loser = games[gameId]
-              .players
-              .find(p => p.turnCompleted === false)
-
-            if (loser) {
-              declareLoser(loser, games[gameId], gameId, games[gameId].centerCards.length, io, true)
-            }
-          }, 8000) // ROUND TIMEOUT
+          /*           prevTimeout = setTimeout(() => {
+                      console.log('to')
+                      const loser = games[gameId]
+                        .players
+                        .find(p => p.turnCompleted === false)
+          
+                      if (loser) {
+                        declareLoser(loser, games[gameId], gameId, games[gameId].centerCards.length, io, true)
+                      }
+                    }, 8000) // ROUND TIMEOUT */
         }
 
         // notify room that player drew card

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import Popup from '../overlay/Popup'
 import { Button } from 'react-bootstrap'
@@ -86,9 +85,11 @@ const Floor = ({ game, gameDispatch, socket }) => {
   }
 
   useEffect(() => {
+    const toggleResults = (sid) => {
+    }
     setCallbacks(socket, setDrawPile, gameDispatch, history, setIsListening,
-      playerResultToggles, setPlayerResultToggles, setDisplayRoundLoser, setTimer, game.players)
-  }, [])
+      playerResultToggles, setPlayerResultToggles, setDisplayRoundLoser, setTimer, game.players, toggleResults)
+  }, [game.players, gameDispatch, history, playerResultToggles, socket])
 
   useEffect(() => {
     hands.initialiseCanvasAndGE()
@@ -167,7 +168,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
                     <br />
                     <span>Actual reaction: {drawPile ? game.rules[drawPile[0]] : ''}</span>
                   </div>
-                  <h5>{displayRoundLoser ? 'Round loser: ' + game.roundLoser : ''}</h5>
+                  <h5>{true ? 'Round loser: ' + game.roundLoser : ''}</h5>
                   <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video" crossOrigin="anonymous" playsInline="true"></video>
                   <canvas ref={hands.canvasRef} className="output_canvas" width="480px" height="320px"></canvas>
                 </div>

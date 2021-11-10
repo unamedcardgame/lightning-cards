@@ -22,6 +22,7 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsLi
   })
 
   socket.on('player drew', player => {
+    console.log('DID I REALLY DRAW THO')
     gameDispatch(updatePlayerCards(player.sid))
     gameDispatch(setReactionReady(true))
     gameDispatch(setPlayerTurn(player))
