@@ -9,8 +9,6 @@ import gameService from "../services/gameService"
 import { useHands } from '../hooks/useHands';
 import { addPlayer, setCardLengths, setRules } from '../reducers/gameReducer';
 import { Image } from 'react-bootstrap';
-import gamegif1 from '../images/game1.gif';
-import gamegif2 from '../images/user1.png';
 import gamegif3 from '../images/user3.gif';
 
 
@@ -78,8 +76,8 @@ const Lobby = ({ socket, game, gameDispatch }) => {
   return (
     <Row className="tableCenter1">
       <Popup show={unreadyShow} onHide={() => setUnreadyShow(false)} text={<div><p>Following players aren't ready !</p><ol>{unreadyList.map((p, i) => <li key={i}>{p}</li>)}</ol></div>} />
-      <Col style={{ fontSize: "2em"}} className="col-auto text-center">
-        <Image src={gamegif3}  roundedCircle width="230px" height="230px " />
+      <Col style={{ fontSize: "2em" }} className="col-auto text-center">
+        <Image src={gamegif3} roundedCircle width="230px" height="230px " />
         <strong><p className="title-Text" >Players</p></strong>
         <ol className="body-Text">
           {
