@@ -92,6 +92,14 @@ canvas {
   margin: auto;
 }
 
+.tableCenter1 {
+  table-layout: fixed;
+  text-align: center;
+  align-content: center;
+  align-self: center;
+  margin-top: 4%;
+}
+
 .button-37 {
   background-color: #1567e0;
   border: 1px solid #f0f3f1;
