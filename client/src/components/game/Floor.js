@@ -214,7 +214,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
                   </Fragment>}
                   style={{ color: 'black' }}
                 >
-                  Player Reacted <strong><em>{game.roundLoser.reaction}</em></strong> LMAO what a guy!
+                  {game.roundLoser.name} Reacted <strong><em>{game.roundLoser.reaction}</em></strong><br/> Better Luck Next Time!
                 </SweetAlert>
                 {/* </td><td> */}
               </td>
