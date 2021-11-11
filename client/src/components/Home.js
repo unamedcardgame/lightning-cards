@@ -6,7 +6,9 @@ import { Button } from 'react-bootstrap'
 import { io } from 'socket.io-client'
 import gameService from '../services/gameService';
 import { useHistory } from 'react-router';
-import Popup from './overlay/PopupWindow'
+import Popup from './overlay/PopupWindow';
+import logo1 from '../images/Logo2.png';
+import { Image } from 'react-bootstrap';
 import { setHost, addPlayer, setGameId } from '../reducers/gameReducer';
 
 const Home = ({ setSocket, gameDispatch }) => {
@@ -84,12 +86,15 @@ const Home = ({ setSocket, gameDispatch }) => {
   }
 
   return (
-    <Row className="m-auto justify-content-center align-items-center h-100">
+    <Row className="tableCenter1">
       <Col className="text-center">
         <Popup text={popupConfig.msg}
           show={popupConfig.show}
           onHide={() => setPopupConfig({ ...popupConfig, show: false })}
         />
+        <div>
+        <Image src={logo1}  roundedCircle width="250" height="250" />
+        </div>
         <Row>
           <p className="title-Text" style={{fontSize: '2em'}}>Welcome {authState?.user.name} !</p>
         </Row>
