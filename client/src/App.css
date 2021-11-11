@@ -33,7 +33,7 @@
   color: #4B1EAF;
   font-weight: 400;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-style: italic;
+  /* font-style: italic; */
   background-color: white;
   text-align: center;
   margin-top: 8%;
@@ -175,13 +175,13 @@ canvas {
   border: 1px solid
 }
 
-/* <button class="button-35" role="button">Button 35</button> */
-
 .button-35 {
   align-items: center;
   background-color: #fff;
-  border-radius: 12px;
-  box-shadow: transparent 0 0 0 3px, rgba(18, 18, 18, .1) 0 6px 20px;
+  border-radius: 10px;
+  box-shadow: darkblue 0 0 0 4px, transparent 0 0 0 0;
+  /* border-color: darkgoldenrod; */
+  /* box-shadow: transparent 0 0 0 3px, rgba(18, 18, 18, .1) 0 6px 20px; */
   box-sizing: border-box;
   color: #121212;
   cursor: pointer;
@@ -193,6 +193,7 @@ canvas {
   justify-content: center;
   line-height: 1;
   margin: 0;
+  height: 45px;
   outline: none;
   padding: 1rem 1.2rem;
   text-align: center;

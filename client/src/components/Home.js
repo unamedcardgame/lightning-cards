@@ -91,7 +91,7 @@ const Home = ({ setSocket, gameDispatch }) => {
           onHide={() => setPopupConfig({ ...popupConfig, show: false })}
         />
         <Row>
-          <p style={{fontSize: '2em'}}>Welcome {authState?.user.name} !</p>
+          <p className="title-Text" style={{fontSize: '2em'}}>Welcome {authState?.user.name} !</p>
         </Row>
         <Row>
           <Button onClick={handleCreate}>Create New Game</Button>
