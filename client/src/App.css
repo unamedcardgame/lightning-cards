@@ -98,6 +98,10 @@ canvas {
   border: rgb(52, 197, 88) 3px solid;
 }
 
+.player img {
+  margin: auto
+}
+
 .debug {
   border: 1px solid
 }

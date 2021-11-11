@@ -145,7 +145,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
             onHide={() => setModalShow(false)}
           />
         </div>
-        <div style={{ marginTop: "10px", fontSize: "30px", float: "left" }}> ⏱️ : {timer !== 0 ? timer : ''}</div>
+        <div style={{ marginTop: "10px", fontSize: "30px", float: "left" }}> ⏱️ {timer !== 0 ? timer : ''}</div>
       </div>
       <div style={{ display: isCountingDown ? 'none' : '' }}>
         <table className="tableCenter"  >
@@ -156,10 +156,11 @@ const Floor = ({ game, gameDispatch, socket }) => {
                   .map((p, i) => {
                     return (
                       <td>
-                        <div id={p.sid} className={p.turn ? 'player player-turn' : 'player'} style={{ margin: "30px" }} key={i} onClick={() => drawCard(p)}>
-                          <Card back height={'8em'} />
-                          <p style={{ color: 'white', marginTop: '10px' }}>{p.name} ({p.cards})</p>
-                          <div style={{ display: playerResultToggles[p.sid] ? '' : '' }} class="reaction">Status : {p.reaction?.result}</div>
+                        <div id={p.sid} className={p.turn ? 'player player-turn' : 'player'} style={{ margin: "30px", textAlign: 'center' }} key={i} onClick={() => drawCard(p)}>
+                          <Card back height={'8em'} style={{margin: 'auto'}} />
+                          <p style={{ marginTop: '0.5em', marginBottom: '0' }}>{p.name} ({p.cards})</p>
+                          <div style={{ display: playerResultToggles[p.sid] ? '' : '' }} class="reaction">{p.reaction?.result
+                            === 'correct' ? '✅' : '❌'}</div>
                         </div>
                       </td>
                     )
