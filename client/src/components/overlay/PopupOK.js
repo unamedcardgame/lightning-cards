@@ -1,14 +1,11 @@
-import React, { useState } from "react";
 import Modal from 'react-bootstrap/Modal'
 import { Button } from 'react-bootstrap';
-import { CopyToClipboard } from 'react-copy-to-clipboard'
 
-
-const PopupWindow = (props) => {
-  const [copied, setCopied] = useState(false)
+const PopupOK = (props) => {
+  // const [copied, setCopied] = useState(false)
 
   const onHide = () => {
-    setCopied(false)
+    // setCopied(false)
     props.onHide()
   }
 
@@ -23,23 +20,19 @@ const PopupWindow = (props) => {
     >
       <Modal.Header >
         <Modal.Title id="contained-modal-title-vcenter">
-          Game ID
+          Reaction Rules
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-
         <p>
           {props.text}
         </p>
       </Modal.Body>
       <Modal.Footer>
-        <CopyToClipboard text={props.text} >
-          <Button onClick={() => setCopied(true)} variant={copied ? 'success' : 'primary'}>{copied ? 'Copied' : 'Copy'}</Button>
-        </CopyToClipboard>
         <Button onClick={onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
   );
 }
 
-export default PopupWindow
+export default PopupOK

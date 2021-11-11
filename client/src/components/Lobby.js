@@ -2,7 +2,8 @@
 import { Row, Col, Button } from 'react-bootstrap'
 import { useEffect } from "react"
 import { useHistory } from "react-router"
-import Popup from "./overlay/PopupWindow";
+import PopupWindow from "./overlay/PopupWindow";
+import Popup from "./overlay/Popup";
 import React, { useState } from 'react';
 import gameService from "../services/gameService"
 import { useHands } from '../hooks/useHands';
@@ -98,7 +99,7 @@ const Lobby = ({ socket, game, gameDispatch }) => {
           <Button className="mt-2" variant="primary" onClick={() => setModalShow(true)}>
             Game Id
           </Button>
-          <Popup text={game.id}
+          <PopupWindow text={game.id}
             show={modalShow}
             onHide={() => setModalShow(false)}
           />
