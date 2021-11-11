@@ -33,7 +33,7 @@ const Login = () => {
   }
 
   return (
-    <div className="tableCenter1">
+    <div className="tableCenter2">
       <Image src={logo1} roundedCircle width="290" height="290" />
       <div style={{ marginTop: '1em' }}>
         <GoogleLogin
