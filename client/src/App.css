@@ -4,7 +4,28 @@
   /* background-color: #453f5c; */
   background: rgb(172, 132, 207);
   background: radial-gradient(circle, rgba(172, 132, 207, 1) 0%, rgba(133, 67, 192, 1) 81%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: right top;
+  overflow:scroll;
   height: 110vh;
+}
+
+.winner-Text {
+  font-size: 60px;
+  color: white;
+  font-weight: 400;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-style: italic;
+  background-color : darkgoldenrod;
+  text-align: center;
+  margin-top: 3%;
+  border-radius: 10%;
+  width: 60%;
+  align-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .a-link {
@@ -39,6 +60,19 @@ canvas {
   margin-left: auto;
   margin-right: auto;
   width: 20%;
+  text-align: center;
+  margin-top: 4%;
+  margin-bottom: 2%;
+}
+
+.centerImage1 {
+  display: block;
+  align-items: center;
+  align-self: center;
+  align-content: center;
+  text-align: center  ;
+  margin-right: auto;
+  width: 100%;
   text-align: center;
   margin-top: 4%;
   margin-bottom: 2%;
@@ -139,3 +173,4 @@ canvas {
 .button-35:hover {
   box-shadow: #121212 0 0 0 3px, transparent 0 0 0 0;
 }
+

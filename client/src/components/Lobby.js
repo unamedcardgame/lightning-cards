@@ -2,7 +2,7 @@
 import { Row, Col, Button } from 'react-bootstrap'
 import { useEffect } from "react"
 import { useHistory } from "react-router"
-import Popup from "./overlay/PopupWindow";
+import Popup from "./overlay/Popup";
 import React, { useState } from 'react';
 import gameService from "../services/gameService"
 import { useHands } from '../hooks/useHands';
@@ -71,9 +71,9 @@ const Lobby = ({ socket, game, gameDispatch }) => {
   return (
     <Row className="m-auto justify-content-center align-items-center h-100">
       <Popup show={unreadyShow} onHide={() => setUnreadyShow(false)} text={<div><p>Following players aren't ready !</p><ol>{unreadyList.map((p, i) => <li key={i}>{p}</li>)}</ol></div>} />
-      <Col className="col-auto text-center">
+      <Col style={{fontSize: "28px"}} className="col-auto text-center">
         <ol style={{ paddingLeft: '0px' }}>
-          <strong><p>Players</p></strong>
+          <strong><p >Players</p></strong>
           {
             Object.keys(game.players).map(key => game.players[key])
               .map((p, i) => <li key={i}>{p.name}</li>)
