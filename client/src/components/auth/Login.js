@@ -3,7 +3,9 @@ import { GoogleLogin } from 'react-google-login';
 import { AuthContext } from '../../contexts/AuthContext';
 import userService from '../../services/userService'
 import { Image } from 'react-bootstrap';
+// eslint-disable-next-line no-unused-vars
 import logo from '../../images/Logo1.png';
+import whiteLogo from '../../images/Logo2.png'
 
 const Login = () => {
   const { dispatch } = useContext(AuthContext)
@@ -32,7 +34,7 @@ const Login = () => {
 
   return (
     <div className="d-flex flex-column flex-grow-1 justify-content-center align-items-center">
-      <Image src={logo} roundedCircle width="270" height="270" />
+      <Image src={whiteLogo} roundedCircle width="270" height="270" />
       <div style={{ marginTop: '1em' }}>
         <GoogleLogin
           clientId="1009598541430-qqds8odu93uk62hngvvg5qim1hfscq0v.apps.googleusercontent.com"
