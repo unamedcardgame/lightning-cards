@@ -5,7 +5,7 @@ let int
 
 export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsListening,
   playerResultToggles, setPlayerResultToggles, setDisplayRoundLoser,
-  setTimer, players) => {
+  setTimer, players, party) => {
   socket.on('cards ready', () => {
     console.log('yummy cards')
   })
@@ -44,6 +44,13 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsLi
       [obj.sid]: true
     })
     )
+
+    if (obj.result === 'correct') {
+      party.confetti(document.getElementById(obj.sid), {
+        count: party.variation.range(10, 50),
+        size: party.variation.range(0.4, 1),
+      })
+    }
   })
 
   socket.on('loser declared', (loser) => {

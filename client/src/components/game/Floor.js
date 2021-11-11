@@ -3,7 +3,7 @@
 import Popup from '../overlay/Popup'
 import { Button } from 'react-bootstrap'
 import Card from '@heruka_urgyen/react-playing-cards/lib/TcN'
-import { useState, useEffect, Fragment } from 'react'
+import { useState, useEffect, Fragment, useRef } from 'react'
 import gameService from "../../services/gameService"
 import { Container } from 'react-bootstrap'
 import { setCallbacks } from '../../services/socketService';
@@ -11,6 +11,7 @@ import { useHands } from '../../hooks/useHands';
 import { useHistory } from 'react-router'
 import { objectMap } from '../../utils/jsUtils'
 import SweetAlert from 'react-bootstrap-sweetalert'
+import party from 'party-js'
 
 const SpeechRecognition =
   window.speechRecognition || window.webkitSpeechRecognition
@@ -26,6 +27,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
   const [playerResultToggles, setPlayerResultToggles] = useState(
     objectMap(game.players, () => false)
   )
+  const playerCardsRef = useRef()
   const [displayRoundLoser, setDisplayRoundLoser] = useState(false)
   const [drawPile, setDrawPile] = useState([])
   const hands = useHands(game, gameDispatch, socket, ignoredOne, setIgnoredOne)
@@ -90,7 +92,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
 
   useEffect(() => {
     setCallbacks(socket, setDrawPile, gameDispatch, history, setIsListening,
-      playerResultToggles, setPlayerResultToggles, setDisplayRoundLoser, setTimer, game.players)
+      playerResultToggles, setPlayerResultToggles, setDisplayRoundLoser, setTimer, game.players, party)
   }, [])
 
   useEffect(() => {
@@ -120,12 +122,12 @@ const Floor = ({ game, gameDispatch, socket }) => {
         <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video" crossOrigin="anonymous" playsInline="true"></video>
         <canvas ref={hands.canvasRef} className="output_canvas" width="360" height="250px"></canvas>
         <div className="container">
-          <div className="box"style={{fontSize: "30px"}} >
+          <div className="box" style={{ fontSize: "30px" }} >
             {!isListening ? <span> 🎙️ </span> : <span> 🛑🎙️ </span>}
             <Button className="button-35" onClick={toggleVoiceReaction}>
               Record Voice Reaction
             </Button>
-            <p style={{fontSize: "20px"}}>{note}</p>
+            <p style={{ fontSize: "20px" }}>{note}</p>
           </div>
           {/*<div className="box">
             <h6>Saved Texts</h6>
@@ -154,7 +156,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
                   .map((p, i) => {
                     return (
                       <td>
-                        <div className={p.turn ? 'player player-turn' : 'player'} style={{ margin: "30px" }} key={i} onClick={() => drawCard(p)}>
+                        <div id={p.sid} className={p.turn ? 'player player-turn' : 'player'} style={{ margin: "30px" }} key={i} onClick={() => drawCard(p)}>
                           <Card back height={'8em'} />
                           <p style={{ color: 'white', marginTop: '10px' }}>{p.name} ({p.cards})</p>
                           <div style={{ display: playerResultToggles[p.sid] ? '' : '' }} class="reaction">Status : {p.reaction?.result}</div>
@@ -175,7 +177,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
                   {drawPile.length !== 0
                     ? drawPile
                       .map((c, i) => {
-                        const transf = i*8
+                        const transf = i * 8
                         console.log('tr', transf)
                         return (
                           <div key={c} className="center-card" style={{
