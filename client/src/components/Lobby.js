@@ -2,7 +2,7 @@
 import { Row, Col, Button } from 'react-bootstrap'
 import { useEffect } from "react"
 import { useHistory } from "react-router"
-import Popup from "./overlay/Popup";
+import Popup from "./overlay/PopupWindow";
 import React, { useState } from 'react';
 import gameService from "../services/gameService"
 import { useHands } from '../hooks/useHands';
