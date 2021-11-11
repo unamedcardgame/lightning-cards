@@ -71,9 +71,9 @@ const Lobby = ({ socket, game, gameDispatch }) => {
   return (
     <Row className="m-auto justify-content-center align-items-center h-100">
       <Popup show={unreadyShow} onHide={() => setUnreadyShow(false)} text={<div><p>Following players aren't ready !</p><ol>{unreadyList.map((p, i) => <li key={i}>{p}</li>)}</ol></div>} />
-      <Col style={{fontSize: "28px"}} className="col-auto text-center">
-        <ol style={{ paddingLeft: '0px' }}>
-          <strong><p >Players</p></strong>
+      <Col style={{ fontSize: "2em" }} className="col-auto text-center">
+        <strong><p >Players</p></strong>
+        <ol>
           {
             Object.keys(game.players).map(key => game.players[key])
               .map((p, i) => <li key={i}>{p.name}</li>)
