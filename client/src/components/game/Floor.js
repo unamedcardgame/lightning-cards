@@ -113,7 +113,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
   }
 
   return (
-    <Container fluid className="h-100 p-1 pt-0">
+    <Container fluid className="h-100 p-3 pt-0">
       <div className="countdown" style={{ display: isCountingDown ? '' : 'none' }}>
         Get Ready !
       </div>
