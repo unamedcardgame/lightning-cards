@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap'
 import Card from '@heruka_urgyen/react-playing-cards/lib/TcN'
 import { useState, useEffect, Fragment, useRef } from 'react'
 import gameService from "../../services/gameService"
-import { Container } from 'react-bootstrap'
+import { Container, Row } from 'react-bootstrap'
 import { setCallbacks } from '../../services/socketService';
 import { useHands } from '../../hooks/useHands';
 import { useHistory } from 'react-router'
@@ -113,7 +113,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
   }
 
   return (
-    <Container fluid className="h-100">
+    <Container fluid className="h-100 p-1 pt-0">
       <div className="countdown" style={{ display: isCountingDown ? '' : 'none' }}>
         Get Ready !
       </div>
@@ -128,17 +128,11 @@ const Floor = ({ game, gameDispatch, socket }) => {
             </Button>
             <p style={{ fontSize: "20px" }}>{note}</p>
           </div>
-          {/*<div className="box">
-            <h6>Saved Texts</h6>
-            {savedNotes.map(n => (
-              <p key={n}>{n}</p>
-            ))}
-          </div> */}
         </div>
       </div>
       <div className="div-left">
         <div >
-          <Button className="button-35" style={{ marginTop: 10 }} variant="primary" onClick={() => setModalShow(true)}> Rules</Button>
+          <Button className="button-35" style={{ marginTop: '1em' }} variant="primary" onClick={() => setModalShow(true)}> Rules</Button>
           <Popup text={Object.entries(game.rules).map((r, i) => (<div key={i}>{r[0]}: {r[1]}</div>))}
             show={modalShow}
             onHide={() => setModalShow(false)}
@@ -146,7 +140,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
         </div>
         <div style={{ marginTop: "10px", fontSize: "30px", float: "left" }}> ⏱️ {timer !== 0 ? timer : ''}</div>
       </div>
-      <div style={{ display: isCountingDown ? 'none' : '' }}>
+      <div className="h-100 container-fluid" style={{ display: isCountingDown ? 'none' : '' }}>
         <table className="tableCenter"  >
           <tbody>
             <tr>
@@ -155,7 +149,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
                   .map((p, i) => {
                     return (
                       <td>
-                        <div id={p.sid} className={p.turn ? 'player player-turn' : 'player'} style={{ margin: "30px", textAlign: 'center' }} key={i} onClick={() => drawCard(p)}>
+                        <div id={p.sid} className={p.turn ? 'player player-turn' : 'player'} style={{ marginTop: "1em", marginLeft: '2em', textAlign: 'center' }} key={i} onClick={() => drawCard(p)}>
                           <Card back height={'8em'} style={{ margin: 'auto' }} />
                           <span style={{ display: 'inline-block', margin: '0.5em 0.7em 0 0.5em' }}>{p.name} ({p.cards})</span>
                           <span style={{ display: playerResultToggles[p.sid] ? '' : 'none' }} class="reaction">{p.reaction?.result
@@ -168,62 +162,58 @@ const Floor = ({ game, gameDispatch, socket }) => {
             </tr>
           </tbody>
         </table>
-        {/* </div> */}
-        <table className="tableCenter" width="30%" >
-          <tbody>
-            <tr>
-              <td>
-                <div className="drawpile" style={{ height: '8em', width: '10em', marginBottom: "30px", marginTop: "30px", margin: "30px" }}>
-                  {drawPile.length !== 0
-                    ? drawPile
-                      .map((c, i) => {
-                        const transf = i * 8
-                        console.log('tr', transf)
-                        return (
-                          <div key={c} className="center-card" style={{
-                            position: 'absolute',
-                            transform: 'translateX(' + transf + 'px)'
-                          }}>
-                            <Card card={c} height={'8em'} />
-                          </div>)
-                      })
-                    : ''
-                  }
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div className="container">
-                  <div className="debug" style={{ display: process.env['NODE_ENV'] === 'development' ? '' : 'none' }}>
-                    Debug
-                    <br />
-                    <span>You reacted: {game.players[socket.id].reaction?.gesture} </span>
-                    <br />
+        <Row className="w-100 justify-content-center">
+          <table className="draw-pile justify-content-center" >
+            <tbody>
+              <tr>
+                <td>
+                  <div className="drawpile" style={{ height: '8em', width: '10em', marginBottom: "30px", marginTop: "30px", margin: "30px" }}>
+                    {drawPile.length !== 0
+                      ? drawPile
+                        .map((c, i) => {
+                          const transf = i * 8
+                          console.log('tr', transf)
+                          return (
+                            <div key={c} className="center-card" style={{
+                              position: 'absolute',
+                              transform: 'translateX(' + transf + 'px)'
+                            }}>
+                              <Card card={c} height={'8em'} />
+                            </div>)
+                        })
+                      : ''
+                    }
                   </div>
-                </div>
-                <SweetAlert
-                  show={displayRoundLoser}
-                  danger
-                  title={game.roundLoser.name}
-                  timeout={1100}
-                  onConfirm={() => { }}
-                  customButtons={<Fragment>
-                  </Fragment>}
-                  style={{ color: 'black' }}
-                >
-                  {game.roundLoser.name} Reacted <strong><em>{game.roundLoser.reaction}</em></strong><br /> Better Luck Next Time!
-                </SweetAlert>
-                {/* </td><td> */}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <table className="tableCenter">
-          <tbody>
-
-          </tbody>
-        </table>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div className="container">
+                    <div className="debug" style={{ display: process.env['NODE_ENV'] === 'development' ? 'none' : 'none' }}>
+                      Debug
+                      <br />
+                      <span>You reacted: {game.players[socket.id].reaction?.gesture} </span>
+                      <br />
+                    </div>
+                  </div>
+                  <SweetAlert
+                    show={displayRoundLoser}
+                    danger
+                    title={game.roundLoser.name}
+                    timeout={1100}
+                    onConfirm={() => { }}
+                    customButtons={<Fragment>
+                    </Fragment>}
+                    style={{ color: 'black' }}
+                  >
+                    {game.roundLoser.name} Reacted <strong><em>{game.roundLoser.reaction}</em></strong><br /> Better Luck Next Time!
+                  </SweetAlert>
+                  {/* </td><td> */}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </Row>
       </div>
     </Container >
   )

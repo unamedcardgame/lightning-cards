@@ -41,12 +41,13 @@
 
 .div-right {
   float: right;
-  margin-top: 1%;
+  margin-top: 0.3em;
+  margin-right: 0em;
+  display: inline;
 }
 
 .div-left {
   float: left;
-  margin-top: 1%;
 }
 
 canvas {
@@ -86,13 +87,10 @@ canvas {
 
 .tableCenter {
   table-layout: fixed;
-  width: 100%;
-  margin-top: 10px;
   text-align: center;
   align-content: center;
   align-self: center;
   margin: auto;
-  width: auto;
 }
 
 .button-37 {
@@ -172,4 +170,8 @@ canvas {
 
 .button-35:hover {
   box-shadow: #121212 0 0 0 3px, transparent 0 0 0 0;
+}
+
+.draw-pile {
+  width: fit-content;
 }
