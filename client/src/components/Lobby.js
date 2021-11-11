@@ -9,8 +9,8 @@ import gameService from "../services/gameService"
 import { useHands } from '../hooks/useHands';
 import { addPlayer, setCardLengths, setRules } from '../reducers/gameReducer';
 import { Image } from 'react-bootstrap';
-import gamegif1 from '../images/game1.gif';
-import gamegif2 from '../images/user1.png';
+// import gamegif1 from '../images/game1.gif';
+// import gamegif2 from '../images/user1.png';
 import gamegif3 from '../images/user3.gif';
 
 
