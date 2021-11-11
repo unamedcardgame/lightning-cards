@@ -100,7 +100,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
   }, [])
 
   useEffect(() => {
-    setInterval(() => setIsCountingDown(false), 7000) // TODO(): Set back to 3000
+    setInterval(() => setIsCountingDown(false), 10000) // TODO(): Set back to 3000
   }, [setIsCountingDown])
 
   const drawCard = (p) => {
