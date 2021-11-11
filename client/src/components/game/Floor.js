@@ -13,6 +13,8 @@ import { objectMap } from '../../utils/jsUtils'
 import SweetAlert from 'react-bootstrap-sweetalert'
 import party from 'party-js'
 
+const loserMessages = ['Brush yourself off, pardner', 'Speechless', 'Better Luck Next Time!', 'You can do better!', 'Maybe try reacting ALT-F4 next time.', 'LMAO', 'Shucks, just missed :(', 'What does this guy think of himself?', 'Close!']
+
 const SpeechRecognition =
   window.speechRecognition || window.webkitSpeechRecognition
 const mic = new SpeechRecognition()
@@ -100,7 +102,8 @@ const Floor = ({ game, gameDispatch, socket }) => {
   }, [])
 
   useEffect(() => {
-    setInterval(() => setIsCountingDown(false), 0) // TODO(): Set back to 3000
+    const countTime = process.env['NODE_ENV'] === 'development' ? 0 : 10000
+    setInterval(() => setIsCountingDown(false), countTime)
   }, [setIsCountingDown])
 
   const drawCard = (p) => {
@@ -114,9 +117,15 @@ const Floor = ({ game, gameDispatch, socket }) => {
 
   return (
     <Container fluid className="h-100 p-3 pt-0">
-      <div className="countdown" style={{ display: isCountingDown ? '' : 'none' }}>
-        Get Ready !
-      </div>
+      <SweetAlert
+        show={isCountingDown}
+        info
+        title='Patience'
+        onConfirm={() => { }}
+        customButtons={<Fragment>
+        </Fragment>}
+        style={{ color: 'black' }}
+      >Rome wasn't built in a day.</SweetAlert>
       <div className="div-right text-center">
         <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video" crossOrigin="anonymous" playsInline="true"></video>
         <canvas ref={hands.canvasRef} className="output_canvas" width="360" height="250px"></canvas>
@@ -206,7 +215,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
                     </Fragment>}
                     style={{ color: 'black' }}
                   >
-                    {game.roundLoser.name} Reacted <strong><em>{game.roundLoser.reaction}</em></strong><br /> Better Luck Next Time!
+                    {game.roundLoser.name} Reacted <strong><em>{game.roundLoser.reaction}</em></strong>.<br />{loserMessages[Math.floor(Math.random() * loserMessages.length)]}
                   </SweetAlert>
                   {/* </td><td> */}
                 </td>
