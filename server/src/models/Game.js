@@ -22,7 +22,7 @@ class Game {
     'K': 'pewpew',
     'Q': 'peace',
     'J': 'good morning sir',
-    'A': 'callme',
+    'A': 'rockon',
     'T': 'okay',
   };
   constructor(id) {

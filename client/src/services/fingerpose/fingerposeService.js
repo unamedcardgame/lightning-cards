@@ -321,134 +321,12 @@ export const gestures = [
     ],
     "enabled": true
   }),
-  // CALLME
+  // ROCKON
   createGesture({
-    "name": "callme",
+    "name": "rockon",
     "algorithm": "fingerpose",
     "models": "hands",
-    "confidence": "7.25",
-    "description": [
-      [
-        "addCurl",
-        "Thumb",
-        "NoCurl",
-        1
-      ],
-      [
-        "addDirection",
-        "Thumb",
-        "DiagonalUpLeft",
-        1
-      ],
-      [
-        "addCurl",
-        "Index",
-        "FullCurl",
-        1
-      ],
-      [
-        "addDirection",
-        "Index",
-        "DiagonalUpLeft",
-        1
-      ],
-      [
-        "addCurl",
-        "Middle",
-        "FullCurl",
-        1
-      ],
-      [
-        "addDirection",
-        "Middle",
-        "HorizontalLeft",
-        1
-      ],
-      [
-        "addDirection",
-        "Middle",
-        "DiagonalUpLeft",
-        0.034482758620689655
-      ],
-      [
-        "addCurl",
-        "Ring",
-        "FullCurl",
-        1
-      ],
-      [
-        "addDirection",
-        "Ring",
-        "HorizontalLeft",
-        1
-      ],
-      [
-        "addCurl",
-        "Pinky",
-        "NoCurl",
-        1
-      ],
-      [
-        "addDirection",
-        "Pinky",
-        "HorizontalLeft",
-        1
-      ],
-      [
-        "addDirection",
-        "Thumb",
-        "DiagonalUpRight",
-        1
-      ],
-      [
-        "addDirection",
-        "Index",
-        "DiagonalUpRight",
-        1
-      ],
-      [
-        "addDirection",
-        "Middle",
-        "HorizontalRight",
-        1
-      ],
-      [
-        "addDirection",
-        "Middle",
-        "DiagonalUpRight",
-        0.034482758620689655
-      ],
-      [
-        "addDirection",
-        "Ring",
-        "HorizontalRight",
-        1
-      ],
-      [
-        "addDirection",
-        "Pinky",
-        "HorizontalRight",
-        1
-      ],
-      [
-        "setWeight",
-        "Thumb",
-        2
-      ],
-      [
-        "setWeight",
-        "Pinky",
-        2
-      ]
-    ],
-    "enabled": true
-  }),
-  // YOLO
-  createGesture({
-    "name": "yolo",
-    "algorithm": "fingerpose",
-    "models": "hands",
-    "confidence": "7.25",
+    "confidence": 7.5,
     "description": [
       [
         "addCurl",
@@ -465,13 +343,13 @@ export const gestures = [
       [
         "addCurl",
         "Index",
-        "FullCurl",
+        "NoCurl",
         1
       ],
       [
         "addDirection",
         "Index",
-        "VerticalUp",
+        "DiagonalUpRight",
         1
       ],
       [
@@ -517,16 +395,11 @@ export const gestures = [
         1
       ],
       [
-        "setWeight",
-        "Thumb",
-        2
-      ],
-      [
-        "setWeight",
-        "Pinky",
-        2
+        "addDirection",
+        "Index",
+        "DiagonalUpLeft",
+        1
       ]
-    ],
-    "enabled": true
+    ]
   })
 ]
