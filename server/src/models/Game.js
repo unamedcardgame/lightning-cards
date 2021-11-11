@@ -53,13 +53,11 @@ class Game {
 
   // TODO(): nextTurn() - changes currentTurn to next player's sid
   nextTurn() {
-    let n = this.players.length - 1
-    if (this.currentTurn < n) {
-      this.currentTurn += 1
-    }
-    else {
-      this.currentTurn = 0
-    }
+    const n = this.players.length
+
+    do {
+      this.currentTurn = (this.currentTurn + 1) % n
+    } while (this.players[this.currentTurn].cards === 0)
 
     return this.currentTurn
   }
