@@ -159,7 +159,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
                         <div id={p.sid} className={p.turn ? 'player player-turn' : 'player'} style={{ margin: "30px", textAlign: 'center' }} key={i} onClick={() => drawCard(p)}>
                           <Card back height={'8em'} style={{margin: 'auto'}} />
                             <span style={{ display: 'inline-block', margin: '0.5em 0.7em 0 0.5em' }}>{p.name} ({p.cards})</span>
-                          <span style={{ display: playerResultToggles[p.sid] ? '' : '' }} class="reaction">{p.reaction?.result
+                          <span style={{ display: playerResultToggles[p.sid] ? '' : 'none' }} class="reaction">{p.reaction?.result
                             === 'correct' ? '✅' : '❌'}</span>
                         </div>
                       </td>
