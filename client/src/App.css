@@ -7,7 +7,7 @@
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-position: right top;
-  overflow:scroll;
+  overflow-y: auto;
   height: 110vh;
 }
 
@@ -17,7 +17,7 @@
   font-weight: 400;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   font-style: italic;
-  background-color : darkgoldenrod;
+  background-color: darkgoldenrod;
   text-align: center;
   margin-top: 3%;
   border-radius: 10%;
@@ -70,7 +70,7 @@ canvas {
   align-items: center;
   align-self: center;
   align-content: center;
-  text-align: center  ;
+  text-align: center;
   margin-right: auto;
   width: 100%;
   text-align: center;
@@ -173,4 +173,3 @@ canvas {
 .button-35:hover {
   box-shadow: #121212 0 0 0 3px, transparent 0 0 0 0;
 }
-
