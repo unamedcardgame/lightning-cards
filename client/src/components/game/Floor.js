@@ -117,14 +117,14 @@ const Floor = ({ game, gameDispatch, socket }) => {
       <div className="countdown" style={{ display: isCountingDown ? '' : 'none' }}>
         Get Ready !
       </div>
-      <div className="div-right">
+      <div className="div-right text-center">
         <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video" crossOrigin="anonymous" playsInline="true"></video>
         <canvas ref={hands.canvasRef} className="output_canvas" width="360" height="250px"></canvas>
         <div className="container">
           <div className="box" style={{ fontSize: "30px" }} >
             {!isListening ? <span> 🎙️ </span> : <span> 🛑🎙️ </span>}
             <Button className="button-35" onClick={toggleVoiceReaction}>
-              Record Voice Reaction
+              {isListening ? 'SUBMIT your reaction !' : 'Record Voice Reaction'}
             </Button>
             <p style={{ fontSize: "20px" }}>{note}</p>
           </div>
