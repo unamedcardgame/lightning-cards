@@ -33,7 +33,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
   const hands = useHands(game, gameDispatch, socket, ignoredOne, setIgnoredOne)
   const [modalShow, setModalShow] = useState(false)
 
-  const [timer, setTimer] = useState(null)
+  const [timer, setTimer] = useState(0)
 
   const [isListening, setIsListening] = useState(false)
   const [note, setNote] = useState(null)
@@ -138,7 +138,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
             onHide={() => setModalShow(false)}
           />
         </div>
-        <div style={{ marginTop: "10px", fontSize: "30px", float: "left" }}> ⏱️ {timer !== 0 ? timer : ''}</div>
+        <div style={{ marginTop: "10px", fontSize: "30px", float: "left", display: timer !== 0 ? '' : 'none' }}> ⏱️ {timer}</div>
       </div>
       <div className="h-100 container-fluid" style={{ display: isCountingDown ? 'none' : '' }}>
         <table className="tableCenter"  >
