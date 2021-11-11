@@ -92,7 +92,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
 
   useEffect(() => {
     setCallbacks(socket, setDrawPile, gameDispatch, history, setIsListening,
-      playerResultToggles, setPlayerResultToggles, setDisplayRoundLoser, setTimer, game.players, party)
+      playerResultToggles, setPlayerResultToggles, setDisplayRoundLoser, setTimer, game.players, party, setNote)
   }, [])
 
   useEffect(() => {
@@ -106,7 +106,6 @@ const Floor = ({ game, gameDispatch, socket }) => {
   const drawCard = (p) => {
     console.log(game.rules)
     if (drawPile.length === 0 || (p.sid === socket.id && ['K', 'Q', 'A', 'J', 'T'].every(c => drawPile[drawPile.length - 1][0] !== c))) {
-      setNote('')
       // action draw card
       socket.emit('draw card', { sid: socket.id, gameId: game.id })
 
@@ -157,8 +156,8 @@ const Floor = ({ game, gameDispatch, socket }) => {
                     return (
                       <td>
                         <div id={p.sid} className={p.turn ? 'player player-turn' : 'player'} style={{ margin: "30px", textAlign: 'center' }} key={i} onClick={() => drawCard(p)}>
-                          <Card back height={'8em'} style={{margin: 'auto'}} />
-                            <span style={{ display: 'inline-block', margin: '0.5em 0.7em 0 0.5em' }}>{p.name} ({p.cards})</span>
+                          <Card back height={'8em'} style={{ margin: 'auto' }} />
+                          <span style={{ display: 'inline-block', margin: '0.5em 0.7em 0 0.5em' }}>{p.name} ({p.cards})</span>
                           <span style={{ display: playerResultToggles[p.sid] ? '' : 'none' }} class="reaction">{p.reaction?.result
                             === 'correct' ? '✅' : '❌'}</span>
                         </div>
