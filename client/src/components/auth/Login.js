@@ -33,8 +33,8 @@ const Login = () => {
   }
 
   return (
-    <div className="d-flex flex-column flex-grow-1 justify-content-center align-items-center">
-      <Image src={logo1} roundedCircle width="270" height="270" />
+    <div className="tableCenter1">
+      <Image src={logo1} roundedCircle width="290" height="290" />
       <div style={{ marginTop: '1em' }}>
         <GoogleLogin
           clientId="1009598541430-qqds8odu93uk62hngvvg5qim1hfscq0v.apps.googleusercontent.com"
