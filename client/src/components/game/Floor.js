@@ -100,7 +100,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
   }, [])
 
   useEffect(() => {
-    setInterval(() => setIsCountingDown(false), 0) // TODO(): Set back to 3000
+    setInterval(() => setIsCountingDown(false), 7000) // TODO(): Set back to 3000
   }, [setIsCountingDown])
 
   const drawCard = (p) => {
@@ -114,9 +114,16 @@ const Floor = ({ game, gameDispatch, socket }) => {
 
   return (
     <Container fluid className="h-100 p-3 pt-0">
-      <div className="countdown" style={{ display: isCountingDown ? '' : 'none' }}>
-        Get Ready !
-      </div>
+      <SweetAlert
+        show={isCountingDown}
+        info
+        title='Patience'
+        timeout={1100}
+        onConfirm={() => { }}
+        customButtons={<Fragment>
+        </Fragment>}
+        style={{ color: 'black' }}
+      >Rome wasn't built in a day.</SweetAlert>
       <div className="div-right text-center">
         <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video" crossOrigin="anonymous" playsInline="true"></video>
         <canvas ref={hands.canvasRef} className="output_canvas" width="360" height="250px"></canvas>
