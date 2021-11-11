@@ -9,7 +9,7 @@ import { useHistory } from 'react-router';
 import Popup from './overlay/PopupWindow'
 import { setHost, addPlayer, setGameId } from '../reducers/gameReducer';
 
-const Home = ({ setSocket, game, gameDispatch }) => {
+const Home = ({ setSocket, gameDispatch }) => {
   const { userState: authState } = useContext(AuthContext)
   const [isJoinVisible, setisJoinVisible] = useState(false)
   const [popupConfig, setPopupConfig] = useState({ show: false })
@@ -35,7 +35,6 @@ const Home = ({ setSocket, game, gameDispatch }) => {
 
         tempSocket.on('joined', () => {
           gameDispatch(addPlayer({ name: authState.user.name, sid: tempSocket.id }))
-          history.push('/Lobby')
           history.push('/lobby')
         })
 
@@ -92,7 +91,7 @@ const Home = ({ setSocket, game, gameDispatch }) => {
           onHide={() => setPopupConfig({ ...popupConfig, show: false })}
         />
         <Row>
-          <p>Welcome {authState?.user.name} !</p>
+          <p style={{fontSize: '2em'}}>Welcome {authState?.user.name} !</p>
         </Row>
         <Row>
           <Button onClick={handleCreate}>Create New Game</Button>
