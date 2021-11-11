@@ -5,7 +5,7 @@ let int
 
 export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsListening,
   playerResultToggles, setPlayerResultToggles, setDisplayRoundLoser,
-  setTimer, players, party) => {
+  setTimer, players, party, setNote) => {
   socket.on('cards ready', () => {
     console.log('yummy cards')
   })
@@ -26,10 +26,10 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsLi
   })
 
   socket.on('player drew', player => {
-    console.log('DID I REALLY DRAW THO')
     gameDispatch(updatePlayerCards(player.sid))
     gameDispatch(setReactionReady(true))
     gameDispatch(setPlayerTurn(player))
+    setNote('')
 
     setPlayerResultToggles(
       objectMap(players, () => false)
