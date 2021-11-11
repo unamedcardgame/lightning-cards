@@ -195,8 +195,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
             <tr>
               <td>
                 <div className="container">
-                  <h6 style={{ margin: "10px" }}>{game.reactionReady ? 'MAKE YOUR REACTION ! ' : 'Wait for Draw... '}  </h6>
-                  <div className="debug">
+                  <div className="debug" style={{ display: process.env['NODE_ENV'] === 'development' ? '' : 'none' }}>
                     Debug
                     <br />
                     <span>You reacted: {game.players[socket.id].reaction?.gesture} </span>
@@ -213,7 +212,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
                   </Fragment>}
                   style={{ color: 'black' }}
                 >
-                  {game.roundLoser.name} Reacted <strong><em>{game.roundLoser.reaction}</em></strong><br/> Better Luck Next Time!
+                  {game.roundLoser.name} Reacted <strong><em>{game.roundLoser.reaction}</em></strong><br /> Better Luck Next Time!
                 </SweetAlert>
                 {/* </td><td> */}
               </td>
