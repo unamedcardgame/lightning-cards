@@ -209,7 +209,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
                     show={displayRoundLoser}
                     danger
                     title={game.roundLoser.name}
-                    timeout={1100}
+                    timeout={3000}
                     onConfirm={() => { }}
                     customButtons={<Fragment>
                     </Fragment>}
