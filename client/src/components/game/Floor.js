@@ -142,7 +142,17 @@ const Floor = ({ game, gameDispatch, socket }) => {
       <div className="div-left">
         <div >
           <Button className="button-35" style={{ marginTop: '1em' }} variant="primary" onClick={() => setModalShow(true)}> Rules</Button>
-          <Popup text={Object.entries(game.rules).map((r, i) => (<div key={i}>{r[0]}: {r[1]}</div>))}
+          {/*text={Object.entries(game.rules).map((r, i) => (<div key={i}>{r[0]}: {r[1]}</div>))}*/}
+          <Popup
+            text={
+              <div>
+                <span>👑 K: </span><span style={{marginLeft: '1em'}}>🔫 PewPew</span><br />
+                <span>👸 Q: </span><span style={{marginLeft: '0.8em'}}>✌️ Peace</span><br />
+                <span>🇯 J: </span><span style={{marginLeft: '1em'}}>🗣️ 'Good morning sir'</span><br />
+                <span>🅰️ A: </span><span style={{marginLeft: '0.9em'}}>🤘 Rockon</span><br />
+                <span>🔟 T: </span><span style={{marginLeft: '1em'}}>👌 Okay</span><br />
+              </div>
+            }
             show={modalShow}
             onHide={() => setModalShow(false)}
           />
