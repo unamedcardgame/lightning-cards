@@ -10,7 +10,7 @@ const Endgame = ({ game }) => {
 
       <div className="winner-Text">
         {/* Winner : Disha Bundela */}
-        Winner : {game.winner.name}
+        Congratulations {game.winner.name} ! 🥳🎉
       </div>
     </div>
   )
