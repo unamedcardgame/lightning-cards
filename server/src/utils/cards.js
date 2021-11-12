@@ -16,7 +16,7 @@ let cards = ["4d", "3c", "Ah", "2s", "Ac", "Tc", "6h", "Qh", "6s", "As", "Ks", "
 const generateCards = (numOfPlayers) => {
   shuffleArray(cards)
   let playerCards = []
-  const cardsPerPlayer = (9 / numOfPlayers) | 0
+  const cardsPerPlayer = (12 / numOfPlayers) | 0
 
   for (let i = 0; i < numOfPlayers; i++) {
     const start = i * cardsPerPlayer
