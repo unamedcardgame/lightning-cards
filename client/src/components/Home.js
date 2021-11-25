@@ -36,7 +36,7 @@ const Home = ({ setSocket, gameDispatch }) => {
         })
 
         tempSocket.on('joined', () => {
-          gameDispatch(addPlayer({ name: authState.user.name, sid: tempSocket.id }))
+          gameDispatch(addPlayer({ name: authState.user.name, sid: tempSocket.id, id: authState.user.id }))
           history.push('/lobby')
         })
 
@@ -93,10 +93,10 @@ const Home = ({ setSocket, gameDispatch }) => {
           onHide={() => setPopupConfig({ ...popupConfig, show: false })}
         />
         <div>
-        <Image src={logo1}  roundedCircle width="250" height="250" />
+          <Image src={logo1} roundedCircle width="250" height="250" />
         </div>
         <Row>
-        <p className="title-Text" style={{fontSize: '2em'}}> ⚡ Welcome ⚡ <br/> {authState?.user.name} </p>
+          <p className="title-Text" style={{ fontSize: '2em' }}> ⚡ Welcome ⚡ <br /> {authState?.user.name} </p>
         </Row>
         <Row>
           <Button onClick={handleCreate}>Create New Game</Button>

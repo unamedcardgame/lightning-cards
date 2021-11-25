@@ -11,6 +11,7 @@ import Lobby from './components/Lobby'
 import Endgame from './components/game/Endgame';
 import NavigationBar from './components/Navbar';
 import gameReducer from './reducers/gameReducer';
+import { v4 as uuidv4 } from 'uuid'
 
 const initialState = process.env.NODE_ENV === 'production' ? {
   isAuthenticated: false,
@@ -25,8 +26,8 @@ const initialState = process.env.NODE_ENV === 'production' ? {
 }
   : {
     isAuthenticated: true,
-    user: { name: 'appleUser ' + parseInt(Math.random() * 100) },
-    token: 'none'
+    user: { name: 'appleUser ' + parseInt(Math.random() * 100), id: uuidv4() },
+    token: null,
   }
 
 

@@ -3,7 +3,6 @@ import { GoogleLogin } from 'react-google-login';
 import { AuthContext } from '../../contexts/AuthContext';
 import userService from '../../services/userService'
 import { Image } from 'react-bootstrap';
-// import logo from '../../images/Logo1.png';
 import logo1 from '../../images/Logo2.png';
 
 

@@ -82,7 +82,10 @@ const Lobby = ({ socket, game, gameDispatch }) => {
         <ol className="body-Text">
           {
             Object.keys(game.players).map(key => game.players[key])
-              .map((p, i) => <li key={i}>{p.name}</li>)
+              .map((p, i) => {
+                console.log(p)
+                return (<li key={p.id}>{p.name}</li>)
+              })
           }
 
         </ol>
