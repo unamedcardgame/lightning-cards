@@ -76,7 +76,7 @@ const Lobby = ({ socket, game, gameDispatch }) => {
 
   return (
     <Row className="tableCenter1">
-      <Popup show={unreadyShow} onHide={() => setUnreadyShow(false)} text={<div><p>Following players aren't ready !</p><ol>{unreadyList.map(p => <li key={p.id}>{p}</li>)}</ol></div>} />
+      <Popup show={unreadyShow} onHide={() => setUnreadyShow(false)} text={<div>The following players aren't ready !<div><ol>{unreadyList.map(p => <li key={p.id}>{p.name}</li>)}</ol></div></div>} />
       <Col style={{ fontSize: "2em" }} className="col-auto text-center">
         <Image src={gamegif3} roundedCircle width="230px" height="230px " />
         <strong><p className="title-Text" >Players</p></strong>

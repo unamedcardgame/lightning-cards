@@ -54,7 +54,7 @@ function setHandlers(io) {
     socket.on('start game', (game) => {
       if (!games[game.gameId].isEveryoneReady()) {
         const unreadyList = games[game.gameId].players.filter(p => p.ready === false)
-        socket.emit('unready', unreadyList.map(p => p.name))
+        socket.emit('unready', unreadyList.map(p => ({ name: p.name, id: p.gid })))
         return
       }
       games[game.gameId].startGame()
