@@ -146,11 +146,11 @@ const Floor = ({ game, gameDispatch, socket }) => {
           <Popup
             text={
               <div>
-                <span>👑 K: </span><span style={{marginLeft: '1em'}}>🔫 PewPew</span><br />
-                <span>👸 Q: </span><span style={{marginLeft: '0.8em'}}>✌️ Peace</span><br />
-                <span>🇯 J: </span><span style={{marginLeft: '1em'}}>🗣️ 'Good morning sir'</span><br />
-                <span>🅰️ A: </span><span style={{marginLeft: '0.9em'}}>🤘 Rockon</span><br />
-                <span>🔟 T: </span><span style={{marginLeft: '1em'}}>👌 Okay</span><br />
+                <span>👑 K: </span><span style={{ marginLeft: '1em' }}>🔫 PewPew</span><br />
+                <span>👸 Q: </span><span style={{ marginLeft: '0.8em' }}>✌️ Peace</span><br />
+                <span>🇯 J: </span><span style={{ marginLeft: '1em' }}>🗣️ 'Good morning sir'</span><br />
+                <span>🅰️ A: </span><span style={{ marginLeft: '0.9em' }}>🤘 Rockon</span><br />
+                <span>🔟 T: </span><span style={{ marginLeft: '1em' }}>👌 Okay</span><br />
               </div>
             }
             show={modalShow}
@@ -165,10 +165,10 @@ const Floor = ({ game, gameDispatch, socket }) => {
             <tr>
               {
                 Object.keys(game.players).map(key => ({ ...game.players[key], sid: key }))
-                  .map((p, i) => {
+                  .map(p => {
                     return (
                       <td>
-                        <div id={p.sid} className={p.turn ? 'player player-turn' : 'player'} style={{ marginTop: "1em", marginLeft: '2em', textAlign: 'center' }} key={i} onClick={() => drawCard(p)}>
+                        <div id={p.sid} className={p.turn ? 'player player-turn' : 'player'} style={{ marginTop: "1em", marginLeft: '2em', textAlign: 'center' }} key={p.id} onClick={() => drawCard(p)}>
                           <Card back height={'8em'} style={{ margin: 'auto' }} />
                           <span style={{ display: 'inline-block', margin: '0.5em 0.7em 0 0.5em' }}>{p.name} ({p.cards})</span>
                           <span style={{ display: playerResultToggles[p.sid] ? '' : 'none' }} class="reaction">{p.reaction?.result

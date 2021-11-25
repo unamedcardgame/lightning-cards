@@ -20,10 +20,10 @@ function setHandlers(io) {
 
       // 'games' is a global variable declared in app.js
       if (data.game.isHost) {
-        games[gameId].setHost(data.user.userId)
+        games[gameId].setHost(data.user.id)
       }
       // add player to game
-      games[gameId].addPlayer(new Player(data.user.userId, socket.id, data.user.name, data.game.isHost ? true : false))
+      games[gameId].addPlayer(new Player(data.user.id, socket.id, data.user.name, data.game.isHost ? true : false))
 
       // send back a list of players in lobby to the new player
       const playerList = games[gameId]
@@ -32,14 +32,15 @@ function setHandlers(io) {
       io.of('/games').to(socket.id).emit('player list', playerList)
 
 
-      // map google's userId to socket's internal id
-      users[socket.id] = data.user.userId
+      // map google's id to socket's internal id
+      users[socket.id] = data.user.id
 
       // tell the player he joined the game
       socket.emit('joined')
 
       // tell all the other players a new player has arrived
-      socket.to(gameId).emit('new player', { name: data.user.name, sid: socket.id })
+      console.log('WB DIS', data.user.id)
+      socket.to(gameId).emit('new player', { name: data.user.name, sid: socket.id, id: data.user.id })
     })
 
     socket.on('ready', (details) => {

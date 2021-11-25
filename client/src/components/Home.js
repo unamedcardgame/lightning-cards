@@ -32,7 +32,7 @@ const Home = ({ setSocket, gameDispatch }) => {
         const tempSocket = process.env['NODE_ENV'] === 'development' ? io('/games') : io('https://lightning-cards-api.herokuapp.com/games')
         tempSocket.emit('join', {
           game: { gameId, isHost: true },
-          user: { userId: authState.user.id, name: authState.user.name },
+          user: { id: authState.user.id, name: authState.user.name },
         })
 
         tempSocket.on('joined', () => {
@@ -63,13 +63,13 @@ const Home = ({ setSocket, gameDispatch }) => {
       if (status === 200) {
         tempSocket.emit('join', {
           game: { gameId: joinCode },
-          user: { name: authState.user.name }
+          user: { name: authState.user.name, id: authState.user.id }
         })
 
         tempSocket.on('player list', (playerList) => {
           gameDispatch(setGameId(joinCode))
-          playerList.forEach(p => gameDispatch(addPlayer({ name: p.name, sid: p.sid })))
-          gameDispatch(addPlayer({ name: authState.user.name, sid: tempSocket.id }))
+          playerList.forEach(p => gameDispatch(addPlayer({ name: p.name, sid: p.sid, id: p.id })))
+          gameDispatch(addPlayer({ name: authState.user.name, sid: tempSocket.id, id: authState.user.id }))
           history.push('/lobby')
         })
         setSocket(tempSocket) // set socket state

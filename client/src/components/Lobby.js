@@ -26,7 +26,8 @@ const Lobby = ({ socket, game, gameDispatch }) => {
     // console.log('nl')
     // new player socket handler
     socket.on('new player', (user) => {
-      gameDispatch(addPlayer({ name: user.name, sid: user.sid }))
+      console.log('np ', user.id)
+      gameDispatch(addPlayer({ id: user.id, name: user.name, sid: user.sid, }))
     })
 
     // on cards ready handler
@@ -75,14 +76,14 @@ const Lobby = ({ socket, game, gameDispatch }) => {
 
   return (
     <Row className="tableCenter1">
-      <Popup show={unreadyShow} onHide={() => setUnreadyShow(false)} text={<div><p>Following players aren't ready !</p><ol>{unreadyList.map((p, i) => <li key={i}>{p}</li>)}</ol></div>} />
+      <Popup show={unreadyShow} onHide={() => setUnreadyShow(false)} text={<div><p>Following players aren't ready !</p><ol>{unreadyList.map(p => <li key={p.id}>{p}</li>)}</ol></div>} />
       <Col style={{ fontSize: "2em" }} className="col-auto text-center">
         <Image src={gamegif3} roundedCircle width="230px" height="230px " />
         <strong><p className="title-Text" >Players</p></strong>
         <ol className="body-Text">
           {
             Object.keys(game.players).map(key => game.players[key])
-              .map((p, i) => {
+              .map(p => {
                 console.log(p)
                 return (<li key={p.id}>{p.name}</li>)
               })
