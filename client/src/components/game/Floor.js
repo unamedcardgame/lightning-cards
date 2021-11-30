@@ -218,7 +218,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
                   <SweetAlert
                     show={displayRoundLoser}
                     danger
-                    title={game.roundLoser.name}
+                    title={game.roundLoser.name || ''}
                     timeout={3000}
                     onConfirm={() => { }}
                     customButtons={<Fragment>
