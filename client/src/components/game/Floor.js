@@ -127,7 +127,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
         style={{ color: 'black' }}
       >Rome wasn't built in a day.</SweetAlert>
       <div className="div-right text-center">
-        <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video" crossOrigin="anonymous" playsInline="true"></video>
+        <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video" crossOrigin="anonymous" playsInline={true}></video>
         <canvas ref={hands.canvasRef} className="output_canvas" width="360" height="250px"></canvas>
         <div className="container">
           <div className="box" style={{ fontSize: "30px" }} >
@@ -142,7 +142,6 @@ const Floor = ({ game, gameDispatch, socket }) => {
       <div className="div-left">
         <div >
           <Button className="button-35" style={{ marginTop: '1em' }} variant="primary" onClick={() => setModalShow(true)}> Rules</Button>
-          {/*text={Object.entries(game.rules).map((r, i) => (<div key={i}>{r[0]}: {r[1]}</div>))}*/}
           <Popup
             text={
               <div>
@@ -167,11 +166,11 @@ const Floor = ({ game, gameDispatch, socket }) => {
                 Object.keys(game.players).map(key => ({ ...game.players[key], sid: key }))
                   .map(p => {
                     return (
-                      <td>
+                      <td key={p.id}>
                         <div id={p.sid} className={p.turn ? 'player player-turn' : 'player'} style={{ marginTop: "1em", marginLeft: '2em', textAlign: 'center' }} key={p.id} onClick={() => drawCard(p)}>
                           <Card back height={'8em'} style={{ margin: 'auto' }} />
                           <span style={{ display: 'inline-block', margin: '0.5em 0.7em 0 0.5em' }}>{p.name} ({p.cards})</span>
-                          <span style={{ display: playerResultToggles[p.sid] ? '' : 'none' }} class="reaction">{p.reaction?.result
+                          <span style={{ display: playerResultToggles[p.sid] ? '' : 'none' }} className="reaction">{p.reaction?.result
                             === 'correct' ? '✅' : '❌'}</span>
                         </div>
                       </td>
