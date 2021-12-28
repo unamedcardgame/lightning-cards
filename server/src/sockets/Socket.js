@@ -10,7 +10,6 @@ const setHandlers = require('../sockets/socketController')
         --   ...
 
 */
-
 class Socket {
   io
   constructor(server) {

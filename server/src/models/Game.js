@@ -65,10 +65,6 @@ class Game {
   get currentCard() {
     return this.centerCards[this.centerCards.length - 1]
   }
-
-  getresult() {
-
-  }
 }
 
 module.exports = Game

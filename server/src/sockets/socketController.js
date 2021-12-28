@@ -100,10 +100,6 @@ function setHandlers(io) {
         // notify room that player drew card
         const turn = games[gameId].nextTurn()
         io.of('/games').in(gameId).emit('player drew', { sid, nextTurnSid: games[gameId].players[turn].sid })
-
-        // TODO(Eric): reaction reception mode ON
-        // game.reactionMode = true
-
       }
       else {
         // TODO(): Send to frontend to display not your turn or something ?

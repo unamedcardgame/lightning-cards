@@ -24,7 +24,6 @@ global.games = /** @type {Game} */ {}
 // {socketId: googleUserId}
 global.users = {}
 
-// pay no attention
 const app = express();
 app.use(cors())
 app.use(express.json())
@@ -58,7 +57,6 @@ app.get('/api/rules/:gameId', (req, res) => {
 // join game
 app.get('/api/games/:gameId', (req, res) => {
   const gameId = req.params.gameId
-  // game exists ?
   if (games[gameId]) res.status(200).end()
   else res.status(400).json({ error: `Game code ${gameId} invalid` })
 })
@@ -83,7 +81,7 @@ app.post('/api/cards', (req, res) => {
   res.status(201).end()
 })
 
-// serve the website (FOR PRODUCTION)
+// serve the website (PRODUCTION)
 app.use(express.static(path.join(__dirname, '..', '..', 'client', 'build')))
 app.use('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', '..', 'client', 'build', 'index.html'))
