@@ -9,7 +9,7 @@ const server = http.createServer(app)
 app.set("socket", new Socket(server))
 
 server.listen(process.env.PORT, () => {
-  console.log("listening on port ", process.env.PORT);
+  console.log("listening on port ", process.env.PORT)
   process.env['NODE_ENV'] === 'production' ? console.log('WARNING!!!!!!!!!!!!!!!!!!!!!!!!. Use "npm run dev" for hot reload ! npm start is for production not development') : null
 });
 

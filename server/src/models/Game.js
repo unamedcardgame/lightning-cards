@@ -1,34 +1,26 @@
-/* {
-      id: gameIdGen,
-      players: {
-        [user.id]: { turn: false }
-      }
-    })
-    idToGame[user.id] = gameIdGen++
-  }
-
+/**
+ * @name Game
  */
-
 class Game {
-  id
-  players = [] // look at Player.js for player details structure
-  host
-  running
-  currentTurn
-  centerCards = []
-  // TODO(): WINNERS ARRAY
-  // TODO(): WRONGLY REACTED LIST OF PLAYERS
-  rules = {
-    'K': 'pewpew',
-    'Q': 'peace',
-    'J': 'good morning sir',
-    'A': 'rockon',
-    'T': 'okay',
-  };
   constructor(id) {
+    /** @type {String} uuidv4 */
     this.id = id
+    /** @type {boolean} game is running */
     this.running = false
+    /** @type {number} ID of player whose turn it is */
     this.currentTurn = 0
+    this.players = [] // look at Player.js for player details structure
+    this.host
+    this.running
+    this.currentTurn
+    this.centerCards = []
+    this.rules = {
+      'K': 'pewpew',
+      'Q': 'peace',
+      'J': 'good morning sir',
+      'A': 'rockon',
+      'T': 'okay',
+    };
   }
 
   addPlayer(player) {

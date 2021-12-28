@@ -1,4 +1,3 @@
-const Game = require('../models/Game');
 const Player = require("../models/Player");
 const { declareLoser, checkForWinner } = require('../utils/gameService')
 

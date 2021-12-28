@@ -17,7 +17,9 @@ const { v4: uuidv4 } = require('uuid')
 
   refer Game.js for class
 */
-global.games = {}
+
+global.games = /** @type {Game} */ {}
+
 
 // {socketId: googleUserId}
 global.users = {}
@@ -46,11 +48,9 @@ app.post('/api/games', (req, res) => {
 
 //get rules
 app.get('/api/rules/:gameId', (req, res) => {
-  // console.log('eh wtf like')
   const gameId = req.params.gameId
   console.log('gameidb', gameId)
   const game = games[gameId]
-  console.log(game.rules)
   res.json({ rules: game.rules })
 })
 
