@@ -12,7 +12,6 @@ import { Image } from 'react-bootstrap';
 import gamegif3 from '../images/user3.gif';
 
 
-
 const Lobby = ({ socket, game, gameDispatch }) => {
   const [modalShow, setModalShow] = useState(false)
   const [ready, setReady] = useState(false)
@@ -23,8 +22,6 @@ const Lobby = ({ socket, game, gameDispatch }) => {
 
   // socket listeners
   useEffect(() => {
-    // console.log('nl')
-    // new player socket handler
     socket.on('new player', (user) => {
       console.log('np ', user.id)
       gameDispatch(addPlayer({ id: user.id, name: user.name, sid: user.sid, }))
@@ -32,7 +29,6 @@ const Lobby = ({ socket, game, gameDispatch }) => {
 
     // on cards ready handler
     socket.on('cards info', (cardsList) => {
-      // set no. of cards
       gameDispatch(setCardLengths(cardsList))
     })
 
@@ -41,7 +37,6 @@ const Lobby = ({ socket, game, gameDispatch }) => {
       setUnreadyShow(true)
     })
 
-    // on game start socket handler
     socket.on('begin', async () => {
       hands.closeHands()
       const { rules } = await gameService.getRules(game.id)
@@ -65,7 +60,6 @@ const Lobby = ({ socket, game, gameDispatch }) => {
   const startGame = () => {
     // create cards at the backend
     gameService.getCards(game.id)
-    // tell backend to start game via sockets
     socket.emit('start game', { gameId: game.id })
   }
 
@@ -84,11 +78,9 @@ const Lobby = ({ socket, game, gameDispatch }) => {
           {
             Object.keys(game.players).map(key => game.players[key])
               .map(p => {
-                console.log(p)
                 return (<li key={p.id}>{p.name}</li>)
               })
           }
-
         </ol>
         <Row className="justify-content-center">
           {

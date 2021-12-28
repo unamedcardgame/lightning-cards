@@ -41,7 +41,7 @@ const Home = ({ setSocket, gameDispatch }) => {
         })
 
         setSocket(tempSocket) // set socket state
-      } // TODO(): fail gracefully on error
+      }
     } catch (e) {
       setPopupConfig({
         msg: 'Error creating game at backend, please try again later',
@@ -72,7 +72,7 @@ const Home = ({ setSocket, gameDispatch }) => {
           gameDispatch(addPlayer({ name: authState.user.name, sid: tempSocket.id, id: authState.user.id }))
           history.push('/lobby')
         })
-        setSocket(tempSocket) // set socket state
+        setSocket(tempSocket)
       }
     } catch (e) {
       console.log(e.message)
