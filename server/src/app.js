@@ -54,7 +54,7 @@ app.get('/api/rules/:gameId', (req, res) => {
 })
 
 
-// join game
+// check if game valid
 app.get('/api/games/:gameId', (req, res) => {
   const gameId = req.params.gameId
   if (games[gameId]) res.status(200).end()

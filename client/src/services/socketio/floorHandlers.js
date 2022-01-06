@@ -1,11 +1,12 @@
-import { updatePlayerCards, setGesture, setReactionReady, setRoundLoser, setReacted, setWinner, setPlayerTurn } from "../reducers/gameReducer"
-import { objectMap } from "../utils/jsUtils"
+import { updatePlayerCards, setGesture, setReactionReady, setRoundLoser, setReacted, setWinner, setPlayerTurn } from "../../reducers/gameReducer"
+import { objectMap } from "../../utils/jsUtils"
 
 let int
 
 export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsListening,
   playerResultToggles, setPlayerResultToggles, setDisplayRoundLoser,
   setTimer, players, party, setNote) => {
+
   socket.on('cards ready', () => {
     console.log('yummy cards')
   })

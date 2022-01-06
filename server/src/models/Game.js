@@ -65,6 +65,10 @@ class Game {
   get currentCard() {
     return this.centerCards[this.centerCards.length - 1]
   }
+
+  removePlayer(socketId) {
+    this.players = this.players.filter(p => p.sid !== socketId)
+  }
 }
 
 module.exports = Game

@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap'
 import Card from '@heruka_urgyen/react-playing-cards/lib/TcN'
 import { useState, useEffect, Fragment, useRef } from 'react'
 import { Container, Row } from 'react-bootstrap'
-import { setCallbacks } from '../../services/socketService';
+import { setCallbacks } from '../../services/socketio/floorHandlers';
 import { useHands } from '../../hooks/useHands';
 import { useHistory } from 'react-router'
 import { objectMap } from '../../utils/jsUtils'

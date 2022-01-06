@@ -38,7 +38,6 @@ function setHandlers(io) {
       socket.emit('joined')
 
       // tell all the other players a new player has arrived
-      console.log('WB DIS', data.user.id)
       socket.to(gameId).emit('new player', { name: data.user.name, sid: socket.id, id: data.user.id })
     })
 
@@ -158,7 +157,15 @@ function setHandlers(io) {
 
     })
 
-    // Debug handlers
+    // Disconnect handler
+    socket.on('disconnecting', reason => {
+      console.log('socketid', socket.id)
+      for (s of socket.rooms) {
+        if (s !== socket.id) {
+          socket.to(s).emit('player left', socket.id)
+        }
+      }
+    })
 
   })
 }

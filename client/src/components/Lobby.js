@@ -7,9 +7,9 @@ import Popup from "./overlay/Popup";
 import React, { useState } from 'react';
 import gameService from "../services/gameService"
 import { useHands } from '../hooks/useHands';
-import { addPlayer, setCardLengths, setRules } from '../reducers/gameReducer';
 import { Image } from 'react-bootstrap';
 import gamegif3 from '../images/user3.gif';
+import { setCallbacks } from '../services/socketio/lobbyHandlers';
 
 
 const Lobby = ({ socket, game, gameDispatch }) => {
@@ -22,27 +22,7 @@ const Lobby = ({ socket, game, gameDispatch }) => {
 
   // socket listeners
   useEffect(() => {
-    socket.on('new player', (user) => {
-      console.log('np ', user.id)
-      gameDispatch(addPlayer({ id: user.id, name: user.name, sid: user.sid, }))
-    })
-
-    // on cards ready handler
-    socket.on('cards info', (cardsList) => {
-      gameDispatch(setCardLengths(cardsList))
-    })
-
-    socket.on('unready', unreadyList => {
-      setUnreadyList(unreadyList)
-      setUnreadyShow(true)
-    })
-
-    socket.on('begin', async () => {
-      hands.closeHands()
-      const { rules } = await gameService.getRules(game.id)
-      gameDispatch(setRules(rules))
-      history.push('/floor')
-    })
+    setCallbacks(socket, gameDispatch, setUnreadyList, setUnreadyShow, hands, game, history)
   }, [])
 
   useEffect(() => {

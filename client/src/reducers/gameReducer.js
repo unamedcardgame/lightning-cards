@@ -30,6 +30,13 @@ const gameReducer = (state = initialState, action) => {
           }
         }
       }
+    case 'REMOVE_PLAYER': {
+      const playerSid = action.payload.playerSid
+      console.log('removing', playerSid)
+      const newPlayers = cloneDeep(state.players)
+      delete newPlayers[playerSid]
+      return { ...state, players: newPlayers }
+    }
     case 'SET_PLAYER_TURN':
       const newPlayers = cloneDeep(state.players)
       for (let p in newPlayers) {
@@ -137,6 +144,10 @@ export const setRules = rules => {
 
 export const setPlayerTurn = player => {
   return { type: 'SET_PLAYER_TURN', payload: player.nextTurnSid }
+}
+
+export const removePlayer = playerSid => {
+  return { type: 'REMOVE_PLAYER', payload: { playerSid } }
 }
 
 export default gameReducer
