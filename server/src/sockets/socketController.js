@@ -27,7 +27,7 @@ function setHandlers(io) {
       // send back a list of players in lobby to the new player
       const playerList = games[gameId]
         .players
-        .map(p => ({ name: p.name, sid: p.sid }))
+        .map(p => ({ name: p.name, gid: p.gid, sid: p.sid}))
       io.of('/games').to(socket.id).emit('player list', playerList)
 
 
@@ -44,7 +44,7 @@ function setHandlers(io) {
     socket.on('ready', (details) => {
       games[details.gameId]
         .players
-        .find(p => p.sid === details.sid)
+        .find(p => p.gid === details.gid)
         .makeReady()
     })
 
@@ -127,12 +127,12 @@ function setHandlers(io) {
       // check validity of reaction
       const correctReaction = games[gameId].rules[curLetter] === reaction.reaction.gesture.name
       if (correctReaction && !everyoneReacted) {
-        io.of('/games').in(gameId).emit('validated gesture', { sid: socket.id, result: 'correct', gesture: reaction.reaction.gesture.name })
+        io.of('/games').in(gameId).emit('validated gesture', { gid: player.gid, result: 'correct', gesture: reaction.reaction.gesture.name })
         player.setReactedCorrectly(true)
         player.setTurnCompleted(true)
       } else if (!correctReaction) {
         // declare loser + reset turns
-        io.of('/games').in(gameId).emit('validated gesture', { sid: socket.id, result: 'incorrect', gesture: reaction.reaction.gesture.name })
+        io.of('/games').in(gameId).emit('validated gesture', { gid: player.gid, result: 'incorrect', gesture: reaction.reaction.gesture.name })
         declareLoser(player, games[gameId], gameId, numberOfCenterCards, io, false, prevTimeout, reaction.reaction.gesture.name)
         checkForWinner(games[gameId], gameId, io)
         return

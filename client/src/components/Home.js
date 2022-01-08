@@ -36,7 +36,7 @@ const Home = ({ setSocket, gameDispatch }) => {
         })
 
         tempSocket.on('joined', () => {
-          gameDispatch(addPlayer({ name: authState.user.name, sid: tempSocket.id, id: authState.user.id }))
+          gameDispatch(addPlayer({ name: authState.user.name, sid: tempSocket.id, gid: authState.user.id }))
           history.push('/lobby')
         })
 
@@ -68,8 +68,8 @@ const Home = ({ setSocket, gameDispatch }) => {
 
         tempSocket.on('player list', (playerList) => {
           gameDispatch(setGameId(joinCode))
-          playerList.forEach(p => gameDispatch(addPlayer({ name: p.name, sid: p.sid, id: p.id })))
-          gameDispatch(addPlayer({ name: authState.user.name, sid: tempSocket.id, id: authState.user.id }))
+          playerList.forEach(p => gameDispatch(addPlayer({ name: p.name, gid: p.gid, sid: p.sid})))
+          gameDispatch(addPlayer({ name: authState.user.name, sid: tempSocket.id, gid: authState.user.id }))
           history.push('/lobby')
         })
         setSocket(tempSocket)

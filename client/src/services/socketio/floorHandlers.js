@@ -27,7 +27,7 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsLi
   })
 
   socket.on('player drew', player => {
-    gameDispatch(updatePlayerCards(player.sid))
+    gameDispatch(updatePlayerCards(player.gid))
     gameDispatch(setReactionReady(true))
     gameDispatch(setPlayerTurn(player))
     setNote('')
@@ -69,7 +69,6 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsLi
   })
 
   socket.on('winner declared', winner => {
-    // TODO(): Transition to winner screen
     gameDispatch(setWinner(winner))
     history.push('/end')
   })

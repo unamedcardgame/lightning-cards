@@ -17,27 +17,28 @@ const gameReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SET_HOST':
       return { ...state, host: true }
-    case 'ADD_PLAYER':
+    case 'ADD_PLAYER': {
       const playerName = action.payload.name
       const playerSid = action.payload.sid
-      const playerGid = action.payload.id
+      const playerGid = action.payload.gid
       return {
         ...state, players: {
-          ...state.players, [playerSid]: {
+          ...state.players, [playerGid]: {
             name: playerName,
             turn: Object.keys(state.players).length === 0 ? true : false,
-            id: playerGid
+            sid: playerSid,
+            gid: playerGid
           }
         }
       }
+    }
     case 'REMOVE_PLAYER': {
-      const playerSid = action.payload.playerSid
-      console.log('removing', playerSid)
+      const playerGid = action.payload.playerGid
       const newPlayers = cloneDeep(state.players)
-      delete newPlayers[playerSid]
+      delete newPlayers[playerGid]
       return { ...state, players: newPlayers }
     }
-    case 'SET_PLAYER_TURN':
+    case 'SET_PLAYER_TURN': {
       const newPlayers = cloneDeep(state.players)
       for (let p in newPlayers) {
         newPlayers[p].turn = p === action.payload
@@ -45,34 +46,38 @@ const gameReducer = (state = initialState, action) => {
       return {
         ...state, players: { ...newPlayers }
       }
-    case 'SET_ID':
+    }
+    case 'SET_ID': {
       const id = action.payload
       return { ...state, id }
-    case 'SET_CARDS_LENGTH':
+    }
+    case 'SET_CARDS_LENGTH': {
       const newPlayersTurns = cloneDeep(state.players)
-      action.payload.forEach(p => newPlayersTurns[p.sid].cards = p.cards)
+      action.payload.forEach(p => newPlayersTurns[p.gid].cards = p.cards)
       return { ...state, players: newPlayersTurns }
-    case 'ADD_LOSER_DETAILS':
-      const currCardsLength = state.players[action.payload.sid].cards
-      console.log('ccl ', currCardsLength, 'name: ', action.payload.name)
+    }
+    case 'ADD_LOSER_DETAILS': {
+      const currCardsLength = state.players[action.payload.gid].cards
       return {
         ...state,
-        players: { ...state.players, [action.payload.sid]: { ...state.players[action.payload.sid], cards: currCardsLength + action.payload.cards } },
+        players: { ...state.players, [action.payload.gid]: { ...state.players[action.payload.gid], cards: currCardsLength + action.payload.cards } },
         roundLoser: { name: action.payload.name, reaction: action.payload.reaction }
       }
+    }
     case 'SET_REACTED':
       return {
         ...state,
         reacted: action.payload
       }
-    case 'SET_GESTURES':
-      const { sid, result, gesture } = action.payload
-      return { ...state, players: { ...state.players, [sid]: { ...state.players[sid], reaction: { result, gesture } } } }
+    case 'SET_GESTURES': {
+      const { gid, result, gesture } = action.payload
+      return { ...state, players: { ...state.players, [gid]: { ...state.players[gid], reaction: { result, gesture } } } }
+    }
     case 'RESET_GESTURE':
       return { ...state, reaction: undefined }
     case 'DRAW_CARD':
       return {
-        ...state, players: { ...state.players, [action.payload.playerSid]: { ...state.players[action.payload.playerSid], cards: state.players[action.payload.playerSid].cards - 1 } }
+        ...state, players: { ...state.players, [action.payload.playerGid]: { ...state.players[action.payload.playerGid], cards: state.players[action.payload.playerGid].cards - 1 } }
       }
     case 'SET_REACTION_READY':
       return {
@@ -115,7 +120,7 @@ export const setRoundLoser = loser => {
 }
 
 export const updatePlayerCards = player => {
-  return { type: 'DRAW_CARD', payload: { playerSid: player } }
+  return { type: 'DRAW_CARD', payload: { playerGid: player } }
 }
 
 export const setReacted = reacted => {

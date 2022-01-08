@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Row, Col, Button } from 'react-bootstrap'
-import { useEffect } from "react"
+import { useContext, useEffect } from "react"
 import { useHistory } from "react-router"
 import PopupWindow from "./overlay/PopupWindow";
 import Popup from "./overlay/Popup";
@@ -10,9 +10,11 @@ import { useHands } from '../hooks/useHands';
 import { Image } from 'react-bootstrap';
 import gamegif3 from '../images/user3.gif';
 import { setCallbacks } from '../services/socketio/lobbyHandlers';
+import { AuthContext } from '../contexts/AuthContext';
 
 
 const Lobby = ({ socket, game, gameDispatch }) => {
+  const {userState: authState} = useContext(AuthContext)
   const [modalShow, setModalShow] = useState(false)
   const [ready, setReady] = useState(false)
   const [unreadyList, setUnreadyList] = useState([])
@@ -44,13 +46,13 @@ const Lobby = ({ socket, game, gameDispatch }) => {
   }
 
   const onReady = () => {
-    socket.emit('ready', { sid: socket.id, gameId: game.id })
+    socket.emit('ready', { gid: authState.user.id, gameId: game.id })
     setReady(true)
   }
 
   return (
     <Row className="tableCenter1">
-      <Popup show={unreadyShow} onHide={() => setUnreadyShow(false)} text={<div>The following players aren't ready !<div><ol>{unreadyList.map(p => <li key={p.id}>{p.name}</li>)}</ol></div></div>} />
+      <Popup show={unreadyShow} onHide={() => setUnreadyShow(false)} text={<div>The following players aren't ready !<div><ol>{unreadyList.map(p => <li key={p.gid}>{p.name}</li>)}</ol></div></div>} />
       <Col style={{ fontSize: "2em" }} className="col-auto text-center">
         <Image src={gamegif3} roundedCircle width="230px" height="230px " />
         <strong><p className="title-Text" >Players</p></strong>
@@ -58,7 +60,7 @@ const Lobby = ({ socket, game, gameDispatch }) => {
           {
             Object.keys(game.players).map(key => game.players[key])
               .map(p => {
-                return (<li key={p.id}>{p.name}</li>)
+                return (<li key={p.gid}>{p.name}</li>)
               })
           }
         </ol>
