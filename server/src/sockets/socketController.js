@@ -158,16 +158,21 @@ function setHandlers(io) {
 
     })
 
-    // Disconnect handler
+    // Disconnect handlers
     socket.on('disconnecting', reason => {
-      console.log('socketid', socket.id)
+      const gid = users[socket.id]
       for (s of socket.rooms) {
         if (s !== socket.id) {
-          socket.to(s).emit('player left', socket.id)
+          socket.to(s).emit('player left', gid)
         }
       }
+      delete users[socket.id]
     })
 
+    socket.on('remove player backend', playerData => {
+      const {gid, gameId} = playerData
+      games[gameId].removePlayer(gid)
+    })
   })
 }
 
