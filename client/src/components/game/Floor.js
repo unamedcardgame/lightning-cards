@@ -1,16 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
 import Popup from '../overlay/Popup'
 import { Button } from 'react-bootstrap'
 import Card from '@heruka_urgyen/react-playing-cards/lib/TcN'
-import { useState, useEffect, Fragment, useRef } from 'react'
+import { useState, useEffect, Fragment, useContext } from 'react'
 import { Container, Row } from 'react-bootstrap'
 import { setCallbacks } from '../../services/socketio/floorHandlers';
 import { useHands } from '../../hooks/useHands';
 import { useHistory } from 'react-router'
 import { objectMap } from '../../utils/jsUtils'
 import SweetAlert from 'react-bootstrap-sweetalert'
-import party from 'party-js'
+import { AuthContext } from '../../contexts/AuthContext'
 
 const loserMessages = ['Brush yourself off, pardner', 'Speechless', 'Better Luck Next Time!', 'You can do better!', 'Maybe try reacting ALT-F4 next time.', 'LMAO', 'Shucks, just missed :(', 'What does this guy think of himself?', 'Close!']
 
@@ -22,16 +21,17 @@ mic.interimResults = true
 mic.lang = 'en-US'
 
 const Floor = ({ game, gameDispatch, socket }) => {
+  const { userState: authState } = useContext(AuthContext)
   const history = useHistory()
   const [isCountingDown, setIsCountingDown] = useState(true)
   const [ignoredOne, setIgnoredOne] = useState(false)
   const [playerResultToggles, setPlayerResultToggles] = useState(
     objectMap(game.players, () => false)
   )
-  const playerCardsRef = useRef()
+
   const [displayRoundLoser, setDisplayRoundLoser] = useState(false)
   const [drawPile, setDrawPile] = useState([])
-  const hands = useHands(game, gameDispatch, socket, ignoredOne, setIgnoredOne)
+  const hands = useHands(game, gameDispatch, socket, ignoredOne, setIgnoredOne, authState.user.id)
   const [modalShow, setModalShow] = useState(false)
 
   const [timer, setTimer] = useState(0)
@@ -79,9 +79,10 @@ const Floor = ({ game, gameDispatch, socket }) => {
       socket.emit('gesture', {
         reaction: {
           gesture: { name: note },
-          timestamp: new Date().getTime()
+          timestamp: new Date().getTime(),
         },
-        gameId: game.id
+        gameId: game.id,
+        gid: authState.user.id
       })
       setIsListening(false)
     } else {
@@ -89,12 +90,10 @@ const Floor = ({ game, gameDispatch, socket }) => {
     }
   }
 
-  console.log('fml')
-
   useEffect(() => {
     setCallbacks(socket, setDrawPile, gameDispatch, history, setIsListening,
-      playerResultToggles, setPlayerResultToggles, setDisplayRoundLoser, setTimer, game.players, party, setNote)
-  }, [])
+      setPlayerResultToggles, setDisplayRoundLoser, setTimer, game.players, setNote)
+  }, [setNote])
 
   useEffect(() => {
     hands.initialiseCanvasAndGE()
@@ -107,10 +106,9 @@ const Floor = ({ game, gameDispatch, socket }) => {
 
   const drawCard = (p) => {
     console.log(game.rules)
-    if (drawPile.length === 0 || (p.sid === socket.id && ['K', 'Q', 'A', 'J', 'T'].every(c => drawPile[drawPile.length - 1][0] !== c))) {
+    if (drawPile.length === 0 || (p.gid === authState.user.id && ['K', 'Q', 'A', 'J', 'T'].every(c => drawPile[drawPile.length - 1][0] !== c))) {
       // action draw card
-      socket.emit('draw card', { sid: socket.id, gameId: game.id })
-
+      socket.emit('draw card', { gid: authState.user.id, gameId: game.id })
     }
   }
 
@@ -162,14 +160,14 @@ const Floor = ({ game, gameDispatch, socket }) => {
           <tbody>
             <tr>
               {
-                Object.keys(game.players).map(key => ({ ...game.players[key], sid: key }))
+                Object.keys(game.players).map(key => ({ ...game.players[key], gid: key }))
                   .map(p => {
                     return (
-                      <td key={p.id}>
-                        <div id={p.sid} className={p.turn ? 'player player-turn' : 'player'} style={{ marginTop: "1em", marginLeft: '2em', textAlign: 'center' }} key={p.id} onClick={() => drawCard(p)}>
+                      <td key={p.gid}>
+                        <div id={p.gid} className={p.turn ? 'player player-turn' : 'player'} style={{ marginTop: "1em", marginLeft: '2em', textAlign: 'center' }} key={p.gid} onClick={() => drawCard(p)}>
                           <Card back height={'8em'} style={{ margin: 'auto' }} />
                           <span style={{ display: 'inline-block', margin: '0.5em 0.7em 0 0.5em' }}>{p.name} ({p.cards})</span>
-                          <span style={{ display: playerResultToggles[p.sid] ? '' : 'none' }} className="reaction">{p.reaction?.result
+                          <span style={{ display: playerResultToggles[p.gid] ? '' : 'none' }} className="reaction">{p.reaction?.result
                             === 'correct' ? '✅' : '❌'}</span>
                         </div>
                       </td>
@@ -189,7 +187,6 @@ const Floor = ({ game, gameDispatch, socket }) => {
                       ? drawPile
                         .map((c, i) => {
                           const transf = i * 8
-                          console.log('tr', transf)
                           return (
                             <div key={c} className="center-card" style={{
                               position: 'absolute',
@@ -209,7 +206,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
                     <div className="debug" style={{ display: process.env['NODE_ENV'] === 'development' ? 'none' : 'none' }}>
                       Debug
                       <br />
-                      <span>You reacted: {game.players[socket.id].reaction?.gesture} </span>
+                      <span>You reacted: {game.players[authState.user.id].reaction?.gesture} </span>
                       <br />
                     </div>
                   </div>

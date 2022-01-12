@@ -1,21 +1,18 @@
 import { updatePlayerCards, setGesture, setReactionReady, setRoundLoser, setReacted, setWinner, setPlayerTurn } from "../../reducers/gameReducer"
 import { objectMap } from "../../utils/jsUtils"
+import party from 'party-js'
 
 let int
 
 export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsListening,
-  playerResultToggles, setPlayerResultToggles, setDisplayRoundLoser,
-  setTimer, players, party, setNote) => {
-
-  socket.on('cards ready', () => {
-    console.log('yummy cards')
-  })
+  setPlayerResultToggles, setDisplayRoundLoser,
+  setTimer, players, setNote) => {
 
   socket.on('draw pile', ({ card }) => {
     setDrawPile(state => {
-      console.log([...state, card])
       return [...state, card]
     })
+
     // set timer
     if (['T', 'K', 'A', 'Q', 'J'].includes(card[0])) {
       let i = 7 // ROUND TIMEOUT
@@ -42,12 +39,12 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsLi
     setPlayerResultToggles((state) =>
     ({
       ...state,
-      [obj.sid]: true
+      [obj.gid]: true
     })
     )
 
     if (obj.result === 'correct') {
-      party.confetti(document.getElementById(obj.sid), {
+      party.confetti(document.getElementById(obj.gid), {
         count: party.variation.range(10, 50),
         size: party.variation.range(0.4, 1),
       })
@@ -61,7 +58,7 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsLi
     setTimeout(() => setDisplayRoundLoser(false), 3000)
     gameDispatch(setReactionReady(false))
     gameDispatch(setReacted(false))
-    if (loser.timeup) gameDispatch(setGesture({ sid: loser.sid, result: 'time up' }))
+    if (loser.timeup) gameDispatch(setGesture({ gid: loser.gid, result: 'time up' }))
     setIsListening(false)
     setDrawPile([])
     setTimer(0)

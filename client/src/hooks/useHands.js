@@ -6,7 +6,7 @@ import { gestures } from '../services/fingerpose/fingerposeService'
 import { Hands, HAND_CONNECTIONS } from '@mediapipe/hands'
 import { setReacted } from '../reducers/gameReducer'
 
-export const useHands = (game, gameDispatch, socket, ignoredOne, setIgnoredOne) => {
+export const useHands = (game, gameDispatch, socket, ignoredOne, setIgnoredOne, gid) => {
     const [ctx, setCtx] = useState(null)
     const [GE, setGE] = useState(null)
     const [cameraInitialised, setCameraInitialised] = useState(false)
@@ -62,7 +62,8 @@ export const useHands = (game, gameDispatch, socket, ignoredOne, setIgnoredOne) 
                                     gesture: gesture,
                                     timestamp: new Date().getTime()
                                 },
-                                gameId: game.id
+                                gameId: game.id,
+                                gid
                             })
                             setIgnoredOne(false)
                         }
@@ -84,7 +85,7 @@ export const useHands = (game, gameDispatch, socket, ignoredOne, setIgnoredOne) 
             camera.start()
             setCameraInitialised(true)
         }
-    }, [GE, ctx, socket, game, cameraInitialised, gameDispatch, ignoredOne, setIgnoredOne])
+    }, [GE, ctx, socket, game, cameraInitialised, gameDispatch, ignoredOne, setIgnoredOne, gid])
 
 
     // create a canvas and initialise fingerpose gesture estimators

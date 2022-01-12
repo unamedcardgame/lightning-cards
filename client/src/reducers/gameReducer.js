@@ -53,6 +53,7 @@ const gameReducer = (state = initialState, action) => {
     }
     case 'SET_CARDS_LENGTH': {
       const newPlayersTurns = cloneDeep(state.players)
+      console.log('PLAYERS STATE: ', newPlayersTurns)
       action.payload.forEach(p => newPlayersTurns[p.gid].cards = p.cards)
       return { ...state, players: newPlayersTurns }
     }
@@ -148,11 +149,11 @@ export const setRules = rules => {
 }
 
 export const setPlayerTurn = player => {
-  return { type: 'SET_PLAYER_TURN', payload: player.nextTurnSid }
+  return { type: 'SET_PLAYER_TURN', payload: player.nextTurnGid }
 }
 
-export const removePlayer = playerSid => {
-  return { type: 'REMOVE_PLAYER', payload: { playerSid } }
+export const removePlayer = playerGid => {
+  return { type: 'REMOVE_PLAYER', payload: { playerGid } }
 }
 
 export default gameReducer

@@ -38,7 +38,7 @@ function setHandlers(io) {
       socket.emit('joined')
 
       // tell all the other players a new player has arrived
-      socket.to(gameId).emit('new player', { name: data.user.name, sid: socket.id, id: data.user.id })
+      socket.to(gameId).emit('new player', { name: data.user.name, sid: socket.id, gid: data.user.id })
     })
 
     socket.on('ready', (details) => {
@@ -61,16 +61,16 @@ function setHandlers(io) {
     })
 
     socket.on('draw card', user => {
-      const { sid, gameId } = user
+      const { gid, gameId } = user
       let currentvalue = games[gameId].getCurrentTurn()
 
-      // get sid's top card
-      // validate whether sid === current player's turn ka sid
-      // games[gameId].currentTurn === sid
-      if (sid === games[gameId].players[currentvalue].sid) {
-        // get sid's top card
+      // get gid's top card
+      // validate whether gid === current player's turn ka gid
+      // games[gameId].currentTurn === gid
+      if (gid === games[gameId].players[currentvalue].gid) {
+        // get gid's top card
         const card = games[gameId].players
-          .find(p => p.sid === sid)
+          .find(p => p.gid === gid)
           .cards
           .splice(0, 1)[0]
         io.of('/games').in(gameId).emit('draw pile', { card })
@@ -98,7 +98,7 @@ function setHandlers(io) {
 
         // notify room that player drew card
         const turn = games[gameId].nextTurn()
-        io.of('/games').in(gameId).emit('player drew', { sid, nextTurnSid: games[gameId].players[turn].sid })
+        io.of('/games').in(gameId).emit('player drew', { gid, nextTurnGid: games[gameId].players[turn].gid })
       }
       else {
         // TODO(): Send to frontend to display not your turn or something ?
@@ -108,10 +108,11 @@ function setHandlers(io) {
     })
 
     socket.on('gesture', reaction => {
-      const { gameId } = reaction
+      const { gameId, gid } = reaction
+      console.log("BRUUUUUUUUUUUUUUUUUUUUUH' gid: ", gid)
       let player = games[gameId]
         .players
-        .find(p => p.sid === socket.id)
+        .find(p => p.gid === gid)
       // if undefined gesture or player reacted already, ignore
       if (!reaction.reaction.gesture || player.turnCompleted || games[gameId].centerCards.length === 0) return
 

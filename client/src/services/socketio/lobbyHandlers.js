@@ -3,11 +3,12 @@ import gameService from "../gameService"
 
 export const setCallbacks = (socket, gameDispatch, setUnreadyList, setUnreadyShow, hands, game, history) => {
   socket.on('new player', (user) => {
-    gameDispatch(addPlayer({ id: user.id, name: user.name, sid: user.sid, }))
+    gameDispatch(addPlayer({ gid: user.gid, name: user.name, sid: user.sid, }))
   })
 
   // on cards ready handler
   socket.on('cards info', (cardsList) => {
+    console.log('CI: ', cardsList)
     gameDispatch(setCardLengths(cardsList))
   })
 
@@ -23,9 +24,8 @@ export const setCallbacks = (socket, gameDispatch, setUnreadyList, setUnreadySho
     history.push('/floor')
   })
 
-  socket.on('player left', playerSid => {
-    console.log('ciaooo', playerSid)
-    gameDispatch(removePlayer(playerSid))
+  socket.on('player left', playerGid => {
+    gameDispatch(removePlayer(playerGid))
   })
 
   socket.on('disconnect', reason => {

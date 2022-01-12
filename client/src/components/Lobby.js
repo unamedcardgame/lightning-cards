@@ -28,12 +28,10 @@ const Lobby = ({ socket, game, gameDispatch }) => {
   }, [])
 
   useEffect(() => {
-    console.log('initting')
     hands.initialiseHands()
   }, [])
 
   useEffect(() => {
-    console.log('wtf')
     navigator.mediaDevices.getUserMedia({ audio: true, video: true })
       .then(stream => stream.getTracks().forEach(track => track.stop()))
       .catch(() => console.log('nay'))

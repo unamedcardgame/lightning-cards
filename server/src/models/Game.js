@@ -43,7 +43,6 @@ class Game {
     return this.players.every(p => p.ready)
   }
 
-  // TODO(): nextTurn() - changes currentTurn to next player's sid
   nextTurn() {
     const n = this.players.length
 
@@ -66,8 +65,8 @@ class Game {
     return this.centerCards[this.centerCards.length - 1]
   }
 
-  removePlayer(socketId) {
-    this.players = this.players.filter(p => p.sid !== socketId)
+  removePlayer(gid) {
+    this.players = this.players.filter(p => p.gid !== gid)
   }
 }
 

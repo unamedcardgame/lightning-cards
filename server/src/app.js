@@ -74,7 +74,7 @@ app.post('/api/cards', (req, res) => {
   })
 
   const playerCardsList = game.players
-    .map(p => ({ sid: p.sid, cards: p.cards.length }))
+    .map(p => ({ gid: p.gid, cards: p.cards.length }))
 
   socket.io.of('/games').to(gameId).emit('cards info', playerCardsList)
 
