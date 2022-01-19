@@ -69,4 +69,9 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsLi
     gameDispatch(setWinner(winner))
     history.push('/end')
   })
+
+  socket.on('update turn', player => {
+    console.log('yeah got', player.nextTurnGid)
+    gameDispatch(setPlayerTurn(player))
+  })
 }

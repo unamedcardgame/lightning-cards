@@ -39,6 +39,7 @@ const gameReducer = (state = initialState, action) => {
       return { ...state, players: newPlayers }
     }
     case 'SET_PLAYER_TURN': {
+      console.log('SPT IS ', action.payload)
       const newPlayers = cloneDeep(state.players)
       for (let p in newPlayers) {
         newPlayers[p].turn = p === action.payload

@@ -68,6 +68,10 @@ class Game {
   removePlayer(gid) {
     this.players = this.players.filter(p => p.gid !== gid)
   }
+
+  hasPlayer(gid) {
+    return this.players.some(p => p.gid === gid)
+  }
 }
 
 module.exports = Game

@@ -170,6 +170,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
                           <span style={{ display: playerResultToggles[p.gid] ? '' : 'none' }} className="reaction">{p.reaction?.result
                             === 'correct' ? '✅' : '❌'}</span>
                         </div>
+                        {p.gid} {p.turn}
                       </td>
                     )
                   })

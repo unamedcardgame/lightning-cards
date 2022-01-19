@@ -27,7 +27,7 @@ function setHandlers(io) {
       // send back a list of players in lobby to the new player
       const playerList = games[gameId]
         .players
-        .map(p => ({ name: p.name, gid: p.gid, sid: p.sid}))
+        .map(p => ({ name: p.name, gid: p.gid, sid: p.sid }))
       io.of('/games').to(socket.id).emit('player list', playerList)
 
 
@@ -170,8 +170,18 @@ function setHandlers(io) {
     })
 
     socket.on('remove player backend', playerData => {
-      const {gid, gameId} = playerData
-      games[gameId].removePlayer(gid)
+      const { gid, gameId } = playerData
+      const game = games[gameId]
+      console.log('removing ', gid, 'from ', gameId)
+      const leavingPlayersTurnIndex = game.players.indexOf(p => p.gid === gid)
+
+      if (game.hasPlayer(gid)) {
+        console.log('yes has')
+        game.removePlayer(gid)
+        const turn = game.getCurrentTurn()
+        console.log(game.players[turn].gid)
+        io.of('/games').in(gameId).emit('update turn', { nextTurnGid: game.players[turn].gid })
+      }
     })
   })
 }
