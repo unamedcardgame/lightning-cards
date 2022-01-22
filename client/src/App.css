@@ -1,3 +1,4 @@
+/* App.js styles */
 .main {
   color: white;
   /*background-color: #282c34;*/
@@ -11,51 +12,21 @@
   height: 100vh;
 }
 
-.winner-Text {
-  font-size: 60px;
-  color: white;
-  font-weight: 400;
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  font-style: italic;
-  background-color: darkgoldenrod;
-  text-align: center;
-  margin-top: 3%;
-  border-radius: 10%;
-  width: 60%;
-  align-content: center;
-  align-items: center;
-  margin-left: auto;
-  margin-right: auto;
-}
-
+/* Lobby.js styles */
 .title-Text {
-  font-size: 42px;
+  font-size: 3em;
   color: rgb(97, 24, 161);
-  font-weight: 400;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-  /* font-style: italic; */
   background-color: white;
   text-align: center;
-  margin-top: 8%;
-  border-radius: 10%;
-  width: 100%;
-  align-content: center;
-  align-items: center;
-  margin-left: auto;
-  margin-right: auto;
+  border-radius: 10px;
+  margin: 0;
 }
 
 .body-Text {
-  font-size: 32px;
+  font-size: 2rem;
   color: white;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  text-align: center;
-  margin-top: 3%;
-  border-radius: 10%;
-  align-content: center;
-  align-items: center;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .a-link {
@@ -220,4 +191,22 @@ canvas {
 
 .draw-pile {
   width: fit-content;
+}
+
+/* sort */
+.winner-Text {
+  font-size: 60px;
+  color: white;
+  font-weight: 400;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-style: italic;
+  background-color: darkgoldenrod;
+  text-align: center;
+  margin-top: 3%;
+  border-radius: 10%;
+  width: 60%;
+  align-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
 }

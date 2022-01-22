@@ -85,7 +85,7 @@ const Home = ({ setSocket, gameDispatch }) => {
   }
 
   return (
-    <Container>
+    <Container className="px-4">
 
       <Popup text={popupConfig.msg}
         show={popupConfig.show}
@@ -96,12 +96,12 @@ const Home = ({ setSocket, gameDispatch }) => {
           <Image src={logo1} roundedCircle width="250" height="250" />
         </Col>
       </Row>
-      <Row className="justify-content-center">
+      <Row className="justify-content-center mt-3">
         <Col md={6} lg={4}>
           <p className="title-Text" style={{ fontSize: '2em' }}> ⚡ Welcome ⚡ <br /> {authState?.user.name} </p>
         </Col>
       </Row>
-      <Row className="justify-content-center">
+      <Row className="justify-content-center mt-3">
         <Col md={6} lg={4}>
           <Button className="w-100" onClick={handleCreate}>Create New Game</Button>
         </Col>
@@ -111,9 +111,13 @@ const Home = ({ setSocket, gameDispatch }) => {
           <Button className="w-100 mt-2" onClick={() => setisJoinVisible(!isJoinVisible)}>Join Game</Button>
         </Col>
       </Row>
-      <Row className="justify-content-center" style={{ display: isJoinVisible ? null : 'none' }} >
-        <input ref={joinCodeInputRef} className="form-control mt-2 w-75" style={{ marginRight: '1px' }} placeholder="Enter Game ID" />
-        <Button onClick={handleJoin} className="w-25 mt-1">Go</Button>
+      <Row className="justify-content-center mt-2" style={{ display: isJoinVisible ? null : 'none' }} >
+        <Col className="pe-md-0" md={4} lg={3}>
+          <input ref={joinCodeInputRef} className="form-control w-100" placeholder="Enter Game ID" />
+        </Col>
+        <Col xs={5} md={2} lg={1}>
+          <Button className="w-100 mt-1 mt-md-0" onClick={handleJoin}>Go</Button>
+        </Col>
       </Row>
     </Container>
   )
