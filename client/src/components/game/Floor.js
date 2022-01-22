@@ -3,7 +3,7 @@ import Popup from '../overlay/Popup'
 import { Button } from 'react-bootstrap'
 import Card from '@heruka_urgyen/react-playing-cards/lib/TcN'
 import { useState, useEffect, Fragment, useContext } from 'react'
-import { Container, Row } from 'react-bootstrap'
+import { Col, Container, Row } from 'react-bootstrap'
 import { setCallbacks } from '../../services/socketio/floorHandlers';
 import { useHands } from '../../hooks/useHands';
 import { useHistory } from 'react-router'
@@ -113,7 +113,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
   }
 
   return (
-    <Container fluid className="h-100 p-3 pt-0">
+    <Container className="px-4">
       <SweetAlert
         show={isCountingDown}
         info
@@ -123,22 +123,10 @@ const Floor = ({ game, gameDispatch, socket }) => {
         </Fragment>}
         style={{ color: 'black' }}
       >Rome wasn't built in a day.</SweetAlert>
-      <div className="div-right text-center">
-        <video style={{ display: 'none' }} ref={hands.videoRef} className="input_video" crossOrigin="anonymous" playsInline={true}></video>
-        <canvas ref={hands.canvasRef} className="output_canvas" width="360" height="250px"></canvas>
-        <div className="container">
-          <div className="box" style={{ fontSize: "30px" }} >
-            {!isListening ? <span> 🎙️ </span> : <span> 🛑🎙️ </span>}
-            <Button className="button-35" onClick={toggleVoiceReaction}>
-              {isListening ? 'SUBMIT your reaction !' : 'Record Voice Reaction'}
-            </Button>
-            <p style={{ fontSize: "20px" }}>{note}</p>
-          </div>
-        </div>
-      </div>
-      <div className="div-left">
-        <div >
-          <Button className="button-35" style={{ marginTop: '1em' }} variant="primary" onClick={() => setModalShow(true)}> Rules</Button>
+
+      <Row className="mt-3">
+        <Col>
+          <Button className="button-35" variant="primary" onClick={() => setModalShow(true)}> Rules</Button>
           <Popup
             text={
               <div>
@@ -152,84 +140,84 @@ const Floor = ({ game, gameDispatch, socket }) => {
             show={modalShow}
             onHide={() => setModalShow(false)}
           />
-        </div>
-        <div style={{ marginTop: "10px", fontSize: "30px", float: "left", display: timer !== 0 ? '' : 'none' }}> ⏱️ {timer}</div>
-      </div>
-      <div className="h-100 container-fluid" style={{ display: isCountingDown ? 'none' : '' }}>
-        <table className="tableCenter"  >
-          <tbody>
-            <tr>
-              {
-                Object.keys(game.players).map(key => ({ ...game.players[key], gid: key }))
-                  .map(p => {
-                    return (
-                      <td key={p.gid}>
-                        <div id={p.gid} className={p.turn ? 'player player-turn' : 'player'} style={{ marginTop: "1em", marginLeft: '2em', textAlign: 'center' }} key={p.gid} onClick={() => drawCard(p)}>
-                          <Card back height={'8em'} style={{ margin: 'auto' }} />
-                          <span style={{ display: 'inline-block', margin: '0.5em 0.7em 0 0.5em' }}>{p.name} ({p.cards})</span>
-                          <span style={{ display: playerResultToggles[p.gid] ? '' : 'none' }} className="reaction">{p.reaction?.result
-                            === 'correct' ? '✅' : '❌'}</span>
-                        </div>
-                        {p.gid} {p.turn}
-                      </td>
-                    )
-                  })
-              }
-            </tr>
-          </tbody>
-        </table>
-        <Row className="w-100 justify-content-center">
-          <table className="draw-pile justify-content-center" >
-            <tbody>
-              <tr>
-                <td>
-                  <div className="drawpile" style={{ height: '8em', width: '10em', marginBottom: "30px", marginTop: "30px", margin: "30px" }}>
-                    {drawPile.length !== 0
-                      ? drawPile
-                        .map((c, i) => {
-                          const transf = i * 8
-                          return (
-                            <div key={c} className="center-card" style={{
-                              position: 'absolute',
-                              transform: 'translateX(' + transf + 'px)'
-                            }}>
-                              <Card card={c} height={'8em'} />
-                            </div>)
-                        })
-                      : ''
-                    }
+        </Col>
+        <Col>
+          <div style={{ display: timer !== 0 ? '' : 'none' }}> ⏱️ {timer}</div>
+        </Col>
+      </Row>
+
+      <Row className="mt-3">
+        <Col>
+          <video style={{ display: process.env['NODE_ENV'] === 'development' ? 'none' : '' }} ref={hands.videoRef} className="input_video" width={340} height={250} crossOrigin="anonymous" playsInline={true}></video>
+          <canvas ref={hands.canvasRef} style={{ display: process.env['NODE_ENV'] === 'development' ? '' : 'none' }} className="output_canvas" width={340} height={250}></canvas>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col>
+          <div className="box" style={{ fontSize: "30px" }} >
+            {!isListening ? <span> 🎙️ </span> : <span> 🛑🎙️ </span>}
+            <Button className="button-35" onClick={toggleVoiceReaction}>
+              {isListening ? 'SUBMIT your reaction !' : 'Record Voice Reaction'}
+            </Button>
+            <p style={{ fontSize: "20px" }}>{note}</p>
+          </div>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col>
+          <div className="drawpile" style={{ height: '8em', width: '10em', marginBottom: "30px", marginTop: "30px", margin: "30px" }}>
+            {drawPile.length !== 0
+              ? drawPile
+                .map((c, i) => {
+                  const transf = i * 8
+                  return (
+                    <div key={c} className="center-card" style={{
+                      position: 'absolute',
+                      transform: 'translateX(' + transf + 'px)'
+                    }}>
+                      <Card card={c} height={'8em'} />
+                    </div>)
+                })
+              : ''
+            }
+          </div>
+
+        </Col>
+      </Row>
+
+      <Row className="justify-content-center">
+        {
+          Object.keys(game.players).map(key => ({ ...game.players[key], gid: key }))
+            .map(p => {
+              return (
+                <Col xs="auto" key={p.gid}>
+                  <div id={p.gid} className={p.turn ? 'player player-turn' : 'player'} onClick={() => drawCard(p)}>
+                    <Card back height={'8em'} style={{ margin: 'auto' }} />
+                    <span style={{}}>{p.name} ({p.cards})</span>
+                    <span style={{ display: playerResultToggles[p.gid] ? '' : 'none' }} className="reaction">{p.reaction?.result
+                      === 'correct' ? '✅' : '❌'}</span>
                   </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div className="container">
-                    <div className="debug" style={{ display: process.env['NODE_ENV'] === 'development' ? 'none' : 'none' }}>
-                      Debug
-                      <br />
-                      <span>You reacted: {game.players[authState.user.id].reaction?.gesture} </span>
-                      <br />
-                    </div>
-                  </div>
-                  <SweetAlert
-                    show={displayRoundLoser}
-                    danger
-                    title={game.roundLoser.name || ''}
-                    timeout={3000}
-                    onConfirm={() => { }}
-                    customButtons={<Fragment>
-                    </Fragment>}
-                    style={{ color: 'black' }}
-                  >
-                    {game.roundLoser.name} Reacted <strong><em>{game.roundLoser.reaction}</em></strong>.<br />{loserMessages[Math.floor(Math.random() * loserMessages.length)]}
-                  </SweetAlert>
-                  {/* </td><td> */}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </Row>
-      </div>
+                  {p.turn}
+                </Col>
+              )
+            })
+        }
+      </Row>
+      <SweetAlert
+        show={displayRoundLoser}
+        danger
+        title={game.roundLoser.name || ''}
+        timeout={3000}
+        onConfirm={() => { }}
+        customButtons={<Fragment>
+        </Fragment>}
+        style={{ color: 'black' }}
+      >
+        {game.roundLoser.name} Reacted <strong><em>{game.roundLoser.reaction}</em></strong>.<br />{loserMessages[Math.floor(Math.random() * loserMessages.length)]}
+      </SweetAlert>
+
     </Container >
   )
 }

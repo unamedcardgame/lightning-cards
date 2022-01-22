@@ -29,31 +29,13 @@
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+/* Floor.js styles */
+
+
 .a-link {
   border: none;
   background: none;
   color: #61dafb;
-}
-
-.affix {
-  top: 50px;
-  position: fixed;
-}
-
-.div-right {
-  float: right;
-  margin-top: 1em;
-  display: inline;
-}
-
-.div-left {
-  float: left;
-}
-
-canvas {
-  border: 5px solid white;
-  float: right;
-  margin-bottom: 5%;
 }
 
 .centerImage {
@@ -77,12 +59,6 @@ canvas {
   text-align: center;
   margin-top: 4%;
   margin-bottom: 2%;
-}
-
-.textLeft {
-  text-align: left;
-  margin-right: 670px;
-  margin-left: 0px;
 }
 
 .tableCenter {
@@ -109,39 +85,6 @@ canvas {
   margin-top: 8%;
 }
 
-.button-37 {
-  background-color: #1567e0;
-  border: 1px solid #f0f3f1;
-  border-radius: 4px;
-  box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
-  box-sizing: border-box;
-  color: #fff;
-  cursor: pointer;
-  font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  outline: none;
-  outline: 0;
-  padding: 5px 15px;
-  text-align: center;
-  transform: translateY(0);
-  transition: transform 150ms, box-shadow 150ms;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-}
-
-.button-37:hover {
-  box-shadow: rgba(0, 0, 0, .15) 0 3px 9px 0;
-  transform: translateY(-2px);
-}
-
-@media (min-width: 768px) {
-  .button-37 {
-    padding: 10px 30px;
-  }
-}
-
 .player-turn img {
   border: rgb(52, 197, 88) 3px solid;
 }
@@ -159,9 +102,6 @@ canvas {
   background-color: #fff;
   border-radius: 10px;
   box-shadow: darkblue 0 0 0 4px, transparent 0 0 0 0;
-  /* border-color: darkgoldenrod; */
-  /* box-shadow: transparent 0 0 0 3px, rgba(18, 18, 18, .1) 0 6px 20px; */
-  box-sizing: border-box;
   color: #121212;
   cursor: pointer;
   display: inline-flex;
@@ -169,16 +109,9 @@ canvas {
   font-family: Inter, sans-serif;
   font-size: 1.2rem;
   font-weight: 700;
-  justify-content: center;
-  line-height: 1;
-  margin: 0;
-  height: 45px;
-  outline: none;
-  padding: 1rem 1.2rem;
+  height: 2.5em;
   text-align: center;
-  text-decoration: none;
   transition: box-shadow .2s, -webkit-box-shadow .2s;
-  white-space: nowrap;
   border: 0;
   user-select: none;
   -webkit-user-select: none;
@@ -187,10 +120,6 @@ canvas {
 
 .button-35:hover {
   box-shadow: #121212 0 0 0 3px, transparent 0 0 0 0;
-}
-
-.draw-pile {
-  width: fit-content;
 }
 
 /* sort */
