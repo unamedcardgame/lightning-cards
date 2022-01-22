@@ -12,6 +12,7 @@ import Endgame from './components/game/Endgame';
 import NavigationBar from './components/Navbar';
 import gameReducer from './reducers/gameReducer';
 import { v4 as uuidv4 } from 'uuid'
+import { Container } from 'react-bootstrap';
 
 const initialState = process.env.NODE_ENV === 'production' ? {
   isAuthenticated: false,

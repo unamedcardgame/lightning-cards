@@ -1,8 +1,7 @@
 import Login from './auth/Login';
 import { createRef, useContext, useState } from 'react';
-import { Row, Col } from 'react-bootstrap'
+import { Row, Col, Container, Button } from 'react-bootstrap'
 import { AuthContext } from '../contexts/AuthContext';
-import { Button } from 'react-bootstrap'
 import { io } from 'socket.io-client'
 import gameService from '../services/gameService';
 import { useHistory } from 'react-router';
@@ -68,7 +67,7 @@ const Home = ({ setSocket, gameDispatch }) => {
 
         tempSocket.on('player list', (playerList) => {
           gameDispatch(setGameId(joinCode))
-          playerList.forEach(p => gameDispatch(addPlayer({ name: p.name, gid: p.gid, sid: p.sid})))
+          playerList.forEach(p => gameDispatch(addPlayer({ name: p.name, gid: p.gid, sid: p.sid })))
           gameDispatch(addPlayer({ name: authState.user.name, sid: tempSocket.id, gid: authState.user.id }))
           history.push('/lobby')
         })
@@ -86,30 +85,37 @@ const Home = ({ setSocket, gameDispatch }) => {
   }
 
   return (
-    <Row className="tableCenter1">
-      <Col className="text-center">
-        <Popup text={popupConfig.msg}
-          show={popupConfig.show}
-          onHide={() => setPopupConfig({ ...popupConfig, show: false })}
-        />
-        <div>
+    <Container>
+
+      <Popup text={popupConfig.msg}
+        show={popupConfig.show}
+        onHide={() => setPopupConfig({ ...popupConfig, show: false })}
+      />
+      <Row className="justify-content-center mt-5">
+        <Col xs="auto">
           <Image src={logo1} roundedCircle width="250" height="250" />
-        </div>
-        <Row>
+        </Col>
+      </Row>
+      <Row className="justify-content-center">
+        <Col md={6} lg={4}>
           <p className="title-Text" style={{ fontSize: '2em' }}> ⚡ Welcome ⚡ <br /> {authState?.user.name} </p>
-        </Row>
-        <Row>
-          <Button onClick={handleCreate}>Create New Game</Button>
-        </Row>
-        <Row>
-          <Button onClick={() => setisJoinVisible(!isJoinVisible)} className="mt-2">Join Game</Button>
-        </Row>
-        <Row className="justify-content-center" style={{ display: isJoinVisible ? null : 'none' }} >
-          <input ref={joinCodeInputRef} className="form-control mt-2 w-75" style={{ marginRight: '1px' }} placeholder="Enter Game ID" />
-          <Button onClick={handleJoin} className="w-25 mt-1">Go</Button>
-        </Row>
-      </Col>
-    </Row>
+        </Col>
+      </Row>
+      <Row className="justify-content-center">
+        <Col md={6} lg={4}>
+          <Button className="w-100" onClick={handleCreate}>Create New Game</Button>
+        </Col>
+      </Row>
+      <Row className="justify-content-center">
+        <Col md={6} lg={4}>
+          <Button className="w-100 mt-2" onClick={() => setisJoinVisible(!isJoinVisible)}>Join Game</Button>
+        </Col>
+      </Row>
+      <Row className="justify-content-center" style={{ display: isJoinVisible ? null : 'none' }} >
+        <input ref={joinCodeInputRef} className="form-control mt-2 w-75" style={{ marginRight: '1px' }} placeholder="Enter Game ID" />
+        <Button onClick={handleJoin} className="w-25 mt-1">Go</Button>
+      </Row>
+    </Container>
   )
 }
 
