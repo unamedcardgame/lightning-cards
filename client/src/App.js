@@ -12,6 +12,7 @@ import Endgame from './components/game/Endgame';
 import NavigationBar from './components/Navbar';
 import gameReducer from './reducers/gameReducer';
 import { v4 as uuidv4 } from 'uuid'
+import { Container, Row } from 'react-bootstrap';
 
 const initialState = process.env.NODE_ENV === 'production' ? {
   isAuthenticated: false,
@@ -38,27 +39,31 @@ function App() {
 
   return (
     <AuthContext.Provider value={{ userState, dispatch }}>
-      <div className="main d-flex flex-column">
-        <NavigationBar userState={userState} />
-        <Switch>
-          <Route path="/floor">
-            <Floor game={game} gameDispatch={gameDispatch} socket={socket} />
-          </Route>
-          <Route path="/lobby">
-            <Lobby game={game} gameDispatch={gameDispatch} socket={socket} />
-          </Route>
-          <Route path="/end">
-            <Endgame game={game} gameDispatch={gameDispatch} socket={socket} />
-          </Route>
-          <Route path="/">
-            {
-              userState.isAuthenticated
-                ? <Home game={game} gameDispatch={gameDispatch} socket={socket} setSocket={setSocket} />
-                : <Login />
-            }
-          </Route>
-        </Switch>
-      </div>
+      <Container className="vh-100 main d-flex flex-column">
+        <Row>
+          <NavigationBar userState={userState} />
+        </Row>
+        <Row className="flex-grow-1">
+          <Switch>
+            <Route path="/floor">
+              <Floor game={game} gameDispatch={gameDispatch} socket={socket} />
+            </Route>
+            <Route path="/lobby">
+              <Lobby game={game} gameDispatch={gameDispatch} socket={socket} />
+            </Route>
+            <Route path="/end">
+              <Endgame game={game} gameDispatch={gameDispatch} socket={socket} />
+            </Route>
+            <Route path="/">
+              {
+                userState.isAuthenticated
+                  ? <Home game={game} gameDispatch={gameDispatch} socket={socket} setSocket={setSocket} />
+                  : <Login />
+              }
+            </Route>
+          </Switch>
+        </Row>
+      </Container>
     </AuthContext.Provider>
   )
 }

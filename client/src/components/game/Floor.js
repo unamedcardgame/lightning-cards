@@ -113,7 +113,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
   }
 
   return (
-    <Container className="px-4">
+    <Col className="d-flex flex-column px-4">
       <SweetAlert
         show={isCountingDown}
         info
@@ -125,7 +125,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
       >Rome wasn't built in a day.</SweetAlert>
 
       <Row className="mt-3">
-        <Col>
+        <Col xs="auto">
           <Button className="button-35" variant="primary" onClick={() => setModalShow(true)}> Rules</Button>
           <Popup
             text={
@@ -141,8 +141,8 @@ const Floor = ({ game, gameDispatch, socket }) => {
             onHide={() => setModalShow(false)}
           />
         </Col>
-        <Col>
-          <div style={{ display: timer !== 0 ? '' : 'none' }}> ⏱️ {timer}</div>
+        <Col className="d-flex justify-content-end align-items-center">
+          <span style={{ display: timer !== 0 ? '' : '', fontSize: '1.5em' }}> ⏱️ {timer}</span>
         </Col>
       </Row>
 
@@ -153,17 +153,6 @@ const Floor = ({ game, gameDispatch, socket }) => {
         </Col>
       </Row>
 
-      <Row>
-        <Col>
-          <div className="box" style={{ fontSize: "30px" }} >
-            {!isListening ? <span> 🎙️ </span> : <span> 🛑🎙️ </span>}
-            <Button className="button-35" onClick={toggleVoiceReaction}>
-              {isListening ? 'SUBMIT your reaction !' : 'Record Voice Reaction'}
-            </Button>
-            <p style={{ fontSize: "20px" }}>{note}</p>
-          </div>
-        </Col>
-      </Row>
 
       <Row>
         <Col>
@@ -205,6 +194,17 @@ const Floor = ({ game, gameDispatch, socket }) => {
             })
         }
       </Row>
+
+      <Row className="justify-content-center flex-grow-1 align-items-end">
+        <Col xs="auto">
+          <Button className="button-35" onClick={toggleVoiceReaction}>
+            <span>{!isListening ? '🎙️' : '🛑🎙️'}</span>
+            {isListening ? 'SUBMIT your reaction !' : 'Record Voice Reaction'}
+          </Button>
+          <p style={{ fontSize: "1.5px" }}>{note}</p>
+        </Col>
+      </Row>
+
       <SweetAlert
         show={displayRoundLoser}
         danger
@@ -218,7 +218,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
         {game.roundLoser.name} Reacted <strong><em>{game.roundLoser.reaction}</em></strong>.<br />{loserMessages[Math.floor(Math.random() * loserMessages.length)]}
       </SweetAlert>
 
-    </Container >
+    </Col>
   )
 }
 

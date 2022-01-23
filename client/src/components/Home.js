@@ -85,7 +85,7 @@ const Home = ({ setSocket, gameDispatch }) => {
   }
 
   return (
-    <Container className="px-4">
+    <Col className="px-4">
 
       <Popup text={popupConfig.msg}
         show={popupConfig.show}
@@ -119,7 +119,7 @@ const Home = ({ setSocket, gameDispatch }) => {
           <Button className="w-100 mt-1 mt-md-0" onClick={handleJoin}>Go</Button>
         </Col>
       </Row>
-    </Container>
+    </Col>
   )
 }
 

@@ -1,15 +1,11 @@
 /* App.js styles */
 .main {
   color: white;
-  /*background-color: #282c34;*/
-  /* background-color: #453f5c; */
   background: rgb(172, 132, 207);
   background: radial-gradient(circle, rgba(172, 132, 207, 1) 0%, rgba(133, 67, 192, 1) 81%);
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-position: right top;
-  overflow-y: auto;
-  height: 100vh;
 }
 
 /* Lobby.js styles */
@@ -107,9 +103,8 @@
   display: inline-flex;
   flex: 1 1 auto;
   font-family: Inter, sans-serif;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 700;
-  height: 2.5em;
   text-align: center;
   transition: box-shadow .2s, -webkit-box-shadow .2s;
   border: 0;

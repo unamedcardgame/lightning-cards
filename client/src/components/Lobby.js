@@ -49,7 +49,7 @@ const Lobby = ({ socket, game, gameDispatch }) => {
   }
 
   return (
-    <Container className="px-4">
+    <Col className="px-4">
       <Popup show={unreadyShow} onHide={() => setUnreadyShow(false)}
         text={<div>The following players aren't ready !<div><ol>{unreadyList.map(p => <li key={p.gid}>{p.name}</li>)}</ol></div></div>} />
 
@@ -97,7 +97,7 @@ const Lobby = ({ socket, game, gameDispatch }) => {
           />
         </Col>
       </Row>
-    </Container>
+    </Col>
   )
 }
 
