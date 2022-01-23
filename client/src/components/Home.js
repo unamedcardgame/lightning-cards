@@ -1,6 +1,6 @@
 import Login from './auth/Login';
 import { createRef, useContext, useState } from 'react';
-import { Row, Col, Container, Button } from 'react-bootstrap'
+import { Row, Col, Button } from 'react-bootstrap'
 import { AuthContext } from '../contexts/AuthContext';
 import { io } from 'socket.io-client'
 import gameService from '../services/gameService';

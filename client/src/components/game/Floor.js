@@ -3,7 +3,7 @@ import Popup from '../overlay/Popup'
 import { Button } from 'react-bootstrap'
 import Card from '@heruka_urgyen/react-playing-cards/lib/TcN'
 import { useState, useEffect, Fragment, useContext } from 'react'
-import { Col, Container, Row } from 'react-bootstrap'
+import { Col, Row } from 'react-bootstrap'
 import { setCallbacks } from '../../services/socketio/floorHandlers';
 import { useHands } from '../../hooks/useHands';
 import { useHistory } from 'react-router'
