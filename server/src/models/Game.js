@@ -1,13 +1,7 @@
-/**
- * @name Game
- */
 class Game {
   constructor(id) {
-    /** @type {String} uuidv4 */
     this.id = id
-    /** @type {boolean} game is running */
     this.running = false
-    /** @type {number} ID of player whose turn it is */
     this.currentTurn = 0
     this.players = [] // look at Player.js for player details structure
     this.host

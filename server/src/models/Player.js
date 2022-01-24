@@ -11,9 +11,9 @@ class Player {
   constructor(gid, sid, name, ready) {
     this.gid = gid
     this.sid = sid
-    this.name = name
     this.turn = false
     this.cards = []
+    this.name = name
     this.ready = ready
   }
 
