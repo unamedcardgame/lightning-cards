@@ -32,7 +32,7 @@ function setHandlers(io) {
 
 
       // map google's id to socket's internal id
-      users[socket.id] = data.user.id
+      users[socket.id] = { gid: data.user.id, gameId }
 
       // tell the player he joined the game
       socket.emit('joined')
@@ -159,30 +159,26 @@ function setHandlers(io) {
     })
 
     // Disconnect handlers
-    socket.on('disconnecting', reason => {
-      const gid = users[socket.id]
+    socket.on('disconnecting', () => {
+      const { gid, gameId } = users[socket.id]
+      const game = games[gameId]
+
+      // temp hack so server doesn't crash on 2 player leaves
+      if (game.players.length === 2) return;
+
+      console.log('gid is', gid, 'and gid', gameId)
+
       for (s of socket.rooms) {
         if (s !== socket.id) {
           socket.to(s).emit('player left', gid)
         }
       }
-      delete users[socket.id]
+
+      game.removePlayer(gid)
+      const turn = game.getCurrentTurn()
+      io.of('/games').in(gameId).emit('update turn', { nextTurnGid: game.players[turn].gid })
     })
 
-    socket.on('remove player backend', playerData => {
-      const { gid, gameId } = playerData
-      const game = games[gameId]
-      console.log('removing ', gid, 'from ', gameId)
-      const leavingPlayersTurnIndex = game.players.indexOf(p => p.gid === gid)
-
-      if (game.hasPlayer(gid)) {
-        console.log('yes has')
-        game.removePlayer(gid)
-        const turn = game.getCurrentTurn()
-        console.log(game.players[turn].gid)
-        io.of('/games').in(gameId).emit('update turn', { nextTurnGid: game.players[turn].gid })
-      }
-    })
   })
 }
 

@@ -25,7 +25,7 @@ export const setCallbacks = (socket, gameDispatch, setUnreadyList, setUnreadySho
   })
 
   socket.on('player left', playerGid => {
+    console.log(playerGid, 'left')
     gameDispatch(removePlayer(playerGid))
-    socket.emit('remove player backend', {gid: playerGid, gameId: game.id})
   })
 }
