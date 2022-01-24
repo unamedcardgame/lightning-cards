@@ -39,7 +39,7 @@ function App() {
 
   return (
     <AuthContext.Provider value={{ userState, dispatch }}>
-      <Container className="vh-100 main d-flex flex-column">
+      <Container className="vh-100 main d-flex flex-column" fluid>
         <Row>
           <NavigationBar userState={userState} />
         </Row>
