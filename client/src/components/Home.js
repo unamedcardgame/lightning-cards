@@ -34,12 +34,10 @@ const Home = ({ setSocket, gameDispatch }) => {
           user: { id: authState.user.id, name: authState.user.name },
         })
 
-        tempSocket.on('joined', () => {
-          gameDispatch(addPlayer({ name: authState.user.name, sid: tempSocket.id, gid: authState.user.id }))
-          history.push('/lobby')
-        })
-
         setSocket(tempSocket) // set socket state
+        gameDispatch(addPlayer({ name: authState.user.name, gid: authState.user.id }))
+        history.push('/lobby')
+
       }
     } catch (e) {
       setPopupConfig({
@@ -62,13 +60,15 @@ const Home = ({ setSocket, gameDispatch }) => {
       if (status === 200) {
         tempSocket.emit('join', {
           game: { gameId: joinCode },
-          user: { name: authState.user.name, id: authState.user.id }
+          user: { id: authState.user.id, name: authState.user.name }
         })
 
         tempSocket.on('player list', (playerList) => {
           gameDispatch(setGameId(joinCode))
-          playerList.forEach(p => gameDispatch(addPlayer({ name: p.name, gid: p.gid, sid: p.sid })))
-          gameDispatch(addPlayer({ name: authState.user.name, sid: tempSocket.id, gid: authState.user.id }))
+          // add other players
+          playerList.forEach(p => gameDispatch(addPlayer({ name: p.name, gid: p.gid })))
+          // add self
+          gameDispatch(addPlayer({ name: authState.user.name, gid: authState.user.id }))
           history.push('/lobby')
         })
         setSocket(tempSocket)

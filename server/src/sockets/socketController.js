@@ -9,7 +9,7 @@ let prevTimeout = undefined
 */
 
 function setHandlers(io) {
-  // main handler
+  // on new socket connection
   io.of('/games').on('connection', socket => {
 
     // Lobby handlers
@@ -22,12 +22,12 @@ function setHandlers(io) {
         games[gameId].setHost(data.user.id)
       }
       // add player to game
-      games[gameId].addPlayer(new Player(data.user.id, socket.id, data.user.name, data.game.isHost ? true : false))
+      games[gameId].addPlayer(new Player(data.user.id, data.user.name, data.game.isHost || false))
 
       // send back a list of players in lobby to the new player
       const playerList = games[gameId]
         .players
-        .map(p => ({ name: p.name, gid: p.gid, sid: p.sid }))
+        .map(p => ({ name: p.name, gid: p.gid }))
       io.of('/games').to(socket.id).emit('player list', playerList)
 
 
@@ -38,7 +38,7 @@ function setHandlers(io) {
       socket.emit('joined')
 
       // tell all the other players a new player has arrived
-      socket.to(gameId).emit('new player', { name: data.user.name, sid: socket.id, gid: data.user.id })
+      socket.broadcast.to(gameId).emit('new player', { name: data.user.name, gid: data.user.id })
     })
 
     socket.on('ready', (details) => {
@@ -160,11 +160,14 @@ function setHandlers(io) {
 
     // Disconnect handlers
     socket.on('disconnecting', () => {
+      // fix crash
+      if (!users[socket.id]) return
+
       const { gid, gameId } = users[socket.id]
       const game = games[gameId]
 
       // temp hack so server doesn't crash on 2 player leaves
-      if (game.players.length === 2) return;
+      if (game.players.length <= 2) return;
 
       console.log('gid is', gid, 'and gid', gameId)
 

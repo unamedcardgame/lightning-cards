@@ -19,14 +19,12 @@ const gameReducer = (state = initialState, action) => {
       return { ...state, host: true }
     case 'ADD_PLAYER': {
       const playerName = action.payload.name
-      const playerSid = action.payload.sid
       const playerGid = action.payload.gid
       return {
         ...state, players: {
           ...state.players, [playerGid]: {
             name: playerName,
             turn: Object.keys(state.players).length === 0 ? true : false,
-            sid: playerSid,
             gid: playerGid
           }
         }

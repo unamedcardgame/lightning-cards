@@ -18,7 +18,7 @@ const { v4: uuidv4 } = require('uuid')
   refer Game.js for class
 */
 
-global.games = /** @type {Game} */ {}
+global.games = {}
 
 
 // {socketId: googleUserId}
@@ -32,7 +32,7 @@ app.use(middleware.getToken)
 
 app.get("/api/login", async (req, res) => {
   const token = req.token
-  if (!token) res.status(403).send('fail')
+  if (!token) res.status(403).send('Access forbidden, token does not exist.')
   const decodedToken = (await axios
     .get(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${token}`)).data
   res.status(200).end();
@@ -48,7 +48,6 @@ app.post('/api/games', (req, res) => {
 //get rules
 app.get('/api/rules/:gameId', (req, res) => {
   const gameId = req.params.gameId
-  console.log('gameidb', gameId)
   const game = games[gameId]
   res.json({ rules: game.rules })
 })

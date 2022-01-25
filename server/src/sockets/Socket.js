@@ -21,11 +21,6 @@ class Socket {
     });
     setHandlers(this.io)
   }
-
-  // method for emitting in an express endpoint (inside app.use(...))
-  emiter(event, body, room) {
-    this.io.of('/games').to(room).emit(event, body)
-  }
 }
 
 module.exports = Socket;

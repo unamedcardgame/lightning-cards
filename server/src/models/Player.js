@@ -1,6 +1,5 @@
 class Player {
   gid
-  sid
   turn
   cards
   name
@@ -8,9 +7,8 @@ class Player {
   reactedCorrectly
   turnCompleted = false
 
-  constructor(gid, sid, name, ready) {
+  constructor(gid, name, ready) {
     this.gid = gid
-    this.sid = sid
     this.turn = false
     this.cards = []
     this.name = name

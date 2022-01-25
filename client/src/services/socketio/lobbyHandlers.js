@@ -3,7 +3,7 @@ import gameService from "../gameService"
 
 export const setCallbacks = (socket, gameDispatch, setUnreadyList, setUnreadyShow, hands, game, history) => {
   socket.on('new player', (user) => {
-    gameDispatch(addPlayer({ gid: user.gid, name: user.name, sid: user.sid, }))
+    gameDispatch(addPlayer({ gid: user.gid, name: user.name }))
   })
 
   // on cards ready handler
