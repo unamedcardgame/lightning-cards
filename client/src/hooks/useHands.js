@@ -97,7 +97,10 @@ export const useHands = (game, gameDispatch, socket, ignoredOne, setIgnoredOne, 
     }
 
     const initialiseHands = () => {
-        handsRef.current.initialize().then(success => setLoaded(true))
+        handsRef.current.initialize().then(() => {
+            handsRef.current.close()
+            setLoaded(true)
+        })
     }
 
     const closeHands = () => {

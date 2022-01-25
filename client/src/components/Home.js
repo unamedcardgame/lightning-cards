@@ -58,6 +58,7 @@ const Home = ({ setSocket, gameDispatch }) => {
     try {
       const status = await gameService.joinGame(joinCode)
       if (status === 200) {
+        setSocket(tempSocket)
         tempSocket.emit('join', {
           game: { gameId: joinCode },
           user: { id: authState.user.id, name: authState.user.name }
@@ -67,11 +68,8 @@ const Home = ({ setSocket, gameDispatch }) => {
           gameDispatch(setGameId(joinCode))
           // add other players
           playerList.forEach(p => gameDispatch(addPlayer({ name: p.name, gid: p.gid })))
-          // add self
-          gameDispatch(addPlayer({ name: authState.user.name, gid: authState.user.id }))
           history.push('/lobby')
         })
-        setSocket(tempSocket)
       }
     } catch (e) {
       console.log(e.message)

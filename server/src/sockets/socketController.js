@@ -34,9 +34,6 @@ function setHandlers(io) {
       // map google's id to socket's internal id
       users[socket.id] = { gid: data.user.id, gameId }
 
-      // tell the player he joined the game
-      socket.emit('joined')
-
       // tell all the other players a new player has arrived
       socket.broadcast.to(gameId).emit('new player', { name: data.user.name, gid: data.user.id })
     })
@@ -49,15 +46,14 @@ function setHandlers(io) {
     })
 
     // Game handlers
-    socket.on('start game', (game) => {
-      if (!games[game.gameId].isEveryoneReady()) {
-        const unreadyList = games[game.gameId].players.filter(p => p.ready === false)
-        socket.emit('unready', unreadyList.map(p => ({ name: p.name, id: p.gid })))
-        return
+    socket.on('start game', (gameId) => {
+      if (!games[gameId].isEveryoneReady()) {
+        const unreadyList = games[gameId].players.filter(p => p.ready === false).map(p => ({ name: p.name, gid: p.gid }))
+        socket.emit('unready', unreadyList)
+      } else {
+        games[gameId].startGame()
+        io.of('/games').in(gameId).emit('begin')
       }
-      games[game.gameId].startGame()
-
-      io.of('/games').in(game.gameId).emit('begin')
     })
 
     socket.on('draw card', user => {

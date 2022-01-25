@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Row, Col, Button, Container } from 'react-bootstrap'
 import { useContext, useEffect } from "react"
 import { useHistory } from "react-router"
@@ -24,12 +23,12 @@ const Lobby = ({ socket, game, gameDispatch }) => {
 
   // socket listeners
   useEffect(() => {
-    setCallbacks(socket, gameDispatch, setUnreadyList, setUnreadyShow, hands, game, history)
-  }, [])
+    setCallbacks(socket, gameDispatch, setUnreadyList, setUnreadyShow, game, history)
+  }, [game, gameDispatch, history, socket])
 
   useEffect(() => {
-    hands.initialiseHands()
-  }, [])
+    if (!hands.loaded) hands.initialiseHands()
+  }, [hands])
 
   useEffect(() => {
     navigator.mediaDevices.getUserMedia({ audio: true, video: true })
@@ -40,7 +39,7 @@ const Lobby = ({ socket, game, gameDispatch }) => {
   const startGame = () => {
     // create cards at the backend
     gameService.getCards(game.id)
-    socket.emit('start game', { gameId: game.id })
+    socket.emit('start game', game.id)
   }
 
   const onReady = () => {
