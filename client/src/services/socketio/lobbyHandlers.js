@@ -1,5 +1,4 @@
-import { addPlayer, removePlayer, setCardLengths, setRules } from "../../reducers/gameReducer"
-import gameService from "../gameService"
+import { addPlayer, removePlayer, setCardLengths } from "../../reducers/gameReducer"
 
 export const setCallbacks = (socket, gameDispatch, setUnreadyList, setUnreadyShow, game, history) => {
   socket.on('new player', (user) => {
@@ -18,9 +17,6 @@ export const setCallbacks = (socket, gameDispatch, setUnreadyList, setUnreadySho
   })
 
   socket.on('begin', async () => {
-    //hands.closeHands()
-    const { rules } = await gameService.getRules(game.id)
-    gameDispatch(setRules(rules))
     history.push('/floor')
   })
 
