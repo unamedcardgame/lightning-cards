@@ -1,6 +1,6 @@
-const socketIo = require('socket.io');
-const Game = require('../models/Game');
+import { Server } from "socket.io";
 const setHandlers = require('../sockets/socketController')
+import * as http from 'http'
 
 /* Socket.io rooms and namespace structure
 
@@ -10,11 +10,11 @@ const setHandlers = require('../sockets/socketController')
         --   ...
 
 */
-class Socket {
-  io
-  constructor(server) {
+export default class MySocket {
+  io: Server
+  constructor(server: http.Server) {
     // create an io instance
-    this.io = socketIo(server, {
+    this.io = new Server(server, {
       cors: {
         origin: '*',
       }
@@ -22,5 +22,3 @@ class Socket {
     setHandlers(this.io)
   }
 }
-
-module.exports = Socket;

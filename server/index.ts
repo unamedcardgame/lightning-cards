@@ -1,12 +1,12 @@
 require("dotenv").config();
-const app = require('./src/app')
-const Socket = require('./src/sockets/Socket')
-const http = require('http')
+import app from './src/app'
+import MySocket from './src/sockets/Socket';
+import * as http from 'http'
 
 const server = http.createServer(app)
 
 // make the socket accessible from anywhere using app.get('socket')
-app.set("socket", new Socket(server))
+app.set("socket", new MySocket(server))
 
 server.listen(process.env.PORT, () => {
   console.log("listening on port ", process.env.PORT)

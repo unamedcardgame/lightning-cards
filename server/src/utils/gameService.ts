@@ -1,7 +1,15 @@
-const declareLoser = (player, game, gameId, numberOfCenterCards, io, timeup = false, prevTimeout, reaction) => {
+import { Server } from "socket.io"
+import Games from "../models/Games"
+import Game from "../models/Game"
+import Player from "../models/Player"
+
+declare var games: Games;
+
+// TODO(): Make a reaction type !
+const declareLoser = (player: Player, game: Game, gameId: string, numberOfCenterCards: number, io: Server, timeup = false, prevTimeout: number, reaction: any) => {
   if (prevTimeout) clearInterval(prevTimeout)
   player.setReactedCorrectly(false)
-  loser = player
+  let loser: Player = player
   loser.addCards(games[gameId].centerCards)
   game.clearCenterDeck()
   // reset turn completed status
@@ -11,7 +19,7 @@ const declareLoser = (player, game, gameId, numberOfCenterCards, io, timeup = fa
   io.of('/games').in(gameId).emit('loser declared', { timeup, name: loser.name, gid: loser.gid, cards: numberOfCenterCards, reaction })
 }
 
-const checkForWinner = (game, gameId, io) => {
+const checkForWinner = (game: Game, gameId: string, io: Server) => {
   const winner = game.players.find(p => p.cards.length === 0)
   if (winner) {
     io.of('/games').in(gameId).emit('winner declared', { name: winner.name, gid: winner.gid })

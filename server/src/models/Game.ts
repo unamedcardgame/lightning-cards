@@ -1,11 +1,19 @@
-class Game {
-  constructor(id) {
+import Player from "./Player"
+import { Rules } from "./Rules";
+
+export default class Game {
+  readonly id;
+  currentTurn: number;
+  players: Array<Player>
+  host: Player;
+  centerCards: Array<string>; // TODO(): Make a card type
+  readonly rules: Rules;
+
+  constructor(id: string) {
     this.id = id
-    this.running = false
     this.currentTurn = 0
     this.players = [] // look at Player.js for player details structure
-    this.host
-    this.running
+    this.host = {} as Player;
     this.currentTurn
     this.centerCards = []
     this.rules = {
@@ -17,16 +25,12 @@ class Game {
     };
   }
 
-  addPlayer(player) {
+  addPlayer(player: Player) {
     this.players.push(player)
   }
 
-  setHost(player) {
-    this.players.host = player
-  }
-
-  startGame() {
-    this.running = true
+  setHost(player: Player) {
+    this.host = player;
   }
 
   getCurrentTurn() {
@@ -42,12 +46,12 @@ class Game {
 
     do {
       this.currentTurn = (this.currentTurn + 1) % n
-    } while (this.players[this.currentTurn].cards === 0)
+    } while (this.players[this.currentTurn].cards.length === 0)
 
     return this.currentTurn
   }
 
-  addToCenterDeck(card) {
+  addToCenterDeck(card: string) {
     this.centerCards.push(card)
   }
 
@@ -59,11 +63,11 @@ class Game {
     return this.centerCards[this.centerCards.length - 1]
   }
 
-  removePlayer(gid) {
+  removePlayer(gid: string) {
     this.players = this.players.filter(p => p.gid !== gid)
   }
 
-  hasPlayer(gid) {
+  hasPlayer(gid: string) {
     return this.players.some(p => p.gid === gid)
   }
 }

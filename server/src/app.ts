@@ -1,28 +1,24 @@
-const express = require('express')
+//const express = require('express')
+import express from "express";
 const cors = require('cors')
 const axios = require('axios')
 const path = require('path');
 const middleware = require('./middleware')
-const Game = require('./models/Game')
 const { generateCards } = require('./utils/cards')
 const { v4: uuidv4 } = require('uuid')
+import Game from "./models/Game";
+import Games from "./models/Games";
 
-/*
-  Games structure
-  games = {
-    {gameId1},
-    {gameId2},
-    {gameId3}
-  }
+const globalAny: any = global;
 
-  refer Game.js for class
-*/
 
-global.games = {}
+const games: Games = {}
+
+globalAny.games = games;
 
 
 // {socketId: googleUserId}
-global.users = {}
+globalAny.users = {}
 
 const app = express();
 app.use(cors())
@@ -30,7 +26,7 @@ app.use(express.json())
 app.use(middleware.getToken)
 
 
-app.get("/api/login", async (req, res) => {
+app.get("/api/login", async (req: any, res) => {
   const token = req.token
   if (!token) res.status(403).send('Access forbidden, token does not exist.')
   const decodedToken = (await axios
@@ -86,4 +82,4 @@ app.use('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', '..', 'client', 'build', 'index.html'))
 })
 
-module.exports = app
+export default app
