@@ -26,7 +26,7 @@ app.use(express.json())
 app.use(middleware.getToken)
 
 
-app.get("/api/login", async (req: any, res) => {
+app.get("/api/login", async (req: any, res: express.Response) => {
   const token = req.token
   if (!token) res.status(403).send('Access forbidden, token does not exist.')
   const decodedToken = (await axios
@@ -35,14 +35,14 @@ app.get("/api/login", async (req: any, res) => {
 });
 
 // create game
-app.post('/api/games', (req, res) => {
+app.post('/api/games', (req: express.Request, res: express.Response) => {
   const gameUuid = uuidv4()
   games[gameUuid] = (new Game(gameUuid))
   res.status(201).json({ gameId: gameUuid })
 })
 
 //get rules
-app.get('/api/rules/:gameId', (req, res) => {
+app.get('/api/rules/:gameId', (req: express.Request, res: express.Response) => {
   const gameId = req.params.gameId
   const game = games[gameId]
   res.json({ rules: game.rules })
@@ -50,14 +50,14 @@ app.get('/api/rules/:gameId', (req, res) => {
 
 
 // check if game valid
-app.get('/api/games/:gameId', (req, res) => {
+app.get('/api/games/:gameId', (req: express.Request, res: express.Response) => {
   const gameId = req.params.gameId
   if (games[gameId]) res.status(200).end()
   else res.status(400).json({ error: `Game code ${gameId} invalid` })
 })
 
 // create cards
-app.post('/api/cards', (req, res) => {
+app.post('/api/cards', (req: express.Request, res: express.Response) => {
   const gameId = req.body.gameId
   const game = games[gameId]
   const numOfPlayers = game.players.length
