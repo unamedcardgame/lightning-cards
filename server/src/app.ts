@@ -4,7 +4,7 @@ const cors = require('cors')
 const axios = require('axios')
 const path = require('path');
 const middleware = require('./middleware')
-const { generateCards } = require('./utils/cards')
+import generateCards from "./utils/cards";
 const { v4: uuidv4 } = require('uuid')
 import Game from "./models/Game";
 import Games from "./models/Games";
