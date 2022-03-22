@@ -1,14 +1,19 @@
 const Player = require("../models/Player");
 const { declareLoser, checkForWinner } = require('../utils/gameService')
+import { stringify } from 'querystring';
+import { Server } from 'socket.io'
+import Games from '../models/Games'
+import Users from '../models/Users';
 
-let prevTimeout = undefined
-
+let prevTimeout: (number | undefined) = undefined
+declare var games: Games
+declare var users: Users
 /*
   Namespace - /games, /comms
   Rooms - /[some_game_id]
 */
 
-function setHandlers(io) {
+function setHandlers(io: Server) {
   // on new socket connection
   io.of('/games').on('connection', socket => {
 
@@ -38,15 +43,13 @@ function setHandlers(io) {
       socket.broadcast.to(gameId).emit('new player', { name: data.user.name, gid: data.user.id })
     })
 
-    socket.on('ready', (details) => {
-      games[details.gameId]
-        .players
-        .find(p => p.gid === details.gid)
-        .makeReady()
+    socket.on('ready', (details: any) => {
+      const gameId: string = details.gameId;
+      games?.[gameId]?.players?.find(p => p.gid === details.gid)?.makeReady()
     })
 
     // Game handlers
-    socket.on('start game', (gameId) => {
+    socket.on('start game', (gameId: string) => {
       if (!games[gameId].isEveryoneReady()) {
         const unreadyList = games[gameId].players.filter(p => p.ready === false).map(p => ({ name: p.name, gid: p.gid }))
         socket.emit('unready', unreadyList)
@@ -55,7 +58,7 @@ function setHandlers(io) {
       }
     })
 
-    socket.on('draw card', user => {
+    socket.on('draw card', (user: { gid: string, gameId: string }) => {
       const { gid, gameId } = user
       let currentvalue = games[gameId].getCurrentTurn()
 
@@ -64,15 +67,13 @@ function setHandlers(io) {
       // games[gameId].currentTurn === gid
       if (gid === games[gameId].players[currentvalue].gid) {
         // get gid's top card
-        const card = games[gameId].players
-          .find(p => p.gid === gid)
-          .cards
+        const card = games?.[gameId]?.players?.find(p => p.gid === gid)?.cards
           .splice(0, 1)[0]
         io.of('/games').in(gameId).emit('draw pile', { card })
-        games[gameId].addToCenterDeck(card)
+        games[gameId].addToCenterDeck(card as string)
 
         // TODO(): Round in progress for face card
-        if (['K', 'Q', 'A', 'T', 'J'].some(c => c === card[0])) {
+        if (['K', 'Q', 'A', 'T', 'J'].some(c => c === card?.[0])) {
           // clear prev timer
           if (prevTimeout) {
             clearInterval(prevTimeout)
@@ -109,7 +110,7 @@ function setHandlers(io) {
         .players
         .find(p => p.gid === gid)
       // if undefined gesture or player reacted already, ignore
-      if (!reaction.reaction.gesture || player.turnCompleted || games[gameId].centerCards.length === 0) return
+      if (!reaction.reaction.gesture || player?.turnCompleted || games[gameId].centerCards.length === 0) return
 
       console.log('player is', player)
 
@@ -122,11 +123,11 @@ function setHandlers(io) {
 
       // check validity of reaction
       const correctReaction = games[gameId].rules[curLetter] === reaction.reaction.gesture.name
-      if (correctReaction && !everyoneReacted) {
+      if (correctReaction && !everyoneReacted && player) {
         io.of('/games').in(gameId).emit('validated gesture', { gid: player.gid, result: 'correct', gesture: reaction.reaction.gesture.name })
         player.setReactedCorrectly(true)
         player.setTurnCompleted(true)
-      } else if (!correctReaction) {
+      } else if (!correctReaction && player) {
         // declare loser + reset turns
         io.of('/games').in(gameId).emit('validated gesture', { gid: player.gid, result: 'incorrect', gesture: reaction.reaction.gesture.name })
         declareLoser(player, games[gameId], gameId, numberOfCenterCards, io, false, prevTimeout, reaction.reaction.gesture.name)
@@ -166,7 +167,7 @@ function setHandlers(io) {
 
       console.log('gid is', gid, 'and gid', gameId)
 
-      for (s of socket.rooms) {
+      for (let s of socket.rooms) {
         if (s !== socket.id) {
           socket.to(s).emit('player left', gid)
         }
