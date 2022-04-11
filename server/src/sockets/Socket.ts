@@ -1,17 +1,10 @@
 import { Server } from "socket.io";
-const setHandlers = require('../sockets/socketController')
+import setHandlers from "./socketController";
 import * as http from 'http'
 
-/* Socket.io rooms and namespace structure
-
-  /games
-        -- {game0}
-        -- {game1}
-        --   ...
-
-*/
 export default class MySocket {
   io: Server
+
   constructor(server: http.Server) {
     // create an io instance
     this.io = new Server(server, {
@@ -19,6 +12,7 @@ export default class MySocket {
         origin: '*',
       }
     });
+
     setHandlers(this.io)
   }
 }

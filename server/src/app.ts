@@ -1,11 +1,10 @@
-//const express = require('express')
 import express from "express";
-const cors = require('cors')
-const axios = require('axios')
-const path = require('path');
-const middleware = require('./middleware')
+import cors from "cors"
+import axios from "axios";
+import path from "path";
+import * as middleware from "./middleware";
 import generateCards from "./utils/cards";
-const { v4: uuidv4 } = require('uuid')
+import { v4 as uuidv4 } from 'uuid'
 import Game from "./models/Game";
 import Games from "./models/Games";
 
@@ -15,9 +14,6 @@ const globalAny: any = global;
 const games: Games = {}
 
 globalAny.games = games;
-
-
-// {socketId: googleUserId}
 globalAny.users = {}
 
 const app = express();

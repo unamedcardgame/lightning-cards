@@ -6,7 +6,7 @@ import Player from "../models/Player"
 declare var games: Games;
 
 // TODO(): Make a reaction type !
-const declareLoser = (player: Player, game: Game, gameId: string, numberOfCenterCards: number, io: Server, timeup = false, prevTimeout: number, reaction: any) => {
+const declareLoser = (player: Player, game: Game, gameId: string, numberOfCenterCards: number, io: Server, timeup = false, prevTimeout: (number | null), reaction: any) => {
   if (prevTimeout) clearInterval(prevTimeout)
   player.setReactedCorrectly(false)
   let loser: Player = player
@@ -26,7 +26,7 @@ const checkForWinner = (game: Game, gameId: string, io: Server) => {
   }
 }
 
-module.exports = {
+export {
   declareLoser,
   checkForWinner
 }

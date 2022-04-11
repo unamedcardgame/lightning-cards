@@ -1,19 +1,14 @@
-const Player = require("../models/Player");
-const { declareLoser, checkForWinner } = require('../utils/gameService')
-import { stringify } from 'querystring';
+import Player from '../models/Player';
+import { declareLoser, checkForWinner } from '../utils/gameService';
 import { Server } from 'socket.io'
 import Games from '../models/Games'
 import Users from '../models/Users';
 
-let prevTimeout: (number | undefined) = undefined
+let prevTimeout: (number | null) = null
 declare var games: Games
 declare var users: Users
-/*
-  Namespace - /games, /comms
-  Rooms - /[some_game_id]
-*/
 
-function setHandlers(io: Server) {
+export default function setHandlers(io: Server) {
   // on new socket connection
   io.of('/games').on('connection', socket => {
 
@@ -77,7 +72,7 @@ function setHandlers(io: Server) {
           // clear prev timer
           if (prevTimeout) {
             clearInterval(prevTimeout)
-            prevTimeout = undefined
+            prevTimeout = null
           }
           // start timer
           /*           prevTimeout = setTimeout(() => {
@@ -105,21 +100,16 @@ function setHandlers(io: Server) {
 
     socket.on('gesture', reaction => {
       const { gameId, gid } = reaction
-      console.log("BRUUUUUUUUUUUUUUUUUUUUUH' gid: ", gid)
       let player = games[gameId]
         .players
         .find(p => p.gid === gid)
+
       // if undefined gesture or player reacted already, ignore
-      if (!reaction.reaction.gesture || player?.turnCompleted || games[gameId].centerCards.length === 0) return
-
-      console.log('player is', player)
-
+      if (!reaction.reaction.gesture || player!.turnCompleted || games[gameId].centerCards.length === 0) return
 
       let curLetter = games[gameId].currentCard?.substring(0, 1)
       const numberOfCenterCards = games[gameId].centerCards.length
       let everyoneReacted = false
-
-      console.log('center react: ', curLetter, 'my react: ', reaction.reaction.gesture.name)
 
       // check validity of reaction
       const correctReaction = games[gameId].rules[curLetter] === reaction.reaction.gesture.name
@@ -148,7 +138,7 @@ function setHandlers(io: Server) {
         player = games[gameId]
           .players
           .find(p => p.turnCompleted === false)
-        declareLoser(player, games[gameId], gameId, numberOfCenterCards, io, false, prevTimeout, 'last')
+        declareLoser(player!, games[gameId], gameId, numberOfCenterCards, io, false, prevTimeout, 'last')
         checkForWinner(games[gameId], gameId, io)
       }
 
@@ -180,5 +170,3 @@ function setHandlers(io: Server) {
 
   })
 }
-
-module.exports = setHandlers
