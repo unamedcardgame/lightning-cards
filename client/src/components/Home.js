@@ -4,7 +4,7 @@ import { Row, Col, Button } from 'react-bootstrap'
 import { AuthContext } from '../contexts/AuthContext';
 import { io } from 'socket.io-client'
 import gameService from '../services/gameService';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 import Popup from './overlay/PopupWindow';
 import logo1 from '../images/Logo2.png';
 import { Image } from 'react-bootstrap';
@@ -15,7 +15,7 @@ const Home = ({ setSocket, gameDispatch }) => {
   const [isJoinVisible, setisJoinVisible] = useState(false)
   const [popupConfig, setPopupConfig] = useState({ show: false })
   const joinCodeInputRef = createRef()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const handleCreate = async () => {
     // if game is created at backend successfully
@@ -36,7 +36,7 @@ const Home = ({ setSocket, gameDispatch }) => {
 
         setSocket(tempSocket) // set socket state
         gameDispatch(addPlayer({ name: authState.user.name, gid: authState.user.id }))
-        history.push('/lobby')
+        navigate('/lobby')
 
       }
     } catch (e) {
@@ -68,7 +68,7 @@ const Home = ({ setSocket, gameDispatch }) => {
           gameDispatch(setGameId(joinCode))
           // add other players
           playerList.forEach(p => gameDispatch(addPlayer({ name: p.name, gid: p.gid })))
-          history.push('/lobby')
+          navigate('/lobby')
         })
       }
     } catch (e) {

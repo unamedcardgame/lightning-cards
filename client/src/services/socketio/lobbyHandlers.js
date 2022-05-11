@@ -1,6 +1,6 @@
 import { addPlayer, removePlayer, setCardLengths } from "../../reducers/gameReducer"
 
-export const setCallbacks = (socket, gameDispatch, setUnreadyList, setUnreadyShow, game, history) => {
+export const setCallbacks = (socket, gameDispatch, setUnreadyList, setUnreadyShow, game, navigate) => {
   socket.on('new player', (user) => {
     gameDispatch(addPlayer({ gid: user.gid, name: user.name }))
   })
@@ -17,7 +17,7 @@ export const setCallbacks = (socket, gameDispatch, setUnreadyList, setUnreadySho
   })
 
   socket.on('begin', async () => {
-    history.push('/floor')
+    navigate('/floor')
   })
 
   socket.on('player left', playerGid => {

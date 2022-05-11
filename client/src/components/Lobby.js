@@ -1,6 +1,6 @@
 import { Row, Col, Button, Container } from 'react-bootstrap'
 import { useContext, useEffect } from "react"
-import { useHistory } from "react-router"
+import { useNavigate } from "react-router"
 import PopupWindow from "./overlay/PopupWindow";
 import Popup from "./overlay/Popup";
 import React, { useState } from 'react';
@@ -18,17 +18,18 @@ const Lobby = ({ socket, game, gameDispatch }) => {
   const [ready, setReady] = useState(false)
   const [unreadyList, setUnreadyList] = useState([])
   const [unreadyShow, setUnreadyShow] = useState(false)
-  const history = useHistory()
+  const navigate = useNavigate()
   const hands = useHands()
 
   // socket listeners
   useEffect(() => {
-    setCallbacks(socket, gameDispatch, setUnreadyList, setUnreadyShow, game, history)
-  }, [game, gameDispatch, history, socket])
+    setCallbacks(socket, gameDispatch, setUnreadyList, setUnreadyShow, game, navigate)
+  }, [game, gameDispatch, navigate, socket])
 
   useEffect(() => {
     if (!hands.loaded) hands.initialiseHands()
-  }, [hands])
+    console.log('called')
+  }, [])
 
   useEffect(() => {
     navigator.mediaDevices.getUserMedia({ audio: true, video: true })

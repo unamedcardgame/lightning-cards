@@ -4,7 +4,7 @@ import party from 'party-js'
 
 let int
 
-export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsListening,
+export const setCallbacks = (socket, setDrawPile, gameDispatch, navigate, setIsListening,
   setPlayerResultToggles, setDisplayRoundLoser,
   setTimer, players, setNote) => {
 
@@ -67,7 +67,7 @@ export const setCallbacks = (socket, setDrawPile, gameDispatch, history, setIsLi
 
   socket.on('winner declared', winner => {
     gameDispatch(setWinner(winner))
-    history.push('/end')
+    navigate('/end')
   })
 
   socket.on('update turn', player => {

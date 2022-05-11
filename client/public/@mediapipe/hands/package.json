@@ -1,6 +1,6 @@
 {
   "name": "@mediapipe/hands",
-  "version": "0.4.1635986972",
+  "version": "0.4.1646424915",
   "description": "Mediapipe Hands Solution",
   "main": "hands.js",
   "module": "hands.js",
