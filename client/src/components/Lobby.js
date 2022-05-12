@@ -21,6 +21,7 @@ const Lobby = ({ socket, game, gameDispatch }) => {
   const navigate = useNavigate()
   const hands = useHands()
   const [handsLoaded, setHandsLoaded] = useState(false)
+  console.log('renda')
 
   // socket listeners
   useEffect(() => {
@@ -28,10 +29,11 @@ const Lobby = ({ socket, game, gameDispatch }) => {
   }, [game, gameDispatch, navigate, socket])
 
   useEffect(() => {
+    if (handsLoaded) return;
     hands.initialiseHands()
     console.log('called')
     setHandsLoaded(true);
-  }, [])
+  }, [hands, handsLoaded])
 
   useEffect(() => {
     navigator.mediaDevices.getUserMedia({ audio: true, video: true })
