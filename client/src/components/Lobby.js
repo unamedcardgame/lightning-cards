@@ -20,6 +20,7 @@ const Lobby = ({ socket, game, gameDispatch }) => {
   const [unreadyShow, setUnreadyShow] = useState(false)
   const navigate = useNavigate()
   const hands = useHands()
+  const [handsLoaded, setHandsLoaded] = useState(false)
 
   // socket listeners
   useEffect(() => {
@@ -27,8 +28,9 @@ const Lobby = ({ socket, game, gameDispatch }) => {
   }, [game, gameDispatch, navigate, socket])
 
   useEffect(() => {
-    if (!hands.loaded) hands.initialiseHands()
+    hands.initialiseHands()
     console.log('called')
+    setHandsLoaded(true);
   }, [])
 
   useEffect(() => {
@@ -81,8 +83,8 @@ const Lobby = ({ socket, game, gameDispatch }) => {
         <Col md={6} lg={4}>
           {
             game.host
-              ? <Button disabled={!hands.loaded} className="w-100" onClick={startGame}>{hands.loaded ? 'Begin' : 'Loading assets, please wait'}</Button>
-              : <Button variant="success" className="w-100" onClick={onReady} disabled={!hands.loaded || ready}>Ready</Button>
+              ? <Button disabled={!handsLoaded} className="w-100" onClick={startGame}>{handsLoaded ? 'Begin' : 'Loading assets, please wait'}</Button>
+              : <Button variant="success" className="w-100" onClick={onReady} disabled={!handsLoaded || ready}>Ready</Button>
           }
         </Col>
       </Row>

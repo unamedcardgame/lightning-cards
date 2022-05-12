@@ -10,10 +10,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const container = document.getElementById('root')
 const root = createRoot(container)
 
+// USE STRICT RERENDERS COMPONENTS TWICE CAUSING ISSUES WITH INITIALISING HANDS
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>,
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
 )

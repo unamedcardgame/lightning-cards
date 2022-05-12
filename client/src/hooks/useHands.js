@@ -12,7 +12,6 @@ export const useHands = (game, gameDispatch, socket, ignoredOne, setIgnoredOne, 
     const [cameraInitialised, setCameraInitialised] = useState(false)
     const canvasRef = useRef()
     const videoRef = useRef()
-    const [loaded, setLoaded] = useState(false)
     const handsRef = useRef(
         new Hands({
             locateFile: (file) => {
@@ -97,9 +96,8 @@ export const useHands = (game, gameDispatch, socket, ignoredOne, setIgnoredOne, 
     }
 
     const initialiseHands = () => {
-        //await handsRef.current.initialize()
-        //handsRef.current.close()
-        setLoaded(true)
+        handsRef.current.initialize()
+        handsRef.current.close()
     }
 
     const closeHands = () => {
@@ -114,6 +112,5 @@ export const useHands = (game, gameDispatch, socket, ignoredOne, setIgnoredOne, 
         videoRef,
         closeHands,
         initialiseHands,
-        loaded,
     }
 }
