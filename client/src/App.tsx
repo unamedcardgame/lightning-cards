@@ -11,10 +11,12 @@ import Lobby from './components/Lobby'
 import Endgame from './components/game/Endgame';
 import NavigationBar from './components/Navbar';
 import gameReducer from './reducers/gameReducer';
+import { initialGameState } from './reducers/gameReducer';
 import { v4 as uuidv4 } from 'uuid'
 import { Container, Row } from 'react-bootstrap';
+import User from './models/User';
 
-const initialState = process.env.NODE_ENV === 'production' ? {
+const initialState: User = process.env.NODE_ENV === 'production' ? {
   isAuthenticated: false,
   /*
     Structure of user
@@ -22,20 +24,20 @@ const initialState = process.env.NODE_ENV === 'production' ? {
     userId
     name
   */
-  user: null,
-  token: null,
+  user: undefined,
+  token: undefined,
 }
   : {
     isAuthenticated: true,
-    user: { name: 'appleUser ' + parseInt(Math.random() * 100), id: uuidv4() },
-    token: null,
+    user: { name: 'appleUser ' + (Math.random() * 100), id: uuidv4(), email: undefined },
+    token: undefined,
   }
 
 
 function App() {
   const [userState, dispatch] = useReducer(userReducer, initialState)
   const [socket, setSocket] = useState(null)
-  const [game, gameDispatch] = useReducer(gameReducer)
+  const [game, gameDispatch] = useReducer(gameReducer, initialGameState)
 
   return (
     <AuthContext.Provider value={{ userState, dispatch }}>
