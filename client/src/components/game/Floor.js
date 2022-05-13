@@ -6,7 +6,7 @@ import { useState, useEffect, Fragment, useContext } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { setCallbacks } from '../../services/socketio/floorHandlers';
 import { useHands } from '../../hooks/useHands';
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router'
 import { objectMap } from '../../utils/jsUtils'
 import SweetAlert from 'react-bootstrap-sweetalert'
 import { AuthContext } from '../../contexts/AuthContext'
@@ -22,7 +22,7 @@ mic.lang = 'en-US'
 
 const Floor = ({ game, gameDispatch, socket }) => {
   const { userState: authState } = useContext(AuthContext)
-  const history = useHistory()
+  const navigate = useNavigate()
   const [isCountingDown, setIsCountingDown] = useState(true)
   const [ignoredOne, setIgnoredOne] = useState(false)
   const [playerResultToggles, setPlayerResultToggles] = useState(
@@ -91,7 +91,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
   }
 
   useEffect(() => {
-    setCallbacks(socket, setDrawPile, gameDispatch, history, setIsListening,
+    setCallbacks(socket, setDrawPile, gameDispatch, navigate, setIsListening,
       setPlayerResultToggles, setDisplayRoundLoser, setTimer, game.players, setNote)
   }, [setNote])
 

@@ -1,6 +1,6 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Switch, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Home from './components/Home'
 import Login from './components/auth/Login'
 import { useReducer, useState } from 'react';
@@ -44,24 +44,20 @@ function App() {
           <NavigationBar userState={userState} />
         </Row>
         <Row className="flex-grow-1">
-          <Switch>
-            <Route path="/floor">
-              <Floor game={game} gameDispatch={gameDispatch} socket={socket} />
+          <Routes>
+            <Route path="/floor" element={<Floor game={game} gameDispatch={gameDispatch} socket={socket} />}>
             </Route>
-            <Route path="/lobby">
-              <Lobby game={game} gameDispatch={gameDispatch} socket={socket} />
+            <Route path="/lobby" element={<Lobby game={game} gameDispatch={gameDispatch} socket={socket} />}>
             </Route>
-            <Route path="/end">
-              <Endgame game={game} gameDispatch={gameDispatch} socket={socket} />
+            <Route path="/end" element={<Endgame game={game} gameDispatch={gameDispatch} socket={socket} />}>
             </Route>
-            <Route path="/">
-              {
-                userState.isAuthenticated
-                  ? <Home game={game} gameDispatch={gameDispatch} socket={socket} setSocket={setSocket} />
-                  : <Login />
-              }
+            <Route path="/" element={
+              userState.isAuthenticated
+                ? <Home game={game} gameDispatch={gameDispatch} socket={socket} setSocket={setSocket} />
+                : <Login />
+            }>
             </Route>
-          </Switch>
+          </Routes>
         </Row>
       </Container>
     </AuthContext.Provider>

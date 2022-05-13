@@ -1,6 +1,6 @@
 import { Row, Col, Button, Container } from 'react-bootstrap'
 import { useContext, useEffect } from "react"
-import { useHistory } from "react-router"
+import { useNavigate } from "react-router"
 import PopupWindow from "./overlay/PopupWindow";
 import Popup from "./overlay/Popup";
 import React, { useState } from 'react';
@@ -18,17 +18,22 @@ const Lobby = ({ socket, game, gameDispatch }) => {
   const [ready, setReady] = useState(false)
   const [unreadyList, setUnreadyList] = useState([])
   const [unreadyShow, setUnreadyShow] = useState(false)
-  const history = useHistory()
+  const navigate = useNavigate()
   const hands = useHands()
+  const [handsLoaded, setHandsLoaded] = useState(false)
+  console.log('renda')
 
   // socket listeners
   useEffect(() => {
-    setCallbacks(socket, gameDispatch, setUnreadyList, setUnreadyShow, game, history)
-  }, [game, gameDispatch, history, socket])
+    setCallbacks(socket, gameDispatch, setUnreadyList, setUnreadyShow, game, navigate)
+  }, [game, gameDispatch, navigate, socket])
 
   useEffect(() => {
-    if (!hands.loaded) hands.initialiseHands()
-  }, [hands])
+    if (handsLoaded) return;
+    hands.initialiseHands()
+    console.log('called')
+    setHandsLoaded(true);
+  }, [hands, handsLoaded])
 
   useEffect(() => {
     navigator.mediaDevices.getUserMedia({ audio: true, video: true })
@@ -80,8 +85,8 @@ const Lobby = ({ socket, game, gameDispatch }) => {
         <Col md={6} lg={4}>
           {
             game.host
-              ? <Button disabled={!hands.loaded} className="w-100" onClick={startGame}>{hands.loaded ? 'Begin' : 'Loading assets, please wait'}</Button>
-              : <Button variant="success" className="w-100" onClick={onReady} disabled={!hands.loaded || ready}>Ready</Button>
+              ? <Button disabled={!handsLoaded} className="w-100" onClick={startGame}>{handsLoaded ? 'Begin' : 'Loading assets, please wait'}</Button>
+              : <Button variant="success" className="w-100" onClick={onReady} disabled={!handsLoaded || ready}>Ready</Button>
           }
         </Col>
       </Row>

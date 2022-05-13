@@ -1,12 +1,11 @@
 import { GoogleLogout } from 'react-google-login';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 
 const Logout = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const onLogout = () => {
-    history.push('/')
-    history.go(0)
+    navigate('/')
   }
 
   return (

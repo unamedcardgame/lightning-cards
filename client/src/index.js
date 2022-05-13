@@ -1,17 +1,18 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom'
 
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const container = document.getElementById('root')
+const root = createRoot(container)
+
+// USE STRICT RERENDERS COMPONENTS TWICE CAUSING ISSUES WITH INITIALISING HANDS
+root.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+)
