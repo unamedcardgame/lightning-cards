@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const container = document.getElementById('root')
+const container = document.getElementById('root') as HTMLElement
 const root = createRoot(container)
 
 // USE STRICT RERENDERS COMPONENTS TWICE CAUSING ISSUES WITH INITIALISING HANDS

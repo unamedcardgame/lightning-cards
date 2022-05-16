@@ -51,11 +51,11 @@ function App() {
             </Route>
             <Route path="/lobby" element={<Lobby game={game} gameDispatch={gameDispatch} socket={socket} />}>
             </Route>
-            <Route path="/end" element={<Endgame game={game} gameDispatch={gameDispatch} socket={socket} />}>
+            <Route path="/end" element={<Endgame game={game} />}>
             </Route>
             <Route path="/" element={
               userState.isAuthenticated
-                ? <Home game={game} gameDispatch={gameDispatch} socket={socket} setSocket={setSocket} />
+                ? <Home gameDispatch={gameDispatch} setSocket={setSocket} />
                 : <Login />
             }>
             </Route>
