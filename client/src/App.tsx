@@ -4,7 +4,7 @@ import { Routes, Route } from 'react-router-dom'
 import Home from './components/Home'
 import Login from './components/auth/Login'
 import { useReducer, useState } from 'react';
-import userReducer from './reducers/UserReducer';
+import userReducer from './reducers/userReducer';
 import { AuthContext } from './contexts/AuthContext';
 import Floor from './components/game/Floor';
 import Lobby from './components/Lobby'
@@ -15,7 +15,9 @@ import { initialGameState } from './reducers/gameReducer';
 import { v4 as uuidv4 } from 'uuid'
 import { Container, Row } from 'react-bootstrap';
 import User from './models/User';
+import { Socket } from 'socket.io-client';
 
+// TODO(6): Fix this bijness of initialising here itself ?
 const initialState: User = process.env.NODE_ENV === 'production' ? {
   isAuthenticated: false,
   /*
@@ -36,7 +38,7 @@ const initialState: User = process.env.NODE_ENV === 'production' ? {
 
 function App() {
   const [userState, dispatch] = useReducer(userReducer, initialState)
-  const [socket, setSocket] = useState(null)
+  const [socket, setSocket] = useState<Socket | undefined>(undefined)
   const [game, gameDispatch] = useReducer(gameReducer, initialGameState)
 
   return (

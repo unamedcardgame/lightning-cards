@@ -1,8 +1,25 @@
 import { cloneDeep } from 'lodash'
+import Action from '../models/Action'
 import Game from '../models/Game'
 import Gesture from '../models/Gesture'
 import Player from '../models/Player'
 import Reaction from '../models/Reaction'
+
+export enum GameActionKind {
+  SetHost = 'SET_HOST',
+  SetID = 'SET_ID',
+  AddPlayer = 'ADD_PLAYER',
+  SetCardsLength = 'SET_CARDS_LENGTH',
+  AddLoserDetails = 'ADD_LOSER_DETAILS',
+  DrawCard = 'DRAW_CARD',
+  SetReacted = 'SET_REACTED',
+  SetGestures = 'SET_GESTURES',
+  SetReactionReady = 'SET_REACTION_READY',
+  SetWinner = 'SET_WINNER',
+  SetRules = 'SET_RULES',
+  SetPlayerTurn = 'SET_PLAYER_TURN',
+  RemovePlayer = 'REMOVE_PLAYER'
+}
 
 export const initialGameState: Game = {
   id: '',
@@ -16,8 +33,7 @@ export const initialGameState: Game = {
 }
 
 // CONSIDER A MAP RATHER THAN AN AN OBJECT TO MAINTAIN ORDER
-
-const gameReducer = (state: Game, action: Action): Game => {
+const gameReducer = (state: Game, action: Action<GameActionKind>): Game => {
   switch (action.type) {
     case 'SET_HOST':
       return { ...state, host: true }
@@ -101,77 +117,56 @@ const gameReducer = (state: Game, action: Action): Game => {
 }
 
 // actions
-export const setHost = () => {
-  return { type: 'SET_HOST' }
+export const setHost = (): Action<GameActionKind> => {
+  return { type: GameActionKind.SetHost }
 }
 
-export const setGameId = (id: string) => {
-  return { type: 'SET_ID', payload: id }
+export const setGameId = (id: string): Action<GameActionKind> => {
+  return { type: GameActionKind.SetID, payload: id }
 }
 
-export const addPlayer = (player: Player) => {
-  return { type: 'ADD_PLAYER', payload: player }
+export const addPlayer = (player: Player): Action<GameActionKind> => {
+  return { type: GameActionKind.AddPlayer, payload: player }
 }
 
-export const setCardLengths = (cardsList: number) => {
-  return { type: 'SET_CARDS_LENGTH', payload: cardsList }
+export const setCardLengths = (cardsList: number): Action<GameActionKind> => {
+  return { type: GameActionKind.SetCardsLength, payload: cardsList }
 }
 
-export const setRoundLoser = (loser: Player) => {
-  return { type: 'ADD_LOSER_DETAILS', payload: loser }
+export const setRoundLoser = (loser: Player): Action<GameActionKind> => {
+  return { type: GameActionKind.AddLoserDetails, payload: loser }
 }
 
-export const updatePlayerCards = (player: string) => {
-  return { type: 'DRAW_CARD', payload: { playerGid: player } }
+export const updatePlayerCards = (player: string): Action<GameActionKind> => {
+  return { type: GameActionKind.DrawCard, payload: { playerGid: player } }
 }
 
-export const setReacted = (reacted: boolean) => {
-  return { type: 'SET_REACTED', payload: reacted }
+export const setReacted = (reacted: boolean): Action<GameActionKind> => {
+  return { type: GameActionKind.SetReacted, payload: reacted }
 }
 
-export const setGesture = (obj: Gesture) => {
-  return { type: 'SET_GESTURES', payload: obj }
+export const setGesture = (obj: Gesture): Action<GameActionKind> => {
+  return { type: GameActionKind.SetGestures, payload: obj }
 }
 
-export const setReactionReady = (status: boolean) => {
-  return { type: 'SET_REACTION_READY', payload: status }
+export const setReactionReady = (status: boolean): Action<GameActionKind> => {
+  return { type: GameActionKind.SetReactionReady, payload: status }
 }
 
-export const setWinner = (winner: { name: string, gid: string }) => {
-  return { type: 'SET_WINNER', payload: winner }
+export const setWinner = (winner: { name: string, gid: string }): Action<GameActionKind> => {
+  return { type: GameActionKind.SetWinner, payload: winner }
 }
 
-export const setRules = (rules: any) => {
-  return { type: 'SET_RULES', payload: rules }
+export const setRules = (rules: any): Action<GameActionKind> => {
+  return { type: GameActionKind.SetRules, payload: rules }
 }
 
-export const setPlayerTurn = (player: { nextTurnGid: string }) => {
-  return { type: 'SET_PLAYER_TURN', payload: player.nextTurnGid }
+export const setPlayerTurn = (player: { nextTurnGid: string }): Action<GameActionKind> => {
+  return { type: GameActionKind.SetPlayerTurn, payload: player.nextTurnGid }
 }
 
-export const removePlayer = (playerGid: string) => {
-  return { type: 'REMOVE_PLAYER', payload: { playerGid } }
-}
-
-enum ActionKind {
-  SetHost = 'SET_HOST',
-  SetID = 'SET_ID',
-  AddPlayer = 'ADD_PLAYER',
-  SetCardsLength = 'SET_CARDS_LENGTH',
-  AddLoserDetails = 'ADD_LOSER_DETAILS',
-  DrawCard = 'DRAW_CARD',
-  SetReacted = 'SET_REACTED',
-  SetGestures = 'SET_GESTURES',
-  SetReactionReady = 'SET_REACTION_READY',
-  SetWinner = 'SET_WINNER',
-  SetRules = 'SET_RULES',
-  SetPlayerTurn = 'SET_PLAYER_TURN',
-  RemovePlayer = 'REMOVE_PLAYER'
-}
-
-export interface Action {
-  type: ActionKind,
-  payload: any
+export const removePlayer = (playerGid: string): Action<GameActionKind> => {
+  return { type: GameActionKind.RemovePlayer, payload: { playerGid } }
 }
 
 

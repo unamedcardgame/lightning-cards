@@ -1,5 +1,5 @@
 import Login from './auth/Login';
-import { createRef, useContext, useState } from 'react';
+import { createRef, Dispatch, SetStateAction, useContext, useState } from 'react';
 import { Row, Col, Button } from 'react-bootstrap'
 import { AuthContext } from '../contexts/AuthContext';
 import { io } from 'socket.io-client'
@@ -8,9 +8,15 @@ import { useNavigate } from 'react-router';
 import Popup from './overlay/PopupWindow';
 import logo1 from '../images/Logo2.png';
 import { Image } from 'react-bootstrap';
-import { setHost, addPlayer, setGameId } from '../reducers/gameReducer';
+import { setHost, addPlayer, setGameId, GameActionKind } from '../reducers/gameReducer';
+import { Socket } from 'socket.io-client';
+import Action from '../models/Action';
 
-const Home = ({ setSocket, gameDispatch }) => {
+
+const Home = ({ setSocket, gameDispatch }: {
+  setSocket: Dispatch<SetStateAction<Socket<any, any> | undefined>>
+  gameDispatch: Dispatch<Action<GameActionKind>>
+}) => {
   const { userState: authState } = useContext(AuthContext)
   const [isJoinVisible, setisJoinVisible] = useState(false)
   const [popupConfig, setPopupConfig] = useState({ show: false })
