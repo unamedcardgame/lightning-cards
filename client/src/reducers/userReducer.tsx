@@ -1,4 +1,7 @@
-const userReducer = (state, action) => {
+import Action from "../models/Action"
+import User from "../models/User"
+
+const userReducer = (state: User, action: Action<UserActionKind>) => {
   switch (action.type) {
     case 'LOGIN':
       localStorage.setItem('user', JSON.stringify(action.payload.user))
@@ -10,6 +13,11 @@ const userReducer = (state, action) => {
     default:
       return state
   }
+}
+
+export enum UserActionKind {
+  Login = 'LOGIN',
+  Logout = 'LOGOUT'
 }
 
 export default userReducer

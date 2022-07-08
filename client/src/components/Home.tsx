@@ -1,5 +1,5 @@
 import Login from './auth/Login';
-import { createRef, useContext, useState } from 'react';
+import { createRef, Dispatch, MouseEventHandler, SetStateAction, useContext, useState } from 'react';
 import { Row, Col, Button } from 'react-bootstrap'
 import { AuthContext } from '../contexts/AuthContext';
 import { io } from 'socket.io-client'
@@ -8,13 +8,20 @@ import { useNavigate } from 'react-router';
 import Popup from './overlay/PopupWindow';
 import logo1 from '../images/Logo2.png';
 import { Image } from 'react-bootstrap';
-import { setHost, addPlayer, setGameId } from '../reducers/gameReducer';
+import { setHost, addPlayer, setGameId, GameActionKind } from '../reducers/gameReducer';
+import { Socket } from 'socket.io-client';
+import Action from '../models/Action';
+import Player from '../models/Player';
 
-const Home = ({ setSocket, gameDispatch }) => {
+
+const Home = ({ setSocket, gameDispatch }: {
+  setSocket: Dispatch<SetStateAction<Socket<any, any> | undefined>>
+  gameDispatch: Dispatch<Action<GameActionKind>>
+}) => {
   const { userState: authState } = useContext(AuthContext)
   const [isJoinVisible, setisJoinVisible] = useState(false)
-  const [popupConfig, setPopupConfig] = useState({ show: false })
-  const joinCodeInputRef = createRef()
+  const [popupConfig, setPopupConfig] = useState({ msg: '', show: false })
+  const joinCodeInputRef = createRef<HTMLInputElement>()
   const navigate = useNavigate()
 
   const handleCreate = async () => {
@@ -35,24 +42,25 @@ const Home = ({ setSocket, gameDispatch }) => {
         })
 
         setSocket(tempSocket) // set socket state
-        gameDispatch(addPlayer({ name: authState.user.name, gid: authState.user.id }))
+        gameDispatch(addPlayer({ name: authState.user.name, gid: authState.user.id, turn: false, cards: 0, reaction: { result: null, gesture: null } }))
         navigate('/lobby')
 
       }
     } catch (e) {
-      setPopupConfig({
-        msg: 'Error creating game at backend, please try again later',
-        show: true
-      })
+      setPopupConfig({ msg: 'Error creating game at backend, please try again later', show: true })
     }
   }
 
-  const handleJoin = async (e) => {
+  const handleJoin = async (e: SubmitEvent) => {
     e.preventDefault()
     const tempSocket = process.env['NODE_ENV'] === 'development' ? io('/games') : io('https://lightning-cards-api.herokuapp.com/games')
 
     // get code from input element
-    const joinCode = joinCodeInputRef.current.value
+    const joinCode = joinCodeInputRef?.current?.value
+    if (!joinCode) {
+      // TODO(7): disable joingame button or something
+      return;
+    }
 
     // join game if game id is valid
     try {
@@ -64,14 +72,14 @@ const Home = ({ setSocket, gameDispatch }) => {
           user: { id: authState.user.id, name: authState.user.name }
         })
 
-        tempSocket.on('player list', (playerList) => {
+        tempSocket.on('player list', (playerList: Player[]) => {
           gameDispatch(setGameId(joinCode))
           // add other players
-          playerList.forEach(p => gameDispatch(addPlayer({ name: p.name, gid: p.gid })))
+          playerList.forEach(p => gameDispatch(addPlayer({ name: p.name, gid: p.gid, turn: false, cards: 0, reaction: { result: null, gesture: null } })))
           navigate('/lobby')
         })
       }
-    } catch (e) {
+    } catch (e: any) {
       console.log(e.message)
     }
   }
@@ -109,12 +117,12 @@ const Home = ({ setSocket, gameDispatch }) => {
           <Button className="w-100 mt-2" onClick={() => setisJoinVisible(!isJoinVisible)}>Join Game</Button>
         </Col>
       </Row>
-      <Row className="justify-content-center mt-2" style={{ display: isJoinVisible ? null : 'none' }} >
+      <Row className="justify-content-center mt-2" style={{ display: isJoinVisible ? undefined : 'none' }} >
         <Col className="pe-md-0" md={4} lg={3}>
           <input ref={joinCodeInputRef} className="form-control w-100" placeholder="Enter Game ID" />
         </Col>
         <Col xs={5} md={2} lg={1}>
-          <Button className="w-100 mt-1 mt-md-0" onClick={handleJoin}>Go</Button>
+          <Button className="w-100 mt-1 mt-md-0" onClick={handleJoin as unknown as MouseEventHandler<HTMLButtonElement>}>Go</Button>
         </Col>
       </Row>
     </Col>

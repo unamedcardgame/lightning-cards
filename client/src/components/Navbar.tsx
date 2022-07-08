@@ -1,7 +1,8 @@
 import { Navbar, Nav, Container, Col } from 'react-bootstrap'
 import Logout from './auth/Logout';
+import User from '../models/User';
 
-const NavigationBar = ({ userState }) => {
+const NavigationBar = ({ userState }: { userState: User }) => {
   return (
     <Col className="px-0">
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">

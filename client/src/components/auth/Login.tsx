@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { GoogleLogin } from 'react-google-login';
+import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
 import { AuthContext } from '../../contexts/AuthContext';
 import userService from '../../services/userService'
 import { Image } from 'react-bootstrap';
@@ -9,7 +9,8 @@ import logo1 from '../../images/Logo2.png';
 const Login = () => {
   const { dispatch } = useContext(AuthContext)
 
-  const responseGoogle = async (response) => {
+  const responseGoogle = async (response: GoogleLoginResponse | GoogleLoginResponseOffline) => {
+    response = response as GoogleLoginResponse;
     const status = await userService.login(response.tokenId)
     if (status === 200) {
       dispatch({
@@ -27,8 +28,8 @@ const Login = () => {
 
   }
 
-  const failGoogle = resp => {
-    console.log(resp)
+  const failGoogle = (res: GoogleLoginResponse) => {
+    console.log(res)
   }
 
   return (
