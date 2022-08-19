@@ -43,7 +43,7 @@
     "autoprefixer": "10.4.5"
   },
   "scripts": {
-    "start": "GENERATE_SOURCEMAP=false NODE_ENV=development react-scripts start",
+    "start": "HTTPS=true GENERATE_SOURCEMAP=false NODE_ENV=development react-scripts start",
     "start-production": "npm run build && cd ../server && npm start",
     "build": "react-scripts build",
     "test": "react-scripts test",
