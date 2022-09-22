@@ -27,39 +27,10 @@ Lightning Cards! is [WIP]
 <img src="screenshots/Screenshot-2.png" alt="Screenshot 2" width="75%" align="center" />
 <img src="screenshots/Screenshot-3.png" alt="Screenshot 3" width="75%" align="center" />
 
-## 🏁 Getting Started (to run game locally)
+## 🏁 Getting Started (to run the game locally)
 
-Follow the steps below, after cloning the repository:
+After cloning the repository, look into the respective folders for running, deploying, etc
 
-### 🖐 Requirements
-
-**For Installing:**
-
-- Node
-
-**For Running:**
-
-[WIP]
-
-### ⏳ Installation
-
-- At the root of the project directory, use npm to install the server-side dependencies
-
-```bash
-npm ci
-```
-
-This command installs all the server-side dependencies needed for the game to run locally.
-
-- Use npm to run server
-
-```bash
-npm start
-```
-
-This command gets the server running on localhost port 5000.
-
-Head over to http://localhost:3000/ and enjoy the game! 🎉
 
 
 ## 🤝 Contributing

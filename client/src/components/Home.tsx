@@ -91,7 +91,7 @@ const Home = ({ setSocket, gameDispatch }: {
   }
 
   return (
-    <Col className="px-4">
+    <Col className="px-4 d-flex flex-column h-100">
 
       <Popup text={popupConfig.msg}
         show={popupConfig.show}
@@ -104,7 +104,7 @@ const Home = ({ setSocket, gameDispatch }: {
       </Row>
       <Row className="justify-content-center mt-3">
         <Col md={6} lg={4}>
-          <p className="title-Text" style={{ fontSize: '2em' }}> ⚡ Welcome ⚡ <br /> {authState?.user.name} </p>
+          <p className="title-Text" style={{ fontSize: '2em' }}> ⚡ Welcome {authState?.user.name} ⚡ </p>
         </Col>
       </Row>
       <Row className="justify-content-center mt-3">
@@ -124,6 +124,9 @@ const Home = ({ setSocket, gameDispatch }: {
         <Col xs={5} md={2} lg={1}>
           <Button className="w-100 mt-1 mt-md-0" onClick={handleJoin as unknown as MouseEventHandler<HTMLButtonElement>}>Go</Button>
         </Col>
+      </Row>
+      <Row className="mt-auto">
+        <Col className="text-end">Ver 0.1</Col>
       </Row>
     </Col>
   )
