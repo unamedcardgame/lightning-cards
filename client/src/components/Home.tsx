@@ -35,7 +35,7 @@ const Home = ({ setSocket, gameDispatch }: {
       gameDispatch(setHost())
 
       if (response.status === 201) {
-        const tempSocket = process.env['NODE_ENV'] === 'development' ? io('/games') : io('https://lightning-cards-api.herokuapp.com/games')
+        const tempSocket = process.env['NODE_ENV'] === 'development' ? io('/games') : io('https://lightning-cards-backend.onrender.com/games')
         tempSocket.emit('join', {
           game: { gameId, isHost: true },
           user: { id: authState.user.id, name: authState.user.name },
@@ -53,7 +53,7 @@ const Home = ({ setSocket, gameDispatch }: {
 
   const handleJoin = async (e: SubmitEvent) => {
     e.preventDefault()
-    const tempSocket = process.env['NODE_ENV'] === 'development' ? io('/games') : io('https://lightning-cards-api.herokuapp.com/games')
+    const tempSocket = process.env['NODE_ENV'] === 'development' ? io('/games') : io('https://lightning-cards-backend.onrender.com/games')
 
     // get code from input element
     const joinCode = joinCodeInputRef?.current?.value

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = process.env['NODE_ENV'] === 'development' ? '' : 'https://lightning-cards-api.herokuapp.com'
+const baseUrl = process.env['NODE_ENV'] === 'development' ? '' : 'https://lightning-cards-backend.onrender.com'
 
 const createGame = async (uid) => {
   let data, status
