@@ -44,7 +44,7 @@
   },
   "scripts": {
     "start": "HTTPS=true GENERATE_SOURCEMAP=false NODE_ENV=development react-scripts start",
-    "start-production": "npm run build && cd ../server && npm start",
+    "start-production": "GENERATE_SOURCEMAP=false npm run build && cd ../server && npm start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
