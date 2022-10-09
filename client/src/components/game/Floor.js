@@ -135,11 +135,12 @@ const Floor = ({ game, gameDispatch, socket }) => {
           <Popup
             text={
               <div>
-                <span>👑 K: </span><span style={{ marginLeft: '1em' }}>🔫 PewPew</span><img src={pewpew} height="150" width="150"></img><br />
-                <span>👸 Q: </span><span style={{ marginLeft: '0.8em' }}>✌️ Peace</span><img src={peace} height="150" width="150"></img><br />
-                <span>🇯 J: </span><span style={{ marginLeft: '1em' }}>🗣️ 'Good morning sir' (Click 'Record Voice Reaction' and say it)</span><br />
-                <span>🅰️ A: </span><span style={{ marginLeft: '0.9em' }}>🤘 Rockon</span><img src={rockon} height="150" width="150"></img><br />
-                <span>🔟 T: </span><span style={{ marginLeft: '1em' }}>👌 Okay</span><img src={ok} height="150" width="150"></img><br />
+                <span>Card: Reaction to be made</span><br />
+                <span>👑 King: </span><span style={{ marginLeft: '1em' }}>🔫 PewPew</span><img src={pewpew} height="150" width="150"></img><br />
+                <span>👸 Queen: </span><span style={{ marginLeft: '0.8em' }}>✌️ Peace</span><img src={peace} height="150" width="150"></img><br />
+                <span>🇯 Jack: </span><span style={{ marginLeft: '1em' }}>🗣️ 'Good morning sir' (Click 'Record Voice Reaction' and say it)</span><br />
+                <span>🅰️ Ace: </span><span style={{ marginLeft: '0.9em' }}>🤘 Rockon</span><img src={rockon} height="150" width="150"></img><br />
+                <span>🔟 Ten: </span><span style={{ marginLeft: '1em' }}>👌 Okay</span><img src={ok} height="150" width="150"></img><br />
               </div>
             }
             show={modalShow}
@@ -149,7 +150,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
         <Col className="d-flex justify-content-end align-items-center">
           <span style={{ display: timer !== 0 ? '' : '', fontSize: '1.5em' }}> ⏱️ {timer}</span>
         </Col>
-      </Row>
+      </Row >
 
       <Row className="mt-3">
         <Col>
@@ -223,7 +224,7 @@ const Floor = ({ game, gameDispatch, socket }) => {
         {game.roundLoser.name} Reacted <strong><em>{game.roundLoser.reaction}</em></strong>.<br />{loserMessages[Math.floor(Math.random() * loserMessages.length)]}
       </SweetAlert>
 
-    </Col>
+    </Col >
   )
 }
 
