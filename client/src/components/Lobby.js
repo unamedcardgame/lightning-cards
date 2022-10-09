@@ -98,6 +98,7 @@ const Lobby = ({ socket, game, gameDispatch }) => {
           <PopupWindow text={game.id}
             show={modalShow}
             onHide={() => setModalShow(false)}
+            title='Game ID'
           />
         </Col>
       </Row>

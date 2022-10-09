@@ -23,14 +23,11 @@ const PopupWindow = (props) => {
     >
       <Modal.Header >
         <Modal.Title id="contained-modal-title-vcenter">
-          Game ID
+          {props.title}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-
-        <p>
-          {props.text}
-        </p>
+        {props.text}
       </Modal.Body>
       <Modal.Footer>
         <CopyToClipboard text={props.text} >

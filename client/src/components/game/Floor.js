@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react-hooks/exhaustive-deps */
 import Popup from '../overlay/Popup'
 import { Button } from 'react-bootstrap'
@@ -10,6 +11,10 @@ import { useNavigate } from 'react-router'
 import { objectMap } from '../../utils/jsUtils'
 import SweetAlert from 'react-bootstrap-sweetalert'
 import { AuthContext } from '../../contexts/AuthContext'
+import pewpew from '../../images/reactions/pewpew.jpeg'
+import ok from '../../images/reactions/ok.jpeg'
+import rockon from '../../images/reactions/rockon.jpeg'
+import peace from '../../images/reactions/peace.jpeg'
 
 const loserMessages = ['Brush yourself off, pardner', 'Speechless', 'Better Luck Next Time!', 'You can do better!', 'Maybe try reacting ALT-F4 next time.', 'LMAO', 'Shucks, just missed :(', 'What does this guy think of himself?', 'Close!']
 
@@ -130,11 +135,11 @@ const Floor = ({ game, gameDispatch, socket }) => {
           <Popup
             text={
               <div>
-                <span>👑 K: </span><span style={{ marginLeft: '1em' }}>🔫 PewPew</span><br />
-                <span>👸 Q: </span><span style={{ marginLeft: '0.8em' }}>✌️ Peace</span><br />
-                <span>🇯 J: </span><span style={{ marginLeft: '1em' }}>🗣️ 'Good morning sir'</span><br />
-                <span>🅰️ A: </span><span style={{ marginLeft: '0.9em' }}>🤘 Rockon</span><br />
-                <span>🔟 T: </span><span style={{ marginLeft: '1em' }}>👌 Okay</span><br />
+                <span>👑 K: </span><span style={{ marginLeft: '1em' }}>🔫 PewPew</span><img src={pewpew} height="150" width="150"></img><br />
+                <span>👸 Q: </span><span style={{ marginLeft: '0.8em' }}>✌️ Peace</span><img src={peace} height="150" width="150"></img><br />
+                <span>🇯 J: </span><span style={{ marginLeft: '1em' }}>🗣️ 'Good morning sir' (Click 'Record Voice Reaction' and say it)</span><br />
+                <span>🅰️ A: </span><span style={{ marginLeft: '0.9em' }}>🤘 Rockon</span><img src={rockon} height="150" width="150"></img><br />
+                <span>🔟 T: </span><span style={{ marginLeft: '1em' }}>👌 Okay</span><img src={ok} height="150" width="150"></img><br />
               </div>
             }
             show={modalShow}
