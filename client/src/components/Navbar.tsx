@@ -30,9 +30,9 @@ const NavigationBar = ({ userState }: { userState: User }) => {
                     <li>
                       Start a game
                       <ol type='a'>
-
                         <li>As a room host, click 'Create New Game'</li>
                         <li>If joining a game with an existing ID, click 'Join Game'</li>
+                        <li>Single player for testing purposes. Minimum two players. Fun if more than 3 players.</li>
                       </ol>
                     </li>
                     <li>Once in game lobby, click game ID to get a shareable ID from which a friend can join</li>
