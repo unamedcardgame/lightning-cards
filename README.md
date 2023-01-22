@@ -1,6 +1,6 @@
 <h1 align="center">Lightning Cards!</h1>
 <h2 align="center">2-9 player online reaction card game</h2>
-<h1 align="center">(Chrome Only) Try it live at https://lightning-cards-frontend.onrender.com !</h1>
+<h1 align="center">(Chrome Only) Try it live at https://lightning-cards-frontend.onrender.com ! Note: Try login once or twice after a few moments, the backend has a cold start of a few seconds</h1>
 
 <p align="center">
 <img src="/images/lc_logo_round.png" alt="Lightning Cards Logo" width="33%" align="center" />
